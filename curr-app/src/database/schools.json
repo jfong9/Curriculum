@@ -1,0 +1,17 @@
+[
+	{
+		"id": 1,
+		"schoolid": "YMA",
+		"name": "Yee's Martial Arts"
+	},
+	{
+		"id": 2,
+		"schoolid": "SayocNorCal",
+		"name": "Sayoc NorCal"
+	},
+	{
+		"id": 3,
+		"schoolid": "BMMA",
+		"name": "Bay Mountain Wing Tsun"
+	}
+]

@@ -1,0 +1,44 @@
+[
+	{
+		"id": 1,
+		"username": "jfong",
+		"name": "Jason Fong",
+		"schools":  [ 
+			{"schoolid":"YMA","type":"Owner"}, 
+			{"schoolid":"SayocNorCal", "type":"Owner"}, 
+			{"schoolid":"BMMA", "type":"Owner"}
+		]
+	},
+	{
+		"id": 2,
+		"username": "rySayoc",
+		"name": "Raymond Young",
+		"schools":  [ 
+			{"schoolid":"SayocNorCal", "type":"Owner"}
+		]
+	},
+	{
+		"id": 3,
+		"username": "plYMA",
+		"name": "Philip Ly",
+		"schools":  [ 
+			{"schoolid":"YMA","type":"Instructor"}
+		]
+	},
+	{
+		"id": 4,
+		"username": "jfSayoc",
+		"name": "Jason Fong",
+		"schools":  [ 
+			{"schoolid":"SayocNorCal", "type":"Owner"}
+		]
+	},
+	{
+		"id": 5,
+		"username": "jfBMMA",
+		"name": "Jason Fong",
+		"schools":  [ 
+			{"schoolid":"BMMA", "type":"Owner"}
+		]
+	}
+]
