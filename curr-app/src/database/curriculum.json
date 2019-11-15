@@ -1,0 +1,251 @@
+[
+	{
+		"schoolid": "YMA",
+		"category": [
+			{
+				"name": "White Sash",
+				"category": [
+					{
+						"name": "Physical Skills",
+						"category": [],
+						"categoryItems": [
+							{
+								"name": "basic stretches",
+								"notes": ""
+							},
+							{
+								"name": "front kick",
+								"notes": ""
+							},							
+							{
+								"name": "back kick",
+								"notes": ""
+							}
+						]
+					},
+					{
+						"name": "Forms",
+						"category": [],
+						"categoryItems": [
+							{
+								"name": "SLGBK",
+								"notes": ""
+							}
+						]
+					}
+				],
+				"categoryItems": [		
+					{
+						"name": "test item",
+						"notes": ""
+					}
+				]
+			},
+			{
+				"name": "Yellow Sash",
+				"category": [
+					{
+						"name": "Physical Skills",
+						"category": [],
+						"categoryItems": [
+							{
+								"name": "front handspring",
+								"notes": ""
+							},
+							{
+								"name": "carp kip",
+								"notes": ""
+							},							{
+								"name": "dragon tail",
+								"notes": ""
+							}
+						]
+					},
+					{
+						"name": "Forms",
+						"category": [],
+						"categoryItems": [
+							{
+								"name": "LFK",
+								"notes": ""
+							}
+						]
+					}
+				],
+				"categoryItems": [		
+					{
+						"name": "test item2",
+						"notes": ""
+					}
+				]
+			}
+		]
+	},
+	{
+		"schoolid": "SayocNorCal",
+		"category": [
+			{
+				"name": "Practitioner 6M",
+				"category": [
+					{
+						"name": "Footwork",
+						"category": [],
+						"categoryItems": [
+							{
+								"name": "forward triangle",
+								"notes": ""
+							},
+							{
+								"name": "reverse triangle",
+								"notes": ""
+							},							
+							{
+								"name": "diamond",
+								"notes": ""
+							}
+						]
+					},
+					{
+						"name": "Knife",
+						"category": [
+							{
+								"name": "Tapping",
+								"category": [],
+								"categoryItems": [
+									{
+										"name": "Corkscrew",
+										"notes": ""
+									},
+									{
+										"name": "Pendulum",
+										"notes": ""
+									}
+								]
+							},
+							{
+								"name": "Drills",
+								"category": [],
+								"categoryItems": [
+									{
+										"name": "3 of 9",
+										"notes": "range 3"
+									}
+								]
+							}
+
+						],
+						"categoryItems": [
+						]
+					}
+				],
+				"categoryItems": [		
+					{
+						"name": "test item",
+						"notes": ""
+					}
+				]
+			},
+			{
+				"name": "Practitioner 1Y",
+				"category": [
+					{
+						"name": "Footwork",
+						"category": [],
+						"categoryItems": [
+							{
+								"name": "hourglass",
+								"notes": ""
+							},
+							{
+								"name": "box",
+								"notes": ""
+							},							
+							{
+								"name": "gliding",
+								"notes": ""
+							}
+						]
+					},
+					{
+						"name": "Knife",
+						"category": [
+							{
+								"name": "Tapping",
+								"category": [],
+								"categoryItems": [
+									{
+										"name": "Palasut",
+										"notes": ""
+									},
+									{
+										"name": "Funnel",
+										"notes": ""
+									}
+								]
+							},
+							{
+								"name": "Drills",
+								"category": [],
+								"categoryItems": [
+									{
+										"name": "TD1",
+										"notes": ""
+									},
+									{
+										"name": "3 of 9",
+										"notes": "crash entries"
+									}
+								]
+							}
+
+						],
+						"categoryItems": [
+						]
+					},
+					{
+						"name": "Stick",
+						"category": [
+							{
+								"name": "Kabilugan",
+								"category": [],
+								"categoryItems": [
+									{
+										"name": "3 ranges",
+										"notes": ""
+									}
+								]
+							},
+							{
+								"name": "Basic Transitions",
+								"category": [],
+								"categoryItems": [
+									{
+										"name": "Arm Chambers",
+										"notes": ""
+									},
+									{
+										"name": "Shoulder Chambers",
+										"notes": ""
+									},		
+									{
+										"name": "Fly wheels",
+										"notes": ""
+									}
+								]
+							}
+
+						],
+						"categoryItems": []
+					}
+				],
+				"categoryItems": 
+				[		
+					{
+						"name": "test item",
+						"notes": ""
+					}
+				]
+			}
+		]
+	}
+]

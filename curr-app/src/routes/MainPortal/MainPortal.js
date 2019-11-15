@@ -5,9 +5,13 @@ import './MainPortal.css';
 import SideBar from './SideBar'
 import React from 'react'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import users from '../../database/users'
 import schools from '../../database/schools'
+import Students from '../../components/Students'
+import Curriculum from '../../components/Curriculum'
+import Categories from '../../components/Categories'
+import NavPanel from './NavPanel'
 
 class MainPortal extends React.Component { 
     constructor(props) {
@@ -19,7 +23,7 @@ class MainPortal extends React.Component {
     }
     componentDidMount() {
         const {match: {params}} = this.props;
-
+        console.log("MainPortal",this.props);
         let user = this.GetUserInfoFromHTTPRequest(params.username);
         let schools = this.GetSchoolInfoFromHTTPRequest(user);
         this.setState( {user, schools} );
@@ -44,16 +48,23 @@ class MainPortal extends React.Component {
     render() {
         const {user, schools} = this.state
         return (
+
             <div>
-                <SideBar/>
+                <SideBar {...this.props}/>
                 <div className="App">
                     <header className="App-header">
-                        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-                        <div>{user.username}</div>
-                        {user.name}
-                        {schools.map((s) => <div key={s.schoolid}>{s.name}</div>)}
+                        <Switch>
+                            <Route exact path='/:user/MainPortal' component={NavPanel}/>
+                            <Route path='/:username/MainPortal/:schoolid/Students' component = {Students}/>
+                            <Route path='/:username/MainPortal/:schoolid/Curriculum/:category' component = {Categories}/>
+                            <Route path='/:username/MainPortal/:schoolid/Curriculum' component = {Curriculum}/>
+                        </Switch>
+                        
                     </header>
                 </div>
+                <div>{user.username}</div>
+                {user.name}
+                {schools.map((s) => <div key={s.schoolid}>{s.name}</div>)}
             </div>
         )
     }
