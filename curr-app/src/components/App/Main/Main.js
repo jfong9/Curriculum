@@ -2,8 +2,8 @@
 
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import Home from '../../../routes/Home'
-import MainPortal from '../../../routes/MainPortal'
+import Home from 'routes/Home'
+import MainPortal from 'routes/MainPortal'
 
 function Main() {
     return (

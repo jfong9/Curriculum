@@ -1,6 +1,6 @@
 
 import React from 'react'
-import students from '../../database/students'
+import students from 'database/students'
 
 class Students extends React.Component {
     constructor(props) {
