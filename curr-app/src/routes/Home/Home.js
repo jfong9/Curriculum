@@ -1,8 +1,7 @@
 "use strict"
 
 import React from 'react'
-import {Link, Switch, Route, BrowserRouter} from 'react-router-dom'
-import MainPortal from '../MainPortal'
+import { Link } from 'react-router-dom'
 
 class Home extends React.Component {
     // idea here is that user would log in, which would then go to the /:schoolid/MainPortal link

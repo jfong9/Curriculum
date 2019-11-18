@@ -1,16 +1,16 @@
 "use strict"
 
-// import logo from '../../assets/images/logo.svg';
+// import logo from 'assets/images/logo.svg';
 import './MainPortal.css';
 import SideBar from './SideBar'
 import React from 'react'
 import axios from 'axios'
 import { Switch, Route } from 'react-router-dom'
-import users from '../../database/users'
-import schools from '../../database/schools'
-import Students from '../../components/Students'
-import Curriculum from '../../components/Curriculum'
-import Categories from '../../components/Categories'
+import users from 'database/users'
+import schools from 'database/schools'
+import Students from 'components/Students'
+import Curriculum from 'components/Curriculum'
+import Categories from 'components/Categories'
 import NavPanel from './NavPanel'
 
 class MainPortal extends React.Component { 

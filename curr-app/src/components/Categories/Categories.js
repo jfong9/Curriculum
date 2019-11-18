@@ -1,5 +1,5 @@
 import React from 'react'
-import curriculum from '../../database/curriculum'
+import curriculum from 'database/curriculum'
 
 
 class Categories extends React.Component {

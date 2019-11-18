@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import curriculum from '../../database/curriculum'
+import curriculum from 'database/curriculum'
 
 class Curriculum extends React.Component {
     constructor(props) {
