@@ -1,25 +1,35 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom'
 import curriculum from 'database/curriculum'
+import { getCurriculumUrl } from 'utils/redirectstrings'
 
 
 class Categories extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            category: {} 
+            category: {},
+            toCurricMain: false
         }
     }
 
     componentDidMount() {
-        const { match : {params}} = this.props
-        let curriculum = this.GetCurriculumFromHTTPRequest(params.schoolid, params.category)
+        const {schoolid, match : {params}} = this.props
+        let curriculum = this.GetCurriculumFromHTTPRequest(schoolid, params.category)
         console.log("categories", curriculum)
         this.setState( {category : curriculum})
 
     }
     
+    componentDidUpdate(prevProps, prevState) {
+        const {schoolid, match:{params}} = this.props;
+        if (prevProps.schoolid !== schoolid && schoolid !== '' ) {
+            this.setState({toCurricMain: true})
+        }
+    }
+    
     GetCurriculumFromHTTPRequest(schoolid, category) {
-        console.log(schoolid, category);
+        console.log("getcatfromhttp:",schoolid, category);
         let [curric] = curriculum
                         .filter(c => c.schoolid === schoolid)
                         .map(c => c.category)
@@ -29,7 +39,13 @@ class Categories extends React.Component {
         return curric;
     }
     render() {
-        const {category} = this.state
+        const {category, toCurricMain} = this.state
+        const { match: {params}} = this.props
+        if (toCurricMain === true) {
+            console.log("Redirecting to: ", this.props.match.url)
+            return <Redirect to={getCurriculumUrl(params.username)}/>;
+        }
+        
         return (
             <div>
                 <div>Parent Category Managed here </div>

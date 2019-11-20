@@ -18,7 +18,8 @@ class MainPortal extends React.Component {
         super(props);
         this.state = { 
             user: {},
-            schools: []
+            schools: [],
+            selectedSchool: ''
         }
     }
     componentDidMount() {
@@ -26,13 +27,19 @@ class MainPortal extends React.Component {
         console.log("MainPortal",this.props);
         let user = this.GetUserInfoFromHTTPRequest(params.username);
         let schools = this.GetSchoolInfoFromHTTPRequest(user);
-        this.setState( {user, schools} );
+        let selectedSchool = schools.length > 0 ? schools[0].schoolid : '';
+        this.setState( {user, schools, selectedSchool} );
 
         // axios.get(`/${params.username}/MainPortal`)
         //     .then( (resp) => {
         //       console.log("data:", resp.data);
         //       return resp.data;  
         //     })
+    }
+
+    handleStateChange = ( schoolid ) => {
+        this.setState( {selectedSchool: schoolid})
+        console.log( 'MainPortal StateChange', schoolid)
     }
 
     GetSchoolInfoFromHTTPRequest(user) {
@@ -46,18 +53,24 @@ class MainPortal extends React.Component {
     }
 
     render() {
-        const {user, schools} = this.state
+        const {user, schools, selectedSchool} = this.state
         return (
 
             <div>
-                <SideBar {...this.props}/>
+                <SideBar {...this.props} handleStateChange = {this.handleStateChange} />
                 <div className="App">
                     <header className="App-header">
                         <Switch>
                             <Route exact path='/:user/MainPortal' component={NavPanel}/>
-                            <Route path='/:username/MainPortal/:schoolid/Students' component = {Students}/>
-                            <Route path='/:username/MainPortal/:schoolid/Curriculum/:category' component = {Categories}/>
-                            <Route path='/:username/MainPortal/:schoolid/Curriculum' component = {Curriculum}/>
+                            <Route path='/:username/MainPortal/Students' render = {props =>
+                                (<Students {...props} schoolid={selectedSchool}/>)
+                              }/>
+                            <Route path='/:username/MainPortal/Curriculum/:category' render = {props =>
+                                (<Categories {...props} schoolid={selectedSchool}/>)
+                              }/>
+                            <Route exact path='/:username/MainPortal/Curriculum' render={props => 
+                                (<Curriculum {...props} schoolid={selectedSchool}/>)
+                              }/>
                         </Switch>
                         
                     </header>

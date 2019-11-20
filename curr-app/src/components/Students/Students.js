@@ -11,15 +11,15 @@ class Students extends React.Component {
     }
 
     componentDidMount() {
-        const {match: {params}} = this.props;
+        const {schoolid} = this.props;
         console.log("students",this.props);
-        let students = this.GetStudentsFromHTTPRequest(params.schoolid);
+        let students = this.GetStudentsFromHTTPRequest(schoolid);
         this.setState( {students} );
     }
     componentDidUpdate(prevProps, prevState) {
-        const {location, match:{params} } = this.props;
-        if (location.pathname !== prevProps.location.pathname) {
-            let students = this.GetStudentsFromHTTPRequest(params.schoolid)
+        const {schoolid, match:{params} } = this.props;
+        if (prevProps.schoolid !== schoolid && schoolid !== '' ) {
+            let students = this.GetStudentsFromHTTPRequest(schoolid)
             this.setState( {students})
         }
     }
