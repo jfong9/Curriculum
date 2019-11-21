@@ -1,5 +1,6 @@
 
 import React from 'react'
+import {Link, Route, Switch} from 'react-router-dom'
 import students from 'database/students'
 
 class Students extends React.Component {
@@ -24,6 +25,7 @@ class Students extends React.Component {
         }
     }
     GetStudentsFromHTTPRequest(schoolid){
+        if (schoolid === '') return []
         let [schoolStudents] = students.filter(s => s.schoolid === schoolid).map(s => s.students)
         return schoolStudents;
     }
@@ -31,13 +33,16 @@ class Students extends React.Component {
         const {students} = this.state
         return (
             <div>
-                <div>Add New Student</div>
+                {/* <Link to='Students/add'>
+                    <button>Add New Student</button>
+                </Link> */}
                 <div>Edit Student</div>
                 <div>Delete Student</div>
                 <ul>
                     {students.map((s) => <li key={s.id}>{s.name}</li>)}
                 </ul>
             </div>
+            
         )
     }
 }

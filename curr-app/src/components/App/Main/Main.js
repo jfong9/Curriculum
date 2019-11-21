@@ -11,6 +11,7 @@ function Main() {
             <Switch>
                 <Route exact path = '/' component={Home}/>
                 <Route path='/:username/MainPortal' component={MainPortal}/>
+                <Route render= {props => (<div>Snooping around? How'd you get here</div>)}/>
             </Switch>
         </main>   
     )
