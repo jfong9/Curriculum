@@ -13,6 +13,7 @@ class Curriculum extends React.Component {
         }
     }
 
+
     componentDidMount() {
         const {schoolid} = this.props;
         console.log("curriculum",this.props);
