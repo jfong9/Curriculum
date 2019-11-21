@@ -8,7 +8,8 @@ class SideBar extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            schoolid: 'YMA'
+            schoolid: 'YMA',
+            schools: []
         }
     }
     componentDidMount() {
@@ -16,9 +17,8 @@ class SideBar extends React.Component{
     }
     handleChange = (event) => {
         const {value} = event.target
-        this.setState({
-            schoolid: value
-        })
+        this.props.handleStateChange(value); 
+        this.setState( {schoolid: value})
     }
     render() {
         const { schoolid } = this.state;
@@ -33,10 +33,10 @@ class SideBar extends React.Component{
                 <Link to={`${this.props.match.url}`}>
                     <button>Home</button>
                 </Link>
-                <Link to={`${this.props.match.url}/${this.state.schoolid}/Students`}>
+                <Link to={`${this.props.match.url}/Students`}>
                     <button>Students </button>
                 </Link>
-                <Link to={`${this.props.match.url}/${this.state.schoolid}/Curriculum`}>
+                <Link to={`${this.props.match.url}/Curriculum`}>
                     <button>Curriculum </button>
                 </Link>
                 <button disabled={true}>Classes </button>
