@@ -7,6 +7,7 @@ import { getCurriculumUrl } from 'utils/redirectstrings'
 class Categories extends React.Component {
     constructor(props) {
         super(props)
+        console.log("category ctor")
         this.state = {
             category: {},
             toCurricMain: false
@@ -30,6 +31,7 @@ class Categories extends React.Component {
     
     GetCurriculumFromHTTPRequest(schoolid, category) {
         console.log("getcatfromhttp:",schoolid, category);
+        if (schoolid === '' || category === '') return {}
         let [curric] = curriculum
                         .filter(c => c.schoolid === schoolid)
                         .map(c => c.category)

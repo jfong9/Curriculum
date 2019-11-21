@@ -12,6 +12,7 @@ import Students from 'components/Students'
 import Curriculum from 'components/Curriculum'
 import Categories from 'components/Categories'
 import NavPanel from './NavPanel'
+// import StudentForm from 'components/Students/StudentForm'
 
 class MainPortal extends React.Component { 
     constructor(props) {
@@ -62,15 +63,17 @@ class MainPortal extends React.Component {
                     <header className="App-header">
                         <Switch>
                             <Route exact path='/:user/MainPortal' component={NavPanel}/>
-                            <Route path='/:username/MainPortal/Students' render = {props =>
+                            <Route exact path='/:username/MainPortal/Students' render = {props =>
                                 (<Students {...props} schoolid={selectedSchool}/>)
                               }/>
-                            <Route path='/:username/MainPortal/Curriculum/:category' render = {props =>
+                            {/* <Route exact path='/:username/MainPortal/Students/add' component={StudentForm}/> */}
+                            <Route exact path='/:username/MainPortal/Curriculum/:category' render = {props =>
                                 (<Categories {...props} schoolid={selectedSchool}/>)
                               }/>
                             <Route exact path='/:username/MainPortal/Curriculum' render={props => 
                                 (<Curriculum {...props} schoolid={selectedSchool}/>)
                               }/>
+                            <Route render= {props => (<div>Snooping around? How'd you get here</div>)}/>
                         </Switch>
                         
                     </header>

@@ -7,6 +7,7 @@ import Students from 'components/Students'
 class SideBar extends React.Component{
     constructor(props) {
         super(props);
+        console.log("sidebar constructor props", props)
         this.state = {
             schoolid: 'YMA',
             schools: []
@@ -39,6 +40,7 @@ class SideBar extends React.Component{
                 <Link to={`${this.props.match.url}/Curriculum`}>
                     <button>Curriculum </button>
                 </Link>
+                <button disabled={true}>Attendance</button>
                 <button disabled={true}>Classes </button>
             </div>
         )
