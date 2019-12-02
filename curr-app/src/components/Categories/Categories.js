@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import curriculum from 'database/curriculum'
 import { getCurriculumUrl } from 'utils/redirectstrings'
-
+import Modal from 'utils/Modal'
+import 'utils/Modal/Modal.module.css'
 
 class Categories extends React.Component {
     constructor(props) {
@@ -10,10 +11,13 @@ class Categories extends React.Component {
         console.log("category ctor")
         this.state = {
             category: {},
-            toCurricMain: false
+            toCurricMain: false,
+            show: false
         }
     }
 
+    
+    
     componentDidMount() {
         const {schoolid, match : {params}} = this.props
         let curriculum = this.GetCurriculumFromHTTPRequest(schoolid, params.category)
@@ -26,6 +30,7 @@ class Categories extends React.Component {
         const {schoolid, match:{params}} = this.props;
         if (prevProps.schoolid !== schoolid && schoolid !== '' ) {
             this.setState({toCurricMain: true})
+            return <Redirect to={getCurriculumUrl(params.username)}/>
         }
     }
     
@@ -54,7 +59,7 @@ class Categories extends React.Component {
                 <div>Recursive display here. </div>
                 <div>
                     { !( Object.keys(category).length === 0 && category.constructor === Object )  &&
-                        <CategoryList key={category.name} categories={category}/>     
+                        <CategoryList key={category.name} canDelete={false} categories={category}/>     
                     }
                 </div>
                 <div>This is where we add sub cat's and category items </div>
@@ -70,28 +75,95 @@ class Categories extends React.Component {
     }
 }
 
-const CategoryList = ({ categories }) => {
+const CategoryList = ({ categories, canDelete }) => {
+    const [show, setShow] = useState(false);
     let subcategories = [...categories.category]
     let catItems = [...categories.categoryItems]
+    let deleteButton = null;
+    if (canDelete) {
+        deleteButton = <button>delete</button>
+    }
+
+    const showModal = () => {
+        console.log("cat list", show)
+        setShow(true);
+    }
+
+    const handleOK = (data) => {
+        // console.log("catlist handleOK:", data);
+        setShow(false);
+    }
+
+    const handleCancel = (data) => {
+        // console.log("catlist handleCancel:", data)
+        setShow(false);
+    }
+
     return (
         <div>
-            <h1>{categories.name}</h1>
+            <h1>
+                {categories.name}
+                <button onClick={showModal}>add cat</button>
+                <button onClick={showModal}>add item</button>
+                {deleteButton}
+                <CategoryInput show={show} handleCancel={handleCancel} handleOK={handleOK}/>
+            </h1>
             <div>
-
+                    {/* Go through category items */}
                     { !( Object.keys(catItems).length === 0 && catItems.constructor === Object )  &&
                             catItems.map(c => {
                                 return (
                                     <div key={c.name}>
                                         {c.name}  {c.notes}
+                                        <button>remove item</button>
                                     </div>
                                 )
                             })
                     }
+                    {/* go through sub categories */}
                     { !( Object.keys(subcategories).length === 0 && subcategories.constructor === Object )  &&
-                            subcategories.map(c => <CategoryList key={c.name} categories={c}/>)
+                            subcategories.map(c => <CategoryList key={c.name} canDelete={true} categories={c}/>)
                     }
             </div>
         </div>
     )
+}
+
+class CategoryInput extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = { show: false }
+        console.log("catinput ctor", this.state.show)
+    }
+    
+    componentDidUpdate(prevProps) {
+        const {show} = this.props
+        if (prevProps.show !== show) {
+            console.log("catinput update", show)
+            this.setState({show});
+        }
+    }
+
+    handleOK = () => {
+        this.props.handleOK(this.props);
+        // console.log("catinput handleok");
+    }
+
+    handleCancel = () => {
+        this.props.handleCancel(this.props);
+        // console.log("catinput handle cancel");
+    }
+
+    render() {
+        return (
+            <main>
+                <Modal show={this.state.show} handleOK={this.handleOK} handleCancel={this.handleCancel}>
+                    <p>Test1</p>
+                    <p>Test2</p>
+                </Modal>
+            </main>
+        )
+    }
 }
 export default Categories

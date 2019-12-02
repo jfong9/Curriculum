@@ -33,13 +33,17 @@ class Students extends React.Component {
         const {students} = this.state
         return (
             <div>
-                {/* <Link to='Students/add'>
+                <Link to={{pathname:'Students/add', state:{test: 'hello'}}}>
                     <button>Add New Student</button>
-                </Link> */}
-                <div>Edit Student</div>
+                </Link>
                 <div>Delete Student</div>
                 <ul>
-                    {students.map((s) => <li key={s.id}>{s.name}</li>)}
+                    {students.map((s) => {
+                        return (<Link key={s.id} to={{pathname:'Students/edit', state: {id: s.id}}}>
+                                    <li key={s.id}> {s.name}</li>
+                                </Link>)
+                        })
+                    } 
                 </ul>
             </div>
             
