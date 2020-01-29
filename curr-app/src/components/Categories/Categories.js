@@ -4,6 +4,8 @@ import curriculum from 'database/curriculum'
 import { getCurriculumUrl } from 'utils/redirectstrings'
 import CategoryInput from 'components/CategoryInput'
 
+
+
 class Categories extends React.Component {
     constructor(props) {
         super(props)
