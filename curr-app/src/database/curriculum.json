@@ -1,6 +1,7 @@
 [
 	{
-		"schoolid": "YMA",
+		"schoolun": "YMA",
+		"art": "Kung Fu", 
 		"category": [
 			{
 				"name": "White Sash",
@@ -82,7 +83,8 @@
 		]
 	},
 	{
-		"schoolid": "SayocNorCal",
+		"schoolun": "SayocNorCal",
+		"art": "Kali",
 		"category": [
 			{
 				"name": "Practitioner 6M",
@@ -154,15 +156,15 @@
 						"categoryItems": [
 							{
 								"name": "hourglass",
-								"notes": ""
+								"index": 0
 							},
 							{
 								"name": "box",
-								"notes": ""
+								"index": 1
 							},							
 							{
 								"name": "gliding",
-								"notes": ""
+								"index": 2
 							}
 						]
 					},
@@ -175,32 +177,48 @@
 								"categoryItems": [
 									{
 										"name": "Palasut",
-										"notes": ""
+										"index": 0
 									},
 									{
 										"name": "Funnel",
-										"notes": ""
+										"index": 1
 									}
 								]
 							},
 							{
 								"name": "Drills",
-								"category": [],
+								"category": [
+									{
+										"name": "3 of 9",
+										"category":[
+											{
+												"name": "Range 3",
+												"category":[],
+												"categoryItems": [
+													{
+														"name": "Feeder",
+														"index": 0
+													},
+													{
+														"name": "Receiver",
+														"index": 1
+													}
+												]
+											}
+										],
+										"categoryItems": []
+									}
+								],
 								"categoryItems": [
 									{
 										"name": "TD1",
-										"notes": ""
-									},
-									{
-										"name": "3 of 9",
-										"notes": "crash entries"
+										"index": 0
 									}
 								]
 							}
 
 						],
-						"categoryItems": [
-						]
+						"categoryItems": []
 					},
 					{
 						"name": "Stick",
@@ -211,7 +229,7 @@
 								"categoryItems": [
 									{
 										"name": "3 ranges",
-										"notes": ""
+										"index": 0
 									}
 								]
 							},
@@ -221,15 +239,15 @@
 								"categoryItems": [
 									{
 										"name": "Arm Chambers",
-										"notes": ""
+										"index": 0
 									},
 									{
 										"name": "Shoulder Chambers",
-										"notes": ""
+										"index": 1
 									},		
 									{
 										"name": "Fly wheels",
-										"notes": ""
+										"index": 2
 									}
 								]
 							}
@@ -242,7 +260,7 @@
 				[		
 					{
 						"name": "test item",
-						"notes": ""
+						"index": 0
 					}
 				]
 			}
