@@ -4,10 +4,7 @@
 import './MainPortal.css';
 import SideBar from './SideBar'
 import React from 'react'
-import axios from 'axios'
 import { Switch, Route } from 'react-router-dom'
-import users from 'database/users'
-import schools from 'database/schools'
 import Students from 'components/Students'
 import Curriculum from 'components/Curriculum'
 import Categories from 'components/Categories'
@@ -19,18 +16,11 @@ class MainPortal extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-            user: {},
-            schools: [],
-            selectedSchool: ''
+            selectedSchool: {},
         }
     }
     componentDidMount() {
-        const {match: {params}} = this.props;
-        console.log("MainPortal",this.props);
-        let user = this.GetUserInfoFromHTTPRequest(params.username);
-        let schools = this.GetSchoolInfoFromHTTPRequest(user);
-        let selectedSchool = schools.length > 0 ? schools[0].schoolid : '';
-        this.setState( {user, schools, selectedSchool} );
+        
 
         // axios.get(`/${params.username}/MainPortal`)
         //     .then( (resp) => {
@@ -39,23 +29,14 @@ class MainPortal extends React.Component {
         //     })
     }
 
-    handleStateChange = ( schoolid ) => {
-        this.setState( {selectedSchool: schoolid})
-        console.log( 'MainPortal StateChange', schoolid)
-    }
-
-    GetSchoolInfoFromHTTPRequest(user) {
-        let usersSchoolNames = user.schools.map((i) => i.schoolid);
-        let usersSchools = schools.filter((i) => usersSchoolNames.includes(i.schoolid))
-        return usersSchools
-    }
-    GetUserInfoFromHTTPRequest(username) {
-        let user = users.find( (user) => user.username === username);
-        return user;
+    handleStateChange = ( school ) => {
+        this.setState( {selectedSchool: school })
+        console.log( 'MainPortal StateChange', school)
     }
 
     render() {
-        const {user, schools, selectedSchool} = this.state
+        const {selectedSchool} = this.state
+        console.log(selectedSchool)
         return (
 
             <div>
@@ -65,28 +46,24 @@ class MainPortal extends React.Component {
                         <Switch>
                             <Route exact path='/:user/MainPortal' component={NavPanel}/>
                             <Route exact path='/:username/MainPortal/Students' render = {props =>
-                                (<Students {...props} schoolid={selectedSchool}/>)}
+                                (<Students {...props} schoolun={selectedSchool.username}/>)}
                             />
                             <Route exact path='/:username/MainPortal/Students/add' render={props =>
-                                (<StudentAdd {...props} schoolid={selectedSchool}/>)}
+                                (<StudentAdd {...props} schoolun={selectedSchool.username}/>)}
                             />
                             <Route exact path='/:username/MainPortal/Students/edit' render={props =>
-                                (<StudentEdit {...props} schoolid={selectedSchool}/>)}
+                                (<StudentEdit {...props} schoolun={selectedSchool.username}/>)}
                             />
                             <Route exact path='/:username/MainPortal/Curriculum/:category' render = {props =>
-                                (<Categories {...props} schoolid={selectedSchool}/>)}
+                                (<Categories {...props} schoolun={selectedSchool.username}/>)}
                             />
                             <Route exact path='/:username/MainPortal/Curriculum' render={props => 
-                                (<Curriculum {...props} schoolid={selectedSchool}/>)}
+                                (<Curriculum {...props} schoolun={selectedSchool.username}/>)}
                             />
                             <Route render= {props => (<div>Snooping around? How'd you get here</div>)}/>
                         </Switch>
-                        
                     </header>
                 </div>
-                <div>{user.username}</div>
-                {user.name}
-                {schools.map((s) => <div key={s.schoolid}>{s.name}</div>)}
             </div>
         )
     }

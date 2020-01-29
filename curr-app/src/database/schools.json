@@ -1,17 +1,17 @@
 [
 	{
-		"id": 1,
-		"schoolid": "YMA",
-		"name": "Yee's Martial Arts"
+		"username": "YMA",
+		"name": "Yee's Martial Arts",
+		"arts": ["Kung Fu", "Judo"]
 	},
 	{
-		"id": 2,
-		"schoolid": "SayocNorCal",
-		"name": "Sayoc NorCal"
+		"username": "SayocNorCal",
+		"name": "Sayoc NorCal",
+		"arts": ["Kali"]
 	},
 	{
-		"id": 3,
-		"schoolid": "BMMA",
-		"name": "Bay Mountain Wing Tsun"
+		"username": "BMMA",
+		"name": "Bay Mountain Wing Tsun",
+		"arts": ["Wing Tsun"]
 	}
 ]

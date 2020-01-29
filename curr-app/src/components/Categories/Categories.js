@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import curriculum from 'database/curriculum'
 import { getCurriculumUrl } from 'utils/redirectstrings'
-import Modal from 'utils/Modal'
-import 'utils/Modal/Modal.module.css'
+import CategoryInput from 'components/CategoryInput'
 
 class Categories extends React.Component {
     constructor(props) {
@@ -19,26 +18,26 @@ class Categories extends React.Component {
     
     
     componentDidMount() {
-        const {schoolid, match : {params}} = this.props
-        let curriculum = this.GetCurriculumFromHTTPRequest(schoolid, params.category)
+        const {schoolun, match : {params}} = this.props
+        let curriculum = this.GetCurriculumFromHTTPRequest(schoolun, params.category)
         console.log("categories", curriculum)
         this.setState( {category : curriculum})
 
     }
     
     componentDidUpdate(prevProps, prevState) {
-        const {schoolid, match:{params}} = this.props;
-        if (prevProps.schoolid !== schoolid && schoolid !== '' ) {
+        const {schoolun, match:{params}} = this.props;
+        if (prevProps.schoolun !== schoolun && schoolun !== '' ) {
             this.setState({toCurricMain: true})
             return <Redirect to={getCurriculumUrl(params.username)}/>
         }
     }
     
-    GetCurriculumFromHTTPRequest(schoolid, category) {
-        console.log("getcatfromhttp:",schoolid, category);
-        if (schoolid === '' || category === '') return {}
+    GetCurriculumFromHTTPRequest(schoolun, category) {
+        console.log("getcatfromhttp:",schoolun, category);
+        if (!schoolun || category === '') return {}
         let [curric] = curriculum
-                        .filter(c => c.schoolid === schoolid)
+                        .filter(c => c.schoolun === schoolun)
                         .map(c => c.category)
         curric = curric.filter(c => {
                             return c.name === category
@@ -129,41 +128,4 @@ const CategoryList = ({ categories, canDelete }) => {
     )
 }
 
-class CategoryInput extends React.Component {
-    constructor(props) {
-        super(props)
-
-        this.state = { show: false }
-        console.log("catinput ctor", this.state.show)
-    }
-    
-    componentDidUpdate(prevProps) {
-        const {show} = this.props
-        if (prevProps.show !== show) {
-            console.log("catinput update", show)
-            this.setState({show});
-        }
-    }
-
-    handleOK = () => {
-        this.props.handleOK(this.props);
-        // console.log("catinput handleok");
-    }
-
-    handleCancel = () => {
-        this.props.handleCancel(this.props);
-        // console.log("catinput handle cancel");
-    }
-
-    render() {
-        return (
-            <main>
-                <Modal show={this.state.show} handleOK={this.handleOK} handleCancel={this.handleCancel}>
-                    <p>Test1</p>
-                    <p>Test2</p>
-                </Modal>
-            </main>
-        )
-    }
-}
 export default Categories
