@@ -12,21 +12,22 @@ class Students extends React.Component {
     }
 
     componentDidMount() {
-        const {schoolid} = this.props;
+        const {schoolun} = this.props;
         console.log("students",this.props);
-        let students = this.GetStudentsFromHTTPRequest(schoolid);
+        let students = this.GetStudentsFromHTTPRequest(schoolun);
         this.setState( {students} );
     }
     componentDidUpdate(prevProps, prevState) {
-        const {schoolid, match:{params} } = this.props;
-        if (prevProps.schoolid !== schoolid && schoolid !== '' ) {
-            let students = this.GetStudentsFromHTTPRequest(schoolid)
+        const {schoolun, match:{params} } = this.props;
+        if (prevProps.schoolun !== schoolun && schoolun !== '' ) {
+            let students = this.GetStudentsFromHTTPRequest(schoolun)
             this.setState( {students})
         }
     }
-    GetStudentsFromHTTPRequest(schoolid){
-        if (schoolid === '') return []
-        let [schoolStudents] = students.filter(s => s.schoolid === schoolid).map(s => s.students)
+    GetStudentsFromHTTPRequest(schoolun){
+        if (schoolun === '') return []
+        let [schoolStudents] = students.filter(s => s.schoolun === schoolun).map(s => s.students)
+        if (!schoolStudents) return []
         return schoolStudents;
     }
     render() {

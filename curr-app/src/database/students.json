@@ -1,6 +1,6 @@
 [	
 	{
-		"schoolid": "YMA",
+		"schoolun": "YMA",
 		"students": [
 			{
 				"id": 1,
@@ -231,7 +231,7 @@
 	}, 
 
 	{
-		"schoolid": "SayocNorCal",
+		"schoolun": "SayocNorCal",
 		"students": [
 			{
 				"id": 1,
