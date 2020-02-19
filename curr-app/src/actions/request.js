@@ -7,12 +7,21 @@
  */
 function parseJSON(response) {
   return new Promise( (resolve, reject) =>
+    // response.text().then(text => {
+    //     console.log("text: ", text) 
+    //     return resolve({
+    //         status: response.status,
+    //         ok: response.ok,
+    //         text
+    //     }   
+    // )}
     response.json().then(json =>
       resolve({
         status: response.status,
         ok: response.ok,
         json
-      })
+      }
+      )
     ).catch(err => reject(err))
   )
 }
