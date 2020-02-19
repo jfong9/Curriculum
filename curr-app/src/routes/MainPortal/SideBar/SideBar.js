@@ -8,7 +8,7 @@ import users from 'database/users'
 class SideBar extends React.Component{
     constructor(props) {
         super(props);
-        console.log("sidebar constructor props", props)
+        // console.log("sidebar constructor props", props)
         this.state = {
             user: {},
             schools: [],
@@ -17,7 +17,7 @@ class SideBar extends React.Component{
         }
     }
     componentDidMount() {
-        console.log("Sidebar", this.props)
+        // console.log("Sidebar", this.props)
         const {match: {params}} = this.props;
         let user = this.GetUserInfoFromHTTPRequest(params.username);
         this.setState( {user})
@@ -48,8 +48,9 @@ class SideBar extends React.Component{
         // return usersSchools
         mainPortalActions.fetchSchools(user.schools.map(school => school.username))
             .then( (schools = []) => {
+                // console.log("Schools:", schools)
                 let selectedSchool = schools.length > 0 ? schools[0] : {};
-                console.log("SelectedSchool", selectedSchool)
+                // console.log("SelectedSchool", selectedSchool)
                 this.setState( { schools } );
                 this.setSelectedSchool(selectedSchool);
             })

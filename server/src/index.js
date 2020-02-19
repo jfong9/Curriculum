@@ -11,7 +11,8 @@ MongoClient.connect(
     console.error(err.stack);
     process.exit(1);
 }).then(async client => {
-    await SchoolsDAO.injectDB(client);
+    let databaseName = process.env.CURRAPP_NS;
+    await SchoolsDAO.injectDB(client, databaseName);
     app.listen(port, () => {
         console.log(`listening on port ${port}`);
     })
