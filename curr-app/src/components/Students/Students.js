@@ -1,7 +1,8 @@
 
 import React from 'react'
 import {Link, Route, Switch} from 'react-router-dom'
-import students from 'database/students'
+import * as studentActions from 'actions/studentActions'
+// import students from 'database/students'
 
 class Students extends React.Component {
     constructor(props) {
@@ -12,36 +13,37 @@ class Students extends React.Component {
     }
 
     componentDidMount() {
-        const {schoolun} = this.props;
-        console.log("students",this.props);
-        let students = this.GetStudentsFromHTTPRequest(schoolun);
-        this.setState( {students} );
+        const {schoolid} = this.props;
+        console.log("students: schoolid:", schoolid);
+        this.SetStudentsFromHTTPRequest(schoolid);
     }
-    componentDidUpdate(prevProps, prevState) {
-        const {schoolun, match:{params} } = this.props;
-        if (prevProps.schoolun !== schoolun && schoolun !== '' ) {
-            let students = this.GetStudentsFromHTTPRequest(schoolun)
-            this.setState( {students})
+    componentDidUpdate(prevProps) {
+        const {schoolid} = this.props;
+        // console.log("got here too", schoolid, prevProps.schoolid)
+        if (prevProps.schoolid !== schoolid && schoolid !== '' ) {
+            this.SetStudentsFromHTTPRequest(schoolid)
         }
     }
-    GetStudentsFromHTTPRequest(schoolun){
-        if (schoolun === '') return []
-        let [schoolStudents] = students.filter(s => s.schoolun === schoolun).map(s => s.students)
-        if (!schoolStudents) return []
-        return schoolStudents;
+    async SetStudentsFromHTTPRequest(schoolid){
+        // console.log(students);
+        // if (schoolid === '') return []
+        let students = await studentActions.getStudentsBySchool(schoolid);
+        // [schoolStudents] = students.filter(s => s.schoolun === schoolid).map(s => s.students)
+        if (!students) return []
+        // console.log("schoolstudents", schoolStudents)
+        this.setState( {students} );
     }
     render() {
         const {students} = this.state
         return (
             <div>
-                <Link to={{pathname:'Students/add', state:{test: 'hello'}}}>
+                <Link to={{pathname:'Students/add'}}>
                     <button>Add New Student</button>
                 </Link>
-                <div>Delete Student</div>
                 <ul>
                     {students.map((s) => {
-                        return (<Link key={s.id} to={{pathname:'Students/edit', state: {id: s.id}}}>
-                                    <li key={s.id}> {s.name}</li>
+                        return (<Link key={s._id} to={{pathname:'Students/edit', state: {id: s._id}}}>
+                                    <li key={s._id}>{s.last_name} {s.first_name}</li>
                                 </Link>)
                         })
                     } 

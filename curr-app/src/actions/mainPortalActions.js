@@ -1,9 +1,6 @@
 import request from "./request";
 
-
-export const SCHOOLS_ROUTE = '/api/v1/schools?';
-
-const GET = { method: 'GET'};
+export const SCHOOLS_ROUTE = '/api/v1/schools';
 
 function buildSchoolUsernamesQueryArgs (schoolUsernames) {
     if (!schoolUsernames) 
@@ -13,7 +10,7 @@ function buildSchoolUsernamesQueryArgs (schoolUsernames) {
 
 export function fetchSchools(schoolUsernames) {
     let queryArgs = buildSchoolUsernamesQueryArgs(schoolUsernames);
-    return request(`${SCHOOLS_ROUTE}${queryArgs}`, GET)
+    return request(`${SCHOOLS_ROUTE}?${queryArgs}`, { method: 'GET' })
         .then(json => json.schools)
         .catch(err =>  console.log("Error fetching schools", err)) 
 }

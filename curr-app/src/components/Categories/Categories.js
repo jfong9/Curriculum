@@ -27,11 +27,10 @@ class Categories extends React.Component {
 
     }
     
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         const {schoolun, match:{params}} = this.props;
         if (prevProps.schoolun !== schoolun && schoolun !== '' ) {
             this.setState({toCurricMain: true})
-            return <Redirect to={getCurriculumUrl(params.username)}/>
         }
     }
     

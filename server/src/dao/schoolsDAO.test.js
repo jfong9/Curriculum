@@ -3,23 +3,7 @@ const {MongoClient} = require('mongodb');
 const SchoolsDAO = require('./schoolsDAO').default;
 
 async function setupSchoolDAODatabase () {
-    let mockSchools = [
-        {
-            "username": "YMA",
-            "name": "Yee's Martial Arts",
-            "arts": ["Kung Fu", "Judo"]
-        },
-        {
-            "username": "SayocNorCal",
-            "name": "Sayoc NorCal",
-            "arts": ["Kali"]
-        },
-        {
-            "username": "BMMA",
-            "name": "Bay Mountain Wing Tsun",
-            "arts": ["Wing Tsun"]
-        }
-    ];
+    const mockSchools = require('./__fixtures__/schools').mockSchools;   
     await SchoolsDAO.schools.insertMany(mockSchools);
 }
 

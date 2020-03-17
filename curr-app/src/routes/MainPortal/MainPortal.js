@@ -46,19 +46,19 @@ class MainPortal extends React.Component {
                         <Switch>
                             <Route exact path='/:user/MainPortal' component={NavPanel}/>
                             <Route exact path='/:username/MainPortal/Students' render = {props =>
-                                (<Students {...props} schoolun={selectedSchool.username}/>)}
+                                (<Students {...props} schoolid={selectedSchool.username}/>)}
                             />
                             <Route exact path='/:username/MainPortal/Students/add' render={props =>
-                                (<StudentAdd {...props} schoolun={selectedSchool.username}/>)}
+                                (<StudentAdd {...props} schoolid={selectedSchool.username}/>)}
                             />
                             <Route exact path='/:username/MainPortal/Students/edit' render={props =>
-                                (<StudentEdit {...props} schoolun={selectedSchool.username}/>)}
+                                (<StudentEdit {...props} schoolid={selectedSchool.username}/>)}
                             />
                             <Route exact path='/:username/MainPortal/Curriculum/:category' render = {props =>
-                                (<Categories {...props} schoolun={selectedSchool.username}/>)}
+                                (<Categories {...props} schoolid={selectedSchool.username}/>)}
                             />
                             <Route exact path='/:username/MainPortal/Curriculum' render={props => 
-                                (<Curriculum {...props} schoolun={selectedSchool.username}/>)}
+                                (<Curriculum {...props} schoolid={selectedSchool.username}/>)}
                             />
                             <Route render= {props => (<div>Snooping around? How'd you get here</div>)}/>
                         </Switch>

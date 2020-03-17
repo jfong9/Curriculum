@@ -30,7 +30,7 @@ describe("mainPortalActions.fetchSchools testing #actions #cold", () => {
     test('when request rejects, expect undefined', async () => {
         expect.assertions(1);
         
-        request.mockRejectedValue('Test reject thrown expected')
+        request.mockRejectedValue('Test reject thrown, expected')
         const data = await mainPortalActions.fetchSchools()
         
         expect(data).toBeUndefined();
@@ -54,6 +54,6 @@ describe("mainPortalActions.fetchSchools testing #actions #cold", () => {
         request.mockResolvedValue({schools: [{username: 'YMA'}, {username: 'SayocNorCal'} ]});
         await mainPortalActions.fetchSchools(schoolUsernames);
 
-        expect(requestSpy).toHaveBeenCalledWith(`${mainPortalActions.SCHOOLS_ROUTE}${query}`, {method: 'GET'});
+        expect(requestSpy).toHaveBeenCalledWith(`${mainPortalActions.SCHOOLS_ROUTE}?${query}`, {method: 'GET'});
     })
 })

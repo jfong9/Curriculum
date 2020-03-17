@@ -63,6 +63,7 @@ class SideBar extends React.Component{
     }
 
     render() {
+        const { selectedSchool} = this.state
         return (
             <div>
                 <div> SideBar Here </div>
@@ -73,7 +74,10 @@ class SideBar extends React.Component{
                 <Link to={`${this.props.match.url}`}>
                     <button>Home</button>
                 </Link>
-                <Link to={`${this.props.match.url}/Students`}>
+                <Link to={{pathname:`${this.props.match.url}/Students`,
+                           state: {
+                               schoolid: selectedSchool.username
+                           }}}>
                     <button>Students </button>
                 </Link>
                 <Link to={`${this.props.match.url}/Curriculum`}>
