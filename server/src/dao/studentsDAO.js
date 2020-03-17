@@ -87,7 +87,7 @@ export default class studentsDAO {
             id = '';
         }
         try {
-            const filter = { _id: id};
+            const filter = { _id: ObjectId(id)};
             return await this.students.findOne(filter); 
         } catch (e) {
             console.error(`Something went wrong in getStudentById: ${e}`);
@@ -101,7 +101,7 @@ export default class studentsDAO {
         }
         try {
             //may eventually want to use update with $set specifics when we get to more complex student objects
-            let res = await this.students.updateOne({ _id: id },  {$set: studentParameters});
+            let res = await this.students.updateOne({ _id: ObjectId(id) },  {$set: studentParameters});
             return res.modifiedCount;
         } catch (e) {
             console.error(`Something went wrong in updateStudent: ${e}`);
@@ -115,7 +115,7 @@ export default class studentsDAO {
             return;
         }
         try {
-            let res = await this.students.deleteOne({ _id: id })
+            let res = await this.students.deleteOne({ _id: ObjectId(id) })
             return res.deletedCount;
 
         } catch (e) {

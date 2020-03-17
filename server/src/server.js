@@ -1,7 +1,6 @@
 import express from "express";
 import schools from "../src/api/schools.route";
-import students from "../src/api/students.controller";
-
+import students from "../src/api/students.route";
 
 const app = express();
 app.use(express.json());

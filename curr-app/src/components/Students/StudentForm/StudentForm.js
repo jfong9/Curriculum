@@ -5,62 +5,64 @@ import React from 'react';
 class StudentForm extends React.Component {
     constructor(props) {
         super(props);
-        const { student = this.getBlankStudent(),
-                editMode } = props;
-        console.log("StudentForm ctor", props, "states:", this.props.location)
+        const { student = this.getBlankStudent()} = props;
+        // console.log("StudentForm ctor", props, "states:", this.props.location)
         this.state = { 
             student, 
-            formChanged: false,
-            editMode: editMode};
+            formChanged: false};
 
         // this.handleChange = this.handleChange.bind(this);
         // this.handleSubmit = this.handleSubmit.bind(this);
     }
     getBlankStudent() {
-        return {
-                name: '',
-                email:'',
-                phone:'',
-                address:'',
-                city:'',
-                zip:''
+        return {            
+                first_name: '', 
+                last_name: '', 
+                birthday: '', 
+                email: '', 
+                phone: '', 
+                address: {
+                    street: '', 
+                    city: '', 
+                    zip: ''
+                } 
             } 
-    }
-
-    handleEditClick = (event) => {
-        event.preventDefault();
-        this.setState( {editMode: true})
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
         const { student } = this.state;
         const { handleSubmit } = this.props;
-
+        this.setState({formChanged: false})
         handleSubmit(student);
-        this.setState( {editMode: false})
-        // let blankStudent = this.getBlankStudent();
-        // console.log("blank", blankStudent)
-        // this.setState( {student: {
-        //         name: '',
-        //         email:'',
-        //         phone:'',
-        //         address:'',
-        //         city:'',
-        //         zip:''
-        //     } })
-
     }
 
+    componentDidMount() {
+    }
     componentDidUpdate(prevProps) {
-        if (prevProps.editMode !== this.props.editMode)
-        {
-            console.log("student form updated", this.props.editMode)
-            this.setState({editMode: this.props.editMode})
+        const { loadStudent, studentLoaded } = this.props;
+        if (loadStudent) {
+            studentLoaded();
+            this.setState( {student: this.props.student, formChanged: false })
         }
-
     }
 
+    handleAddressChange = (event) => {
+        const { student } = this.state
+        const name = event.target.name
+        const value = event.target.value;
+        this.setState({
+            student: {
+                ...student,
+                address:
+                {   
+                    ...student.address,
+                    [name]: value
+                }
+            },
+            formChanged: true
+        })
+    }
     handleChange = (event) => {
         const { student } = this.state
         const name = event.target.name
@@ -70,48 +72,77 @@ class StudentForm extends React.Component {
             formChanged: true
         })
     }
+
+    // buttonsFunc = () => {
+    //     const { editOption } = this.props
+    //     return  (
+    //         <div>
+    //             <button disabled={!editOption} onClick={this.handleEditClick}>Edit1</button>
+    //             <button onClick={this.handleDeleteClick}>Delete</button>
+    //         </div>
+    //     ) 
+    // }
     render() {
-        const { student: { name, email, phone, address, city, zip }, editMode, formChanged} = this.state;
-        const { submitText="Add", editOption} = this.props;
-        let editButton = null;
-        if (editOption) {
-            editButton = (<button disabled={!editOption} onClick={this.handleEditClick}>Edit</button>)
-        }
+        const { student: { 
+                    first_name, 
+                    last_name, 
+                    birthday, 
+                    email, 
+                    phone, 
+                    address: {
+                        street,
+                        city,
+                        zip
+                    }
+                }, 
+                formChanged,
+              } = this.state;
+        const { submitText="Add", Buttons= () => null, submitDisabled = false, editDisabled} = this.props;
         return (
             <form onSubmit={this.handleSubmit}>
                 <label>
-                    Name: 
-                    <input type='text' name='name' value={name} disabled={!editMode} onChange={this.handleChange}/>
+                    First name: 
+                    <input type='text' name='first_name' value={first_name} disabled={editDisabled} onChange={this.handleChange}/>
+                </label>
+                <br/>
+                <label>
+                    Last name: 
+                    <input type='text' name='last_name' value={last_name} disabled={editDisabled} onChange={this.handleChange}/>
+                </label>
+                <br/>
+                <label>
+                    Birthdate: 
+                    <input type='text' name='birthday' value={birthday} disabled={editDisabled} onChange={this.handleChange}/>
                 </label>
                 <br/>
                 <label>
                     Email: 
-                    <input type='text' name='email' value={email} disabled={!editMode} onChange={this.handleChange}/>
+                    <input type='text' name='email' value={email} disabled={editDisabled} onChange={this.handleChange}/>
                 </label>
                 <br/>
                 <label>
                     Phone: 
-                    <input type='text' name='phone' value={phone} disabled={!editMode} onChange={this.handleChange}/>
+                    <input type='text' name='phone' value={phone} disabled={editDisabled} onChange={this.handleChange}/>
                 </label>
                 <br/>
                 <label>
-                    Address: 
-                    <input type='text' name='address' value={address} disabled={!editMode} onChange={this.handleChange}/>
+                    Street: 
+                    <input type='text' name='street' value={street} disabled={editDisabled} onChange={this.handleAddressChange}/>
                 </label>
                 <br/>
                 <label>
                     City: 
-                    <input type='text' name='city' value={city} disabled={!editMode} onChange={this.handleChange}/>
+                    <input type='text' name='city' value={city} disabled={editDisabled} onChange={this.handleAddressChange}/>
                 </label>
                 <br/>
                 <label>
                     Zip: 
-                    <input type='text' name='zip' value={zip} disabled={!editMode} onChange={this.handleChange}/>
+                    <input type='text' name='zip' value={zip} disabled={editDisabled} onChange={this.handleAddressChange}/>
                 </label>
                 <br/>
-                <input type='submit' value={submitText}/>
+                <input data-testid='submit-button' type='submit' disabled={(!formChanged || submitDisabled)} value={submitText}/>
+                {<Buttons/>}
                 <br/>
-                {editButton}
             </form>
         )
     }

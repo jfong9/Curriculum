@@ -4,7 +4,8 @@ import StudentsCtrl from "./students.controller";
 
 const router = new Router()
 
-router.route("/").get(StudentsCtrl.apiGetStudents);
+router.route("/").get(StudentsCtrl.apiGetStudentsBySchool);
+router.route("/getStudentsByArt").get(StudentsCtrl.apiGetStudentsByArt)
 router.route("/getStudentById").get(StudentsCtrl.apiGetStudentById)
 router.route("/addStudent").post(StudentsCtrl.apiAddStudent);
 router.route("/updateStudent").patch(StudentsCtrl.apiUpdateStudent);

@@ -1,6 +1,8 @@
+import { ObjectId } from "bson";
+
 export const mockStudents = [
     {
-        "_id": 1,
+        "_id": ObjectId('000000000001'),
         "first_name": "Shea",
         "last_name": "Cummings",
         "birthday": "12/09/1983",
@@ -24,7 +26,7 @@ export const mockStudents = [
         "studentArchivedCurriculum": [],
     },
     {
-        "_id": 2,
+        "_id": ObjectId('000000000002'),
         "first_name": "Nicholas",
         "last_name": "Crawford",
         "birthday": "07/21/1989",
@@ -46,7 +48,7 @@ export const mockStudents = [
         "studentArchivedCurriculum": [],
     },
     {
-        "_id": 3,
+        "_id": ObjectId('000000000003'),
         "first_name": "Sade",
         "last_name": "Dunlap",
         "birthday": "10/08/1949",
@@ -68,7 +70,7 @@ export const mockStudents = [
         "studentArchivedCurriculum": [],
     },    
     {
-        "_id": 4,
+        "_id": ObjectId('000000000004'),
         "first_name": "Noelani",
         "last_name": "Black",
         "birthday": "04/24/1942",
@@ -85,7 +87,7 @@ export const mockStudents = [
         "studentArchivedCurriculum": [],
     },
     {
-        "_id": 5,
+        "_id": ObjectId('000000000005'),
         "first_name": "Deirdre", 
         "last_name": "Merritt",
         "birthday": '10/09/1983',
@@ -107,7 +109,7 @@ export const mockStudents = [
         "studentArchivedCurriculum": [],
     },
     {
-        "_id": 6,
+        "_id": ObjectId('000000000006'),
         "first_name": "Iris", 
         "last_name": "Koch",
         "birthday": '11/09/1983',
@@ -124,7 +126,7 @@ export const mockStudents = [
         "studentArchivedCurriculum": [],
     },
     {
-        "_id": 7,
+        "_id": ObjectId('000000000007'),
         "first_name": "Bruce", 
         "last_name": "Ochoa",
         "birthday": '12/09/1983',

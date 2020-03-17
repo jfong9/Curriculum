@@ -1,4 +1,5 @@
 require("dotenv").config();
+import { ObjectId } from "bson";
 const {MongoClient} = require('mongodb');
 const StudentsDAO = require('./studentsDAO').default;
 const mockStudents = require('./__fixtures__/students').mockStudents;   
@@ -39,6 +40,7 @@ describe('Schools DAO tests #DAL', () => {
         const SayocStudents = await StudentsDAO.getStudentsBySchool('SayocNorCal');
         const NoStudents = await StudentsDAO.getStudentsBySchool('BadSchoolName');
 
+        console.log(YMAStudents)
         expect(YMAStudents.length).toBe(4); 
         expect(SayocStudents.length).toBe(3); 
         expect(NoStudents.length).toBe(0);
@@ -63,17 +65,17 @@ describe('Schools DAO tests #DAL', () => {
     }
     
     test('get students by id, expect specific student', async () => {
-        let newStudent500 = JSON.parse(JSON.stringify(newStudent));
-        newStudent500._id = "500"
-        await StudentsDAO.addStudent(newStudent500);
+        let newStudentA = JSON.parse(JSON.stringify(newStudent));
+        let id = ObjectId('100000000002')
+        newStudentA._id = id
+        await StudentsDAO.addStudent(newStudentA);
 
-        let student = await StudentsDAO.getStudentById("500");
-
-        expect(student._id).toBe("500");
+        let student = await StudentsDAO.getStudentById(id);
+        expect(student._id.toString()).toStrictEqual(id.toString());
     })
 
     test('get students by id with invalid id number, expect null', async () => {
-        await expect(StudentsDAO.getStudentById("10")).resolves.toBeNull();
+        await expect(StudentsDAO.getStudentById(ObjectId("000000000000"))).resolves.toBeNull();
     })
 
     test('add student, expect plus one student', async () => {
@@ -98,16 +100,16 @@ describe('Schools DAO tests #DAL', () => {
     })
 
     test('update student, expect update count and record change', async () => {
-        let id = "500";
-        let newStudent500 = JSON.parse(JSON.stringify(newStudent));
-        newStudent500._id = id;
-        await StudentsDAO.addStudent(newStudent500);
-        let student = await StudentsDAO.getStudentById(id);
+        let id = ObjectId("123456789012");
+        let newStudentA = JSON.parse(JSON.stringify(newStudent));
+        newStudentA._id = id;
+        await StudentsDAO.addStudent(newStudentA);
 
+        let student = await StudentsDAO.getStudentById(id);
         let newName = "Jackson";
-        let modCount = await StudentsDAO.updateStudent(id, {first_name: newName});
+        let modCount = await StudentsDAO.updateStudent(student._id, {first_name: newName});
+       
         student = await StudentsDAO.getStudentById(id);
-        
         expect(modCount).toBe(1)
         expect(student.first_name).toBe(newName);
     })
@@ -116,7 +118,7 @@ describe('Schools DAO tests #DAL', () => {
         let students = await StudentsDAO.getStudentsBySchool('YMA');
         expect(students.length).toBe(4);
 
-        let deleteCount = await StudentsDAO.deleteStudent(1);
+        let deleteCount = await StudentsDAO.deleteStudent(ObjectId("000000000001"));
         students = await StudentsDAO.getStudentsBySchool('YMA');
 
         expect(deleteCount).toBe(1);

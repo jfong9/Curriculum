@@ -6,11 +6,12 @@ export default class StudentsController {
     static async apiGetStudentsBySchool(req, res, next) {
         try {
             const query = req.query;
-            let schoolName = getSchoolNameFromQuery(query);
-            const students  = await StudentsDAO.getStudentsBySchool(schoolName)
+            let schoolid = getSchoolNameFromQuery(query);
+            const students  = await StudentsDAO.getStudentsBySchool(schoolid)
             let response = {
                 students
             }
+            console.log("returning num students:", students.length)
             res.status(200).json(response);
         } catch (err) {
             console.error(`StudentsController apiGetStudentsBySchool ${err}`)
@@ -20,9 +21,9 @@ export default class StudentsController {
     static async apiGetStudentsByArt(req, res, next) {
         try {
             const query = req.query;
-            let schoolName = getSchoolNameFromQuery(query);
-            let art = getArtFromQuery(req.query);
-            const students  = await StudentsDAO.getStudentsByArt(schoolName, art)
+            let schoolid = getSchoolNameFromQuery(query);
+            let art = getArtFromQuery(query);
+            const students  = await StudentsDAO.getStudentsByArt(schoolid, art)
             let response = {
                 students
             }
@@ -37,6 +38,7 @@ export default class StudentsController {
             const query = req.query;
             let id = getIdFrom(query);
             const student  = await StudentsDAO.getStudentById(id)
+            console.log("by Id", student)
             let response = {
                 student
             }
@@ -51,7 +53,9 @@ export default class StudentsController {
     static async apiAddStudent(req, res) {
         try {
             const body = req.body;
+            console.log("add", body)
             validateAddStudentBody(body);
+            //JMF should validate school being added to here.
             let student = getStudentFromBody(body); 
             let addedStudent = await StudentsDAO.addStudent(student);
             let response = {
@@ -68,6 +72,7 @@ export default class StudentsController {
     static async apiUpdateStudent(req, res) {
         try {
             const body = req.body;
+            console.log("update", body);
             validateUpdateStudentBody(body);
             switch (body.op) {
                 case "update": {
