@@ -10,7 +10,7 @@ const { AccountsModule } = require('@accounts/graphql-api');
 const typeDefs = require('./schema');
 const resolvers = require('./resolvers');
 
-const port = process.env.PORT || 4001;
+const port = process.env.PORT || 4000;
 
 MongoClient.connect(
     process.env.TEST_DB_URI,    

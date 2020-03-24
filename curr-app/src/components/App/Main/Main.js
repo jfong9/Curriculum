@@ -10,6 +10,7 @@ function Main() {
         <main>
             <Switch>
                 <Route exact path = '/' component={Home}/>
+                {/* <Route path='/login' component={Login}/> */}
                 <Route path='/:username/MainPortal' component={MainPortal}/>
                 <Route render= {props => (<div>Snooping around? How'd you get here</div>)}/>
             </Switch>
