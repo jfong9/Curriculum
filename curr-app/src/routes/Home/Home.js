@@ -1,8 +1,7 @@
 "use strict"
 
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
-import BasicCreateUser from 'components/BasicCreateUser'
+import { Link } from 'react-router-dom'
 // class Home extends React.Component {
 //     // idea here is that user would log in, which would then go to the /:schoolid/MainPortal link
 //     // if log in is successful
@@ -68,14 +67,30 @@ import BasicCreateUser from 'components/BasicCreateUser'
 //         )
 //     }
 // }
+
+
+const LogInButton = props => (
+    <Link to='/login' {...props} >
+        <button>
+            Log In
+        </button>
+    </Link>
+);
+const SignupButton = props => (
+    <Link to='/signup' {...props} >
+        <button>
+            Sign up
+        </button>
+    </Link>
+);
 function Home() {
     return (
-        <main>
-            <Switch>
-                <Route exact path = '/' component={BasicCreateUser}/>
-                {/* <Route path='/login' component={Login}/> */}
-                <Route render= {props => (<div>Snooping around? How'd you get here</div>)}/>
-            </Switch>
+        <main>  
+            <div>
+                Splash page 
+                <LogInButton/>
+                <SignupButton/>
+            </div>
         </main>   
     )
 }

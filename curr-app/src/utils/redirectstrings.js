@@ -1,9 +1,9 @@
 "use strict"
 
 export function getCurriculumUrl(username) {
-    return `/${username}/MainPortal/Curriculum`;
+    return `/MainPortal/Curriculum`;
 }
 
 export function getStudentsUrl(username) {
-    return `/${username}/MainPortal/Students`;
+    return `/MainPortal/Students`;
 }

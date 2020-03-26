@@ -1,6 +1,6 @@
 "use strict"
 
-import React from 'react'
+import React, { useReducer } from 'react'
 import { Link, Route } from 'react-router-dom'
 import * as mainPortalActions from 'actions/mainPortalActions'
 import users from 'database/users'
@@ -10,7 +10,7 @@ class SideBar extends React.Component{
         super(props);
         // console.log("sidebar constructor props", props)
         this.state = {
-            user: {},
+            // user: {},
             schools: [],
             selectedSchool: {},
             // school: this.props.school,
@@ -18,9 +18,10 @@ class SideBar extends React.Component{
     }
     componentDidMount() {
         // console.log("Sidebar", this.props)
-        const {match: {params}} = this.props;
-        let user = this.GetUserInfoFromHTTPRequest(params.username);
-        this.setState( {user})
+        // const {match: {params}} = this.props;
+        // let user = this.GetUserInfoFromHTTPRequest(params.username);
+        // this.setState( {user})
+        const { user } = this.props
         this.SetSchoolInfoFromHTTPRequest(user)
     }
 
@@ -46,6 +47,9 @@ class SideBar extends React.Component{
         // let usersSchoolNames = user.schools.map((i) => i.username);
         // let usersSchools = schools.filter((i) => usersSchoolNames.includes(i.username))
         // return usersSchools
+        if (!user.schools) {
+            user.schools = []
+        }
         mainPortalActions.fetchSchools(user.schools.map(school => school.username))
             .then( (schools = []) => {
                 // console.log("Schools:", schools)

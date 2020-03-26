@@ -8,7 +8,7 @@ const { AccountsPassword } = require('@accounts/password');
 const { mergeTypeDefs, mergeResolvers } = require('graphql-toolkit');
 const { AccountsModule } = require('@accounts/graphql-api');
 const typeDefs = require('./schema');
-const resolvers = require('./resolvers');
+// const resolvers = require('./resolvers');
 
 const port = process.env.PORT || 4000;
 
@@ -24,7 +24,10 @@ MongoClient.connect(
     const accountsMongo = new Mongo(db)
 
     const accountsPassword = new AccountsPassword({
-      //customize pw behavior server here  
+      //customize pw behavior server here 
+      validateNewUser: async user => {
+        return pick(user, ['username','email','password','schools'])
+      },
     })
 
     const accountsServer = new AccountsServer(
@@ -38,6 +41,19 @@ MongoClient.connect(
     )
     const accountsGraphQL = AccountsModule.forRoot({ accountsServer });
     
+    const resolvers = {
+    Query: {
+        sensitiveInformation: () => 'Sensitive Info',
+        me: async (_, __, ctx) => {
+            if (ctx.userId) {
+                let ret = await accountsServer.findUserById(ctx.userId);
+                console.log(ctx.userId, ret);
+                return ret;
+            }
+            return null;
+        }
+    },
+}
     const schema = makeExecutableSchema({
         typeDefs: mergeTypeDefs([accountsGraphQL.typeDefs, typeDefs]),
         resolvers: mergeResolvers([accountsGraphQL.resolvers, resolvers]),

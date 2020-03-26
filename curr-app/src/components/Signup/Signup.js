@@ -1,9 +1,17 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { accountsGraphQL } from 'utils/accounts'
 import FormError from 'components/FormError'
 
+const LogInLinkButton = props => (
+    <Link to='/login' {...props} >
+        <button>
+            Log In
+        </button>
+    </Link>
+);
 
-function BasicCreateUser( {history} ) {
+function Signup( {history} ) {
 
     const [error, setError] = useState(null);
     const [user, setUser] = useState({
@@ -24,7 +32,7 @@ function BasicCreateUser( {history} ) {
             setError(err.message)
         }
     }
-
+    const ref = React.createRef();
     return (
         <form onSubmit={handleCreate}>
             <label>
@@ -33,8 +41,7 @@ function BasicCreateUser( {history} ) {
                     type='text' 
                     name='username' 
                     value={user.username} 
-                    onChange={(e) => {setUser({...user, username: e.target.value})}
-                    }
+                    onChange={(e) => {setUser({...user, username: e.target.value})}}
                 />
             </label>
             <br/>
@@ -44,8 +51,7 @@ function BasicCreateUser( {history} ) {
                     type='text' 
                     name='email' 
                     value={user.email} 
-                    onChange={(e) => {setUser({...user, email: e.target.value})}
-                    }
+                    onChange={(e) => {setUser({...user, email: e.target.value})}}
                 />
             </label>
             <br/>
@@ -55,15 +61,16 @@ function BasicCreateUser( {history} ) {
                     type='text' 
                     name='password' 
                     value={user.password} 
-                    onChange={(e) => {setUser({...user, password: e.target.value})}
-                    }
+                    onChange={(e) => {setUser({...user, password: e.target.value})}}
                 />
             </label>
             <br/>
             <input type='submit' value='create user'/>
-                {error && <FormError error={error}/> }
+            
+            <LogInLinkButton>Log In1</LogInLinkButton>
+            {error && <FormError error={error}/> }
         </form>
     )
 }
 
-export default BasicCreateUser;
+export default Signup;
