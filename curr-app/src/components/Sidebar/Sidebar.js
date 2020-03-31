@@ -2,9 +2,9 @@
 
 import React, { useReducer } from 'react'
 import { Link, Route } from 'react-router-dom'
-import * as mainPortalActions from 'actions/mainPortalActions'
+import * as sidebarActions from 'actions/sidebarActions'
 
-class SideBar extends React.Component{
+class Sidebar extends React.Component{
     constructor(props) {
         super(props);
         console.log("sidebar constructor props", props)
@@ -28,14 +28,14 @@ class SideBar extends React.Component{
                
     setSelectedSchool(school) {
         this.setState({selectedSchool: school})
-        this.props.handleStateChange(school);
+        this.props.handleSchoolChange(school);
     }
 
     SetSchoolInfoFromHTTPRequest(user) {
         if (!user.schools) {
             user.schools = []
         }
-        mainPortalActions.fetchSchools(user.schools.map(school => school.username))
+        sidebarActions.fetchSchools(user.schools.map(school => school.username))
             .then( (schools = []) => {
                 // console.log("Schools:", schools)
                 let selectedSchool = schools.length > 0 ? schools[0] : {};
@@ -79,4 +79,4 @@ class SideBar extends React.Component{
     }
 }
 
-export default SideBar
+export default Sidebar

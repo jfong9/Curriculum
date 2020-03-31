@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Link, Redirect} from 'react-router-dom'
-import curriculum from 'database/curriculum'
 import CategoryInput from 'components/CategoryInput';
 import { Query } from 'react-apollo'
 import { useQuery } from '@apollo/react-hooks'
@@ -60,12 +59,9 @@ class Curriculum extends React.Component {
     }
 
     GetTopCatsFromHTTPRequest(schoolun) {
-        console.log("curric", schoolun)
-        if (!schoolun) return {topcats:[], curric:[]};
-        let [curric] = curriculum.filter( (c) => c.schoolun === schoolun).map( c => c.category)
-        if (!curric) return {topcats:[], curric:[]};
-        let topcats = curric.map(c => c.name);
-        return  {topcats, curric}
+        let curric = []
+        let topcats = []
+        return  { topcats, curric }
     }
 
     render() {

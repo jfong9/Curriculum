@@ -4,7 +4,7 @@ import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import gql from 'graphql-tag'
 import MainPortal from 'routes/MainPortal'
-import Header from 'components/App/Header';
+import Header from 'components/Header';
 import { useQuery } from '@apollo/react-hooks'
 
 const USER_QUERY = gql`

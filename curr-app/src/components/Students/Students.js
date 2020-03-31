@@ -35,6 +35,8 @@ class Students extends React.Component {
     }
     render() {
         const {students} = this.state
+        const {mainProps} = this.props
+        console.log("test:", mainProps)
         return (
             <div>
                 <Link to={{pathname:'Students/add'}}>

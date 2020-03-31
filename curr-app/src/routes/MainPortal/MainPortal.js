@@ -2,45 +2,58 @@
 
 // import logo from 'assets/images/logo.svg';
 import './MainPortal.css';
-import SideBar from './SideBar'
 import React, { useState} from 'react'
 import { Switch, Route} from 'react-router-dom'
+import SideBar from 'components/Sidebar'
 import Students from 'components/Students'
 import Curriculum from 'components/Curriculum'
 import Categories from 'components/Categories'
-import NavPanel from './NavPanel'
+import NavPanel from 'components/NavPanel'
 import StudentAdd from 'components/Students/StudentAdd'
 import StudentEdit from 'components/Students/StudentEdit'
 
 
 function MainPortal(props) {
-
     const [selectedSchool, setSelected] = useState({});
-    const handleStateChange = (school) => {
+    const [defaultArt, setDefaultArt] = useState('');
+    const handleSchoolChange = (school) => {
         setSelected(school)
+        if (school.arts.length > 0) setDefaultArt(school.arts[0]);
+        else setDefaultArt('')
     }
     
+    const handleArtChange = (art) => {
+        setDefaultArt(art);
+    }
+
+    const commonProps = {
+        schoolid: selectedSchool.username,
+        school: selectedSchool,
+        defaultArt: defaultArt,
+        handleArtChange: handleArtChange
+    }
+
     return (
         <div>
-            <SideBar {...props} handleStateChange = {handleStateChange} />
+            <SideBar {...props} handleSchoolChange = {handleSchoolChange} />
             <div className="App">
                 <header className="App-header">
                     <Switch>
                         <Route exact path='/MainPortal' component={NavPanel}/>
                         <Route exact path='/MainPortal/Students' render = {props =>
-                            (<Students {...props} schoolid={selectedSchool.username}/>)}
+                            (<Students {...props} {...commonProps} />)}
                         />
                         <Route exact path='/MainPortal/Students/add' render={props =>
-                            (<StudentAdd {...props} schoolid={selectedSchool.username}/>)}
+                            (<StudentAdd {...props} {...commonProps}/>)}
                         />
                         <Route exact path='/MainPortal/Students/edit' render={props =>
-                            (<StudentEdit {...props} schoolid={selectedSchool.username}/>)}
+                            (<StudentEdit {...props} {...commonProps}/>)}
                         />
                         <Route exact path='/MainPortal/Curriculum/:category' render = {props =>
-                            (<Categories {...props} schoolid={selectedSchool.username}/>)}
+                            (<Categories {...props} {...commonProps}/>)}
                         />
                         <Route exact path='/MainPortal/Curriculum' render={props => 
-                            (<Curriculum {...props} schoolid={selectedSchool.username}/>)}
+                            (<Curriculum {...props} {...commonProps}/>)}
                         />
                         <Route render= {props => (<div>Snooping around? How'd you get here</div>)}/>
                     </Switch>
