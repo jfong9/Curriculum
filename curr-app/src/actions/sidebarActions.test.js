@@ -1,12 +1,12 @@
 import * as request from './request';
 jest.mock('./request', () => jest.fn());
-import * as mainPortalActions from 'actions/mainPortalActions'
+import * as sidebarActions from 'actions/sidebarActions'
 
-describe("mainPortalActions.fetchSchools testing #actions #cold", () => {
+describe("sidebarActions.fetchSchools testing #actions #cold", () => {
      test('single matching school with no mismatches', async () => {
         expect.assertions(1);
         request.mockResolvedValue({schools: ['YMA'] });
-        const data = await mainPortalActions.fetchSchools(['YMA'])
+        const data = await sidebarActions.fetchSchools(['YMA'])
         
         expect(data.length).toEqual(1); //don't do this kind of test because we are essentially testing
                                         //the mocked request function and the thing we want to test is 
@@ -22,7 +22,7 @@ describe("mainPortalActions.fetchSchools testing #actions #cold", () => {
         const resolveObject = [ {username: 'YMA'}, {username: 'SayocNorCal'} ]
 
         request.mockResolvedValue({schools: resolveObject});
-        const data = await mainPortalActions.fetchSchools()
+        const data = await sidebarActions.fetchSchools()
         
         expect(JSON.stringify(data)).toEqual(JSON.stringify(resolveObject))
     });
@@ -31,7 +31,7 @@ describe("mainPortalActions.fetchSchools testing #actions #cold", () => {
         expect.assertions(1);
         
         request.mockRejectedValue('Test reject thrown, expected')
-        const data = await mainPortalActions.fetchSchools()
+        const data = await sidebarActions.fetchSchools()
         
         expect(data).toBeUndefined();
     })
@@ -40,7 +40,7 @@ describe("mainPortalActions.fetchSchools testing #actions #cold", () => {
         expect.assertions(1);
 
         request.mockResolvedValue('Not an object with school property');
-        const data = await mainPortalActions.fetchSchools()
+        const data = await sidebarActions.fetchSchools()
         
         expect(data).toBeUndefined();
     });
@@ -52,8 +52,8 @@ describe("mainPortalActions.fetchSchools testing #actions #cold", () => {
         const requestSpy = jest.spyOn(request, 'default').mockResolvedValue({schools: [{username: 'YMA'}, {username: 'SayocNorCal'} ]})
 
         request.mockResolvedValue({schools: [{username: 'YMA'}, {username: 'SayocNorCal'} ]});
-        await mainPortalActions.fetchSchools(schoolUsernames);
+        await sidebarActions.fetchSchools(schoolUsernames);
 
-        expect(requestSpy).toHaveBeenCalledWith(`${mainPortalActions.SCHOOLS_ROUTE}?${query}`, {method: 'GET'});
+        expect(requestSpy).toHaveBeenCalledWith(`${sidebarActions.SCHOOLS_ROUTE}?${query}`, {method: 'GET'});
     })
 })

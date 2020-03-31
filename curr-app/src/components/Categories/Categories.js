@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
 import { Redirect } from 'react-router-dom'
-import curriculum from 'database/curriculum'
 import { getCurriculumUrl } from 'utils/redirectstrings'
 import CategoryInput from 'components/CategoryInput'
-
-
 
 class Categories extends React.Component {
     constructor(props) {
@@ -16,8 +13,6 @@ class Categories extends React.Component {
             show: false
         }
     }
-
-    
     
     componentDidMount() {
         const {schoolun, match : {params}} = this.props
@@ -35,15 +30,7 @@ class Categories extends React.Component {
     }
     
     GetCurriculumFromHTTPRequest(schoolun, category) {
-        console.log("getcatfromhttp:",schoolun, category);
-        if (!schoolun || category === '') return {}
-        let [curric] = curriculum
-                        .filter(c => c.schoolun === schoolun)
-                        .map(c => c.category)
-        curric = curric.filter(c => {
-                            return c.name === category
-                        })[0]
-        return curric;
+        return [];
     }
     render() {
         const {category, toCurricMain} = this.state
