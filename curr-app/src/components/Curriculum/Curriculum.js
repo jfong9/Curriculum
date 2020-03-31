@@ -2,7 +2,16 @@ import React, { useState } from 'react'
 import { Link, Redirect} from 'react-router-dom'
 import curriculum from 'database/curriculum'
 import CategoryInput from 'components/CategoryInput';
+import { Query } from 'react-apollo'
+import { useQuery } from '@apollo/react-hooks'
+import gql from 'graphql-tag'
 
+const INFO_QUERY = gql`
+    query getSensitiveInfo {
+        info: sensitiveInformation
+        # info: regularInfo
+    }
+`
 
 class Curriculum extends React.Component {
     constructor(props) {
@@ -65,6 +74,15 @@ class Curriculum extends React.Component {
         return (
             <div>
                 <button onClick={this.showModal}>add cat</button>
+                <Query query={INFO_QUERY}>
+                    { ( {loading, error, data} ) => {
+                            if (loading) return <div>Loading Curr</div>
+                            if (error) return <div>Error curr</div>
+                            if (data.info) return <div>{data.info}</div>
+                            return null
+                        }
+                    }
+                </Query>
                 <CategoryInput show={show} handleCancel={this.handleCancel} handleOK={this.handleOK}/>
                 {display}
                 <div>be cool to be able to add custom background or image</div>
