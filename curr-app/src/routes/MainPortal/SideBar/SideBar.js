@@ -3,12 +3,11 @@
 import React, { useReducer } from 'react'
 import { Link, Route } from 'react-router-dom'
 import * as mainPortalActions from 'actions/mainPortalActions'
-import users from 'database/users'
 
 class SideBar extends React.Component{
     constructor(props) {
         super(props);
-        // console.log("sidebar constructor props", props)
+        console.log("sidebar constructor props", props)
         this.state = {
             // user: {},
             schools: [],
@@ -17,10 +16,6 @@ class SideBar extends React.Component{
         }
     }
     componentDidMount() {
-        // console.log("Sidebar", this.props)
-        // const {match: {params}} = this.props;
-        // let user = this.GetUserInfoFromHTTPRequest(params.username);
-        // this.setState( {user})
         const { user } = this.props
         this.SetSchoolInfoFromHTTPRequest(user)
     }
@@ -36,17 +31,7 @@ class SideBar extends React.Component{
         this.props.handleStateChange(school);
     }
 
-    GetUserInfoFromHTTPRequest(username) {
-        //for now this is retrieve here internally, but should have this info once logging in.
-        //this call would go away eventually, and maybe the users info passed to this main portal somehow through logging in.
-        let user = users.find( (user) => user.username === username);
-        return user;
-    }
-
     SetSchoolInfoFromHTTPRequest(user) {
-        // let usersSchoolNames = user.schools.map((i) => i.username);
-        // let usersSchools = schools.filter((i) => usersSchoolNames.includes(i.username))
-        // return usersSchools
         if (!user.schools) {
             user.schools = []
         }

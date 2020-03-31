@@ -2,72 +2,16 @@
 
 import React from 'react'
 import { Link } from 'react-router-dom'
-// class Home extends React.Component {
-//     // idea here is that user would log in, which would then go to the /:schoolid/MainPortal link
-//     // if log in is successful
-//     state = {
-//         username: 'jfong'
-//     } 
-    
-//     handleChange = (event) => {
-//         const {value} = event.target
-//         this.setState({
-//             username: value
-//         })
-//     }
 
-//     basicLogInWithNoBackEnd() {
-//         const {username} = this.state
-//         return (
-//             <div className='basicLogin'>
-//                 Basic Login
-//                 <div>
-//                     <label>username:</label>
-//                     <select value={username} onChange={this.handleChange}>
-//                         <option value='jfong'>Jason Fong</option>
-//                         <option value="rySayoc">Raymond Young</option>
-//                         <option value="plYMA">Philip Ly</option>
-//                         <option value="jfSayoc">Jason Sayoc Only</option>
-//                         <option value="jfBMMA">Jason BMMA</option>
-//                     </select>
-//                     <Link to={`/${username}/MainPortal`}>
-//                         <button>
-//                             Login
-//                         </button>
-//                     </Link>
-//                 </div>
-//             </div>
-//         )
-//     }
-    
-   
+import gql from 'graphql-tag'
+import { Query } from 'react-apollo'
 
-//     handleLogin() {
-
-//     }
-//     basicRealLogIn() {
-//         return (
-//             <form onSubmit={this.handleLogin}>
-
-//             </form>
-//         )
-//     }
-//     render() {
-//         // console.log("Home", this.props);
-//         return (
-//             <div>
-//                 <div className="Home">
-//                     <header className="Home-header">
-//                        {this.basicLogInWithNoBackEnd()} 
-
-                        
-//                     </header>
-//                 </div>
-//             </div>
-//         )
-//     }
-// }
-
+const INFO_QUERY = gql`
+        query getSensitiveInfo {
+            info: sensitiveInformation
+            # info: regularInfo
+    }
+    `
 
 const LogInButton = props => (
     <Link to='/login' {...props} >
@@ -90,6 +34,15 @@ function Home() {
                 Splash page 
                 <LogInButton/>
                 <SignupButton/>
+                <Query query={INFO_QUERY}>
+                    { ( {loading, error, data} ) => {
+                            if (loading) return <div>Loading Home</div>
+                            if (error) return <div>Error Home {error.message}</div>
+                            if (data.info) return <div>{data.info}</div>
+                            return null
+                        }
+                    }
+                </Query>
             </div>
         </main>   
     )

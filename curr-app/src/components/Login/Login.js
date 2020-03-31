@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useHistory, RouteComponentProps, Link } from 'react-router-dom'
-import { accountsPassword, accountsClient, apolloClient } from 'utils/accounts'
+import { useHistory } from 'react-router-dom'
+import { accountsPassword, apolloClient } from 'utils/accounts'
 import FormError from 'components/FormError'
 
 function Login() {
@@ -17,7 +17,8 @@ function Login() {
                 user: {
                     username
                 },
-                password
+                password,
+                // schools: [{username:'', type:''}]
             })
             await apolloClient.resetStore();
             history.push(`/MainPortal`)

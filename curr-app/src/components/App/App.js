@@ -1,7 +1,9 @@
-import {BrowserRouter} from 'react-router-dom'
+import {BrowserRouter, Switch, Route} from 'react-router-dom'
 import React from 'react';
-import Header from './Header';
 import Main from './Main'
+import Home from 'routes/Home'
+import Signup from 'components/Signup'
+import Login from 'components/Login'
 import { ApolloProvider } from '@apollo/react-hooks';
 import { apolloClient } from 'utils/accounts'
 function App() {
@@ -11,8 +13,13 @@ function App() {
         <ApolloProvider client = {apolloClient}>
             <BrowserRouter>
                 <div>
-                    <Header />
-                    <Main/>
+                    <Switch>
+                        {/* Maybe have a header here, one will be splash page, other will be loggedIn */}
+                        <Route exact path = '/' component={Home}/>
+                        <Route path='/signup' component={Signup}/>
+                        <Route path='/login' component={Login}/>
+                        <Route path='/MainPortal' component={Main}/>
+                    </Switch>
                 </div>
             </BrowserRouter>
         </ApolloProvider>

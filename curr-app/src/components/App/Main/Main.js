@@ -1,20 +1,45 @@
 "use strict"
 
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
-import Home from 'routes/Home'
-import Signup from 'components/Signup'
-import Login from 'components/Login'
+import { Switch, Route, Redirect } from 'react-router-dom'
+import gql from 'graphql-tag'
 import MainPortal from 'routes/MainPortal'
+import Header from 'components/App/Header';
+import { useQuery } from '@apollo/react-hooks'
 
+const USER_QUERY = gql`
+    query getUser {
+        user: getUser {
+            id
+            username
+            emails {
+                address
+                verified
+            }
+            schools {
+                username
+                type
+            }
+        }
+    }
+`
 function Main() {
+    const { loading, error, data } = useQuery(USER_QUERY);
+
+    if (loading) return <p>Loading...</p>
+    if (error) return <p>Error: {error.message}</p>
+
+    if (!data.user) {
+        return <Redirect to="/login" />
+    }
+
     return (
         <main>
+            <Header />
             <Switch>
-                <Route exact path = '/' component={Home}/>
-                <Route path='/signup' component={Signup}/>
-                <Route path='/login' component={Login}/>
-                <Route path='/MainPortal' component={MainPortal}/>
+                <Route path='/MainPortal' render = {props =>
+                        (<MainPortal {...props} user={data.user}/>)}
+                />
                 <Route render= {props => (<div>Snooping around2? How'd you get here</div>)}/>
             </Switch>
         </main>   

@@ -36,8 +36,8 @@ describe('Students main page testing', () => {
         studentsActions.getStudentsBySchool.mockResolvedValue(students);
         const { getByText } = renderWithRouterMatch(Students,
             {
-                route: '/jfong/Students',
-                path: '/:username/Students'
+                route: '/MainPortal/Students',
+                path: '/MainPortal/Students'
             } );
         let name = (student) => new RegExp(student.last_name, 'i') 
         await wait(() => getByText(name(students[0])))

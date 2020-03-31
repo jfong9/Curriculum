@@ -5,8 +5,8 @@ const { gql } = require('apollo-server');
 const typeDefs = gql`
 	type Query {
 		#This query will be protected so only authenticated users can access it
-        me: User
 		sensitiveInformation: String @auth
+        regularInfo: String
 	}
 
     extend type User {
