@@ -8,7 +8,8 @@ import { Query } from 'react-apollo'
 
 const INFO_QUERY = gql`
         query getSensitiveInfo {
-            info: sensitiveInformation
+            rinfo: regularInformation
+            # sinfo: sensitiveInformation
             # info: regularInfo
     }
     `
@@ -34,15 +35,19 @@ function Home() {
                 Splash page 
                 <LogInButton/>
                 <SignupButton/>
-                <Query query={INFO_QUERY}>
-                    { ( {loading, error, data} ) => {
-                            if (loading) return <div>Loading Home</div>
-                            if (error) return <div>Error Home {error.message}</div>
-                            if (data.info) return <div>{data.info}</div>
-                            return null
+                <ul>
+                    <Query query={INFO_QUERY}>
+                        { ( {loading, error, data} ) => {
+                                if (loading) return <div>Loading Home</div>
+                                return [
+                                error ? <div>Error Home {error.message}</div> : null,
+                                data && data.sinfo ? <div>{data.sinfo}</div> : null,
+                                data && data.rinfo ? <div>{data.rinfo}</div> : null,
+                                ]
+                            }
                         }
-                    }
-                </Query>
+                    </Query>
+                </ul>
             </div>
         </main>   
     )

@@ -4,6 +4,7 @@ import CategoryInput from 'components/CategoryInput';
 import { Query } from 'react-apollo'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import ArtDropdown from 'components/ArtDropdown'
 
 const INFO_QUERY = gql`
     query getSensitiveInfo {
@@ -33,18 +34,18 @@ class Curriculum extends React.Component {
     }
 
     handleOK = (data) => {
-        console.log("Curric handleOK:", data);
+        // console.log("Curric handleOK:", data);
         this.setShow(false);
     }
 
     handleCancel = (data) => {
-        console.log("Curric handleCancel:", data);
+        // console.log("Curric handleCancel:", data);
         this.setShow(false);
     }
 
     componentDidMount() {
         const {schoolun} = this.props;
-        console.log("curriculum",this.props);
+        // console.log("curriculum",this.props);
         let {topcats, fullcurric} = this.GetTopCatsFromHTTPRequest(schoolun);
         this.setState( {topCategories: topcats, fullCurriculum: fullcurric} );
     }
@@ -89,10 +90,11 @@ class Curriculum extends React.Component {
     }
     DisplayTopCategories = () => {
         const {topCategories} = this.state
-        console.log(topCategories);
+        // console.log(topCategories);
 
         return (
             <div>
+                <ArtDropdown {...this.props} />
                 <div>Click the Gray Links</div>
                 {topCategories.map(c => {
                     return (

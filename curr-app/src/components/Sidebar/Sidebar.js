@@ -7,7 +7,7 @@ import * as sidebarActions from 'actions/sidebarActions'
 class Sidebar extends React.Component{
     constructor(props) {
         super(props);
-        console.log("sidebar constructor props", props)
+        // console.log("sidebar constructor props", props)
         this.state = {
             // user: {},
             schools: [],
@@ -55,7 +55,7 @@ class Sidebar extends React.Component{
         const { selectedSchool} = this.state
         return (
             <div>
-                <div> SideBar Here </div>
+                <div> Sidebar Here </div>
                 <label>schoolid:</label>
                 <select onChange={this.handleSchoolChange}>
                     {this.createSelectedItems()}

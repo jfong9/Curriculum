@@ -7,13 +7,13 @@ class CategoryInput extends React.Component {
         super(props)
 
         this.state = { show: false }
-        console.log("catinput ctor", this.state.show)
+        // console.log("catinput ctor", this.state.show)
     }
     
     componentDidUpdate(prevProps) {
         const {show} = this.props
         if (prevProps.show !== show) {
-            console.log("catinput update", show)
+            // console.log("catinput update", show)
             this.setState({show});
         }
     }
