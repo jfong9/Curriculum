@@ -28,9 +28,9 @@ function MainPortal(props) {
 
     const commonProps = {
         schoolid: selectedSchool.username,
-        school: selectedSchool,
+        arts: selectedSchool.arts, 
         defaultArt: defaultArt,
-        handleArtChange: handleArtChange
+        setDefaultArt: setDefaultArt
     }
 
     return (

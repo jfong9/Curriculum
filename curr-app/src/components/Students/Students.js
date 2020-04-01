@@ -2,6 +2,7 @@
 import React from 'react'
 import {Link, Route, Switch} from 'react-router-dom'
 import * as studentActions from 'actions/studentActions'
+import ArtDropdown from 'components/ArtDropdown'
 // import students from 'database/students'
 
 class Students extends React.Component {
@@ -14,7 +15,7 @@ class Students extends React.Component {
 
     componentDidMount() {
         const {schoolid} = this.props;
-        console.log("students: schoolid:", schoolid);
+        // console.log("students: schoolid:", schoolid);
         this.SetStudentsFromHTTPRequest(schoolid);
     }
     componentDidUpdate(prevProps) {
@@ -35,10 +36,11 @@ class Students extends React.Component {
     }
     render() {
         const {students} = this.state
-        const {mainProps} = this.props
-        console.log("test:", mainProps)
+        const arts = this.props.arts ? this.props.arts : []
+        // console.log("test:", this.props)
         return (
             <div>
+                <ArtDropdown {...this.props} arts={['All', ...arts]} defaultArt={'All'} />
                 <Link to={{pathname:'Students/add'}}>
                     <button>Add New Student</button>
                 </Link>
