@@ -1,10 +1,11 @@
 'use strict'
 
-const resolvers = {
-    Query: {
-        sensitiveInformation: () => 'Sensitive Info',
-        regularInfo: () => 'Regular Info'
-    },
-}
+
+const testResolvers = require('./test/accountResolvers')
+const resolverCommonTypes = require('./shared/resolverCommonTypes')
+const currResolvers = require('./curriculum/curriculumResolvers')
+const catResolvers = require('./categories/categoryResolvers')
+
+const resolvers = [resolverCommonTypes, currResolvers, testResolvers, catResolvers]
 
 module.exports = resolvers;
