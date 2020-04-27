@@ -1,22 +1,10 @@
 'use strict'
 
-const { gql } = require('apollo-server');
+const rootDefs = require('./shared/rootSchema')
+const userDefs = require('./user/userSchema');
+const currDefs = require('./curriculum/curriculumSchema')
+const catDefs = require('./categories/categorySchema')
 
-const typeDefs = gql`
-	type Query {
-		#This query will be protected so only authenticated users can access it
-		sensitiveInformation: String @auth
-        regularInfo: String
-	}
-
-    extend type User {
-        schools: [UserSchool]
-    }
-    
-    type UserSchool{
-        username: String
-        type: String
-    }
-`;
+const typeDefs = [rootDefs, userDefs, currDefs, catDefs]
 
 module.exports = typeDefs;
