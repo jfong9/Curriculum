@@ -48,7 +48,48 @@ const resolvers = {
             let catAdded = await dataSources.categoryAPI.createCategory(getNewCategory(title))
             await dataSources.curriculumAPI.createTopCategory( parentId, catAdded._id )
             return catAdded
-        }
+        },
+        
+        archiveTopCategory: async (_, { input }, { dataSources }) => {
+            const { parentId, childId } = input
+            const ret = await dataSources.curriculumAPI.archiveTopCategory(parentId, childId)
+            console.log("archive: ", ret)
+            return ret.value;
+        },
+
+        unarchiveTopCategory: async (_, { input }, { dataSources }) => {
+            const { parentId, childId } = input
+            const ret = await dataSources.curriculumAPI.unarchiveTopCategory(parentId, childId)
+            console.log("unarchive: ", ret)
+            return ret.value
+        },
+        
+        moveTopCategoryTo: async (_, { input }, { dataSources }) => {
+            const { parentId, childId, index } = input
+            const { modifiedCount } = await dataSources.curriculumAPI.removeTopCategory(parentId, childId);
+            let ret = undefined;
+            if (modifiedCount) {
+                ret =  (await dataSources.curriculumAPI.addTopCategoryAt(parentId, childId, index)).value
+            }
+            else {
+                ret = await dataSources.categoryAPI.getCategoryById(parentId);
+            }
+            return ret
+        },
+
+        moveArchTopCategoryTo: async (_, { input }, { dataSources }) => {
+            const { parentId, childId, index } = input
+            const { modifiedCount } = await dataSources.curriculumAPI.removeArchTopCategory(parentId, childId);
+            let ret = undefined;
+            if (modifiedCount) {
+                ret =  (await dataSources.curriculumAPI.addArchTopCategoryAt(parentId, childId, index)).value
+            }
+            else {
+                ret = await dataSources.categoryAPI.getCategoryById(parentId);
+            }
+            return ret
+        },
+
     },
 
     Curriculum: {

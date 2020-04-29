@@ -22,12 +22,9 @@ function MainPortal(props) {
         else setDefaultArt('')
     }
     
-    const handleArtChange = (art) => {
-        setDefaultArt(art);
-    }
-
     const commonProps = {
-        schoolid: selectedSchool.username,
+        schoolId: selectedSchool._id,
+        schoolun: selectedSchool.username,
         arts: selectedSchool.arts, 
         defaultArt: defaultArt,
         setDefaultArt: setDefaultArt

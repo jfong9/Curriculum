@@ -8,15 +8,19 @@ const MongoObjectIdType = new GraphQLScalarType({
     name: 'MongoObjectId',
     description: 'MongoDb ObjectId type',
     serialize(value) {
-        return value.toHexString();
+        //outgoing to client
+        console.log("serialize", value, typeof value)
+        return new ObjectId(value);
     }, 
 
     parseValue(value) {
-        console.log(value)
-        return new ObjectId(value)//value.toString();        
+        //incoming from client
+        console.log("parseValue", value, typeof value)
+        return new ObjectId(value);        
     },
 
     parseLiteral(ast) {
+        console.log("parseLiteral");
         if (ast.kind === Kind.STRING) {
             return new ObjectId(ast.value)
         }

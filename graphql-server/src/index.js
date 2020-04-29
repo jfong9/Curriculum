@@ -57,7 +57,11 @@ MongoClient.connect(
             curriculumAPI: new CurriculumAPI(db.collection('curriculum')),
             categoryAPI: new CategoryAPI(db.collection('categories')),
             categoryItemsAPI: new CategoryItemsAPI(db.collection('categoryItems'))
-        })
+        }),
+        cors: { 
+            origin: '*',
+            credentials: true
+        }
     });
     
     server.listen(port).then(({url}) => {

@@ -65,7 +65,7 @@ class Sidebar extends React.Component{
                 </Link>
                 <Link to={{pathname:`${this.props.match.url}/Students`,
                            state: {
-                               schoolid: selectedSchool.username
+                               schoolun: selectedSchool.username
                            }}}>
                     <button>Students </button>
                 </Link>

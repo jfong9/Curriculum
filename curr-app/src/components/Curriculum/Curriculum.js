@@ -5,6 +5,8 @@ import { Query } from 'react-apollo'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import ArtDropdown from 'components/ArtDropdown'
+import { withApollo } from 'react-apollo'
+import * as curriculumActions from 'actions/curriculumActions'
 
 const INFO_QUERY = gql`
     query getSensitiveInfo {
@@ -12,7 +14,6 @@ const INFO_QUERY = gql`
         # info: regularInfo
     }
 `
-
 class Curriculum extends React.Component {
     constructor(props) {
         super(props)
@@ -28,7 +29,8 @@ class Curriculum extends React.Component {
         this.setState({show: showModal});
     }
 
-    showModal = () => {
+    showModal = (event) => {
+        console.log('button:', event.target.name);
         //console.log("cat list", show)
         this.setShow(true);
     }
@@ -43,26 +45,34 @@ class Curriculum extends React.Component {
         this.setShow(false);
     }
 
+    handleCurriculumResponse(curriculum) {
+        let topCategories = [];
+        if (curriculum) {
+            topCategories = curriculum.topCategories;
+        }
+        this.setState( {topCategories} );
+    }
+
     componentDidMount() {
-        const {schoolun} = this.props;
-        // console.log("curriculum",this.props);
-        let {topcats, fullcurric} = this.GetTopCatsFromHTTPRequest(schoolun);
-        this.setState( {topCategories: topcats, fullCurriculum: fullcurric} );
+        const {schoolId, defaultArt } = this.props;
+        // console.log("s", defaultArt, schoolId);
+        // console.log("client", client)
+        this.GetTopCatsFromQuery(schoolId, defaultArt)
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const {schoolun} = this.props;
-        const {toCurricMain} = this.state;
-        if (prevProps.schoolun !== schoolun && schoolun !== '' ) {
-            let {topcats, fullcurric} = this.GetTopCatsFromHTTPRequest(schoolun);
-            this.setState( {topCategories: topcats, fullCurriculum: fullcurric, toCurricMain: true} );
+        const {schoolId, defaultArt } = this.props;
+        if ((prevProps.schoolId !== schoolId && schoolId !== '') || 
+            (prevProps.defaultArt !== defaultArt && defaultArt !== '')) {
+            this.GetTopCatsFromQuery(schoolId, defaultArt)
         }
     }
 
-    GetTopCatsFromHTTPRequest(schoolun) {
-        let curric = []
-        let topcats = []
-        return  { topcats, curric }
+    async GetTopCatsFromQuery(schoolId, art) {
+        const { client } = this.props;
+        const curriculum = await curriculumActions.queryCurriculum(client, schoolId, art)
+        console.log(curriculum)
+        this.handleCurriculumResponse(curriculum);
     }
 
     render() {
@@ -70,7 +80,9 @@ class Curriculum extends React.Component {
         const {show} = this.state;
         return (
             <div>
-                <button onClick={this.showModal}>add cat</button>
+                <button name='addTopCat' onClick={this.showModal}>
+                    add cat
+                </button>
                 <Query query={INFO_QUERY}>
                     { ( {loading, error, data} ) => {
                             if (loading) return <div>Loading Curr</div>
@@ -80,6 +92,7 @@ class Curriculum extends React.Component {
                         }
                     }
                 </Query>
+                
                 <CategoryInput show={show} handleCancel={this.handleCancel} handleOK={this.handleOK}/>
                 {display}
                 <div>be cool to be able to add custom background or image</div>
@@ -97,11 +110,18 @@ class Curriculum extends React.Component {
                 <ArtDropdown {...this.props} />
                 <div>Click the Gray Links</div>
                 {topCategories.map(c => {
-                    return (
-                        <Link key={c} color='White' to={`${this.props.match.url}/${c}`}>
-                            <div key={c} style={{color:'Gray'}}>{c}</div>
-                        </Link>
-                    )
+                    let link = null;
+                    if (c) {
+                        link =  (
+                            <div key={c._id}>
+                                 {c.title}
+                            </div> 
+                            
+                            // <Link key={c._id} color='White' to={`${this.props.match.url}/${c.title}`}>
+                            //     <div key={c._id} style={{color:'Gray'}}>{c.title}</div>
+                            // </Link>
+                    )}
+                    return link;
                 })}
                 <div>Top Category Only</div>
                 <div>-dives into the category's sub cats/items</div>
@@ -110,4 +130,4 @@ class Curriculum extends React.Component {
     }
 }
 
-export default Curriculum
+export default withApollo(Curriculum)

@@ -156,7 +156,7 @@ class CategoryAPI extends MongoDataSource {
     }
 
     async addCurrCategoryItem(parentId, categoryItemId) {
-        return addIdToArrayAt({
+        return addIdToArray({
             collection: this.collection,
             arrayName: "currentItems",
             parentId,
@@ -165,7 +165,7 @@ class CategoryAPI extends MongoDataSource {
     }
 
     async addArchCategoryItem(parentId, categoryItemId) {
-        return addIdToArrayAt({
+        return addIdToArray({
             collection: this.collection,
             arrayName: "archivedItems",
             parentId,
