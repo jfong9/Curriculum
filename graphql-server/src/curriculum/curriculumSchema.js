@@ -5,7 +5,8 @@ const { gql } = require('apollo-server');
 
 const typeDefs = gql`
     extend type Query {
-        curriculum(input: CurriculumInput!): Curriculum 
+        curriculum(input: CurriculumInput!): Curriculum
+        curriculumById(input: MongoObjectId!): Curriculum 
     }
 
     extend type Mutation {
@@ -16,6 +17,11 @@ const typeDefs = gql`
         moveArchTopCategoryTo(input: MoveInput!) : Curriculum!
         archiveTopCategory(input: MoveInput!) : Curriculum!
         unarchiveTopCategory(input: MoveInput!) : Curriculum!
+        
+        #DANGEROUS will delete category, subcategories, and items. 
+        #will also have to consider purging students' references
+        delCurrTopCategory(input: DeleteInput!): Curriculum! 
+        delArchTopCategory(input: DeleteInput!): Curriculum! 
     } 
 
     input CurriculumInput {
@@ -30,8 +36,6 @@ const typeDefs = gql`
         topCategories: [Category]
         archivedTopCategories: [Category]
     }
-
-
 `
 
 module.exports = typeDefs

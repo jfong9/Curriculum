@@ -24,6 +24,11 @@ const typeDefs = gql`
        
         archiveChildCategory(input: MoveInput!) : Category!
         unarchiveChildCategory(input: MoveInput!) : Category!
+
+        delCurrChildCategory(input: DeleteInput!) : Category!
+        delArchChildCategory(input: DeleteInput!) : Category!
+
+        editCurrCategory(input: CategoryInput!) : Category!
     }
 
     type Category {
@@ -42,23 +47,6 @@ const typeDefs = gql`
         parentId: MongoObjectId!
         title: String!
         index: Int
-    }
-    input MoveInput {
-        parentId: MongoObjectId!
-        childId: MongoObjectId!
-        index: Int
-    }
-
-    input CategoryItemInput {
-        parentId: MongoObjectId!
-        title: String!
-        index: Int
-    }
-    
-    type CategoryItem {
-        _id: MongoObjectId!
-        parentid: MongoObjectId
-        title: String
     }
 `
 module.exports = typeDefs

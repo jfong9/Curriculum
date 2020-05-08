@@ -1,36 +1,42 @@
 
 import gql from 'graphql-tag'
+import { useQuery, useMutation } from '@apollo/react-hooks'
 
-const CURRICULUM_QUERY = gql`
-    query curriculum($input: CurriculumInput!) {
-        curriculum(input: $input) {
-            topCategories {
-                _id
-                title
-            }
-            archivedTopCategories {
-                _id
-                title
-            }
+const CURRIC_OUTPUT = gql`
+    fragment curric_output on Curriculum {
+        _id
+        topCategories {
+            _id
+            title
+        }
+        archivedTopCategories{
+            _id
+            title
         }
     }
 `
-export function queryCurriculum(client, schoolId, art) {
-    if (!schoolId || !art) return new Promise(() => {});
-    let input = { schoolId, art}
-    return client.query({
-        "query": CURRICULUM_QUERY,
-        "operationName": "curriculum",
-        "variables": { input }
-    })
-    .then( res => res.data)
-    .then( data => data.curriculum)
-    .catch(console.error)
-    .finally( () => {
-        client.resetStore();
-    })
-}
 
-export function mutateCreateTopCategory(client, parentId, title) {
-
-}
+export const GET_CURRICULUM = gql`
+    query curriculum($input: CurriculumInput!) {
+        curriculum(input: $input) {
+            ...curric_output
+        }
+    }
+    ${CURRIC_OUTPUT}
+`
+export const CREATE_TOP_CAT = gql`
+    mutation createTopCategory($input: CategoryInput!) {
+        createTopCategory(input: $input) {
+          _id
+          title
+        }
+    }
+`
+export const MOVE_TOP_CAT = gql`
+    mutation moveTopCategoryTo($input: MoveInput!) {
+        moveTopCategoryTo(input: $input) {
+            ...curric_output
+        }
+    }
+    ${CURRIC_OUTPUT}
+`

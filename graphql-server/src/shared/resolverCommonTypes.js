@@ -20,8 +20,9 @@ const MongoObjectIdType = new GraphQLScalarType({
     },
 
     parseLiteral(ast) {
-        console.log("parseLiteral");
+        console.log("parseLiteral", ast.kind, Kind.STRING);
         if (ast.kind === Kind.STRING) {
+            console.log("converting", ast.value)
             return new ObjectId(ast.value)
         }
         return null;

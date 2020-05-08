@@ -22,6 +22,10 @@ class CurriculumAPI extends MongoDataSource {
         )
     }
 
+    async getCurriculumById(id) {
+        return await this.findOneById(id);
+    }
+
     async createCurriculum(curriculum) {
         let result =  await this.collection.insertOne(curriculum)
         return result.ops[0];
@@ -61,6 +65,15 @@ class CurriculumAPI extends MongoDataSource {
         return removeIdFromArray( {
             collection: this.collection,
             arrayName: 'topCategories', 
+            parentId,
+            childId
+        })
+    }
+
+    async removeArchTopCategory(parentId, childId) {
+        return removeIdFromArray( {
+            collection: this.collection,
+            arrayName: 'archivedTopCategories', 
             parentId,
             childId
         })

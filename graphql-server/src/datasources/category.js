@@ -2,7 +2,7 @@
 'use strict'
 
 const { MongoDataSource } = require('apollo-datasource-mongodb')
-const { moveIdBtArrays, addIdToArrayAt} = require('../datasources/sharedOperations')
+const { moveIdBtArrays, addIdToArrayAt, addIdToArray, editTitle} = require('../datasources/sharedOperations')
 const { ObjectId } = require('bson')
 
 const ARCHIVED = 'archivedChildren'
@@ -27,9 +27,9 @@ class CategoryAPI extends MongoDataSource {
 
     async getCurrCategoryElements( rootId ) {
         let rootCategory = await this.getCategoryById(rootId)
-        let ret = await this.getAllCategoryChildren( rootId, CURRENT);
-        ret.unshift(rootCategory);
-        return ret;
+        let res = await this.getAllCategoryChildren( rootId, CURRENT);
+        res.unshift(rootCategory);
+        return res;
     }
 
     async getArchCategoryElements( rootId ) {
@@ -187,6 +187,14 @@ class CategoryAPI extends MongoDataSource {
             arrayName: 'currentChildren', 
             parentId,
             childId
+        })
+    }
+
+    async editCurrCategory(parentId, title) {
+        return editTitle({
+            collection: this.collection,
+            id: parentId,
+            title
         })
     }
 }
