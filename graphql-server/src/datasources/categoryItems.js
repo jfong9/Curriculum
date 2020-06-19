@@ -37,10 +37,10 @@ class CategoryItemsAPI extends MongoDataSource {
         return await this.findManyByIds(items)
     }
 
-    async editCategoryItem(parentId, title){
+    async editCategoryItem(id, title){
          return editTitle({
             collection: this.collection,
-            id: parentId,
+            id,
             title
         })
     }

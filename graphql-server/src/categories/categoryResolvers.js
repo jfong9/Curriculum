@@ -142,9 +142,9 @@ const resolvers = {
             return res;
         },
 
-        editCurrCategory: async (_, { input }, { dataSources }) => {
-           const { parentId, title } = input
-           return (await dataSources.categoryAPI.editCurrCategory(parentId, title)).value;
+        editCategory: async (_, { input }, { dataSources }) => {
+           const { id, title } = input
+           return (await dataSources.categoryAPI.editCategory(id, title)).value;
         }
     },
 

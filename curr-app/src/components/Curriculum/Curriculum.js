@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import { Link, Redirect} from 'react-router-dom'
-import CategoryInput from 'components/CategoryInput';
+import React from 'react'
 import { Query, withApollo }from 'react-apollo'
-import { useQuery, useMutation } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import ArtDropdown from 'components/ArtDropdown'
-import {GET_CURRICULUM, CREATE_TOP_CAT, MOVE_TOP_CAT} from 'actions/curriculumActions'
+import { GET_CURRICULUM } from 'actions/curriculumActions'
+import DisplayTopCategories from './DisplayTopCategories'
+import CreateTopCatButton from './CreateTopCatButton'
 
 const INFO_QUERY = gql`
     query getSensitiveInfo {
@@ -13,59 +13,30 @@ const INFO_QUERY = gql`
         # info: regularInfo
     }
 `
-function Curriculum({schoolId, defaultArt, ...props}) {
-    const [show, setShow] = useState(false);
-    const curricInput = {
-        "input": {
-            schoolId, 
-            art: defaultArt
-        }
-    }
 
+function Curriculum({schoolId, defaultArt, ...props}) {
+    const curriculumQueryInput = getCurriculumQueryInput(schoolId, defaultArt); 
     const isInitialized = () => {
         return schoolId && defaultArt 
     }
 
     const { loading, error, data: curricData } = useQuery(GET_CURRICULUM, {
-        variables: curricInput,
+        variables: curriculumQueryInput,
         skip: !isInitialized() 
     });
-
-    const [createTopCategory, { data: createCatData }] = useMutation(CREATE_TOP_CAT)//,
 
     if (loading) return null;
     if (error) return `Something went wrong: ${error}`;
     if (!isInitialized()) return null;
-
-    const showModal = (event) => {
-        console.log('button:', event.target.name);
-        setShow(true);
-    }
-
-    const handleOK = async ( {title} ) => {
-        const parentId = curricData.curriculum._id;
-        const input = {
-            "input": { 
-                "parentId": parentId,
-                "title": title
-            }
-        }
-        createTopCategory({ 
-            variables: input,
-            refetchQueries: [{
-                query: GET_CURRICULUM,
-                variables: curricInput
-            }]
-        })
-        setShow(false)
-    }
-
-    const handleCancel = async (data) => {
-        setShow(false);
+    
+    const hasCurriculumData = () => {
+        return (curricData && 
+               curricData.curriculum &&
+               curricData.curriculum._id
+        )
     }
 
     const getTopCategory = () => {
-        if (!curricData.curriculum) return [];
         let {topCategories} = curricData.curriculum;
         if (!topCategories) return [];
         return topCategories;
@@ -73,9 +44,19 @@ function Curriculum({schoolId, defaultArt, ...props}) {
 
     return (
         <div>
-            <button name='addTopCat' onClick={showModal}>
-                add cat
-            </button>
+            {hasCurriculumData() && 
+                <React.Fragment>
+                    <CreateTopCatButton {...props} curricData={curricData} queryInput={curriculumQueryInput}/>
+                    <ArtDropdown {...props} defaultArt={defaultArt} />
+                    <DisplayTopCategories 
+                        {...props} 
+                        topCategories={getTopCategory()} 
+                        parentId={curricData.curriculum._id}
+                        currInputVars={curriculumQueryInput}
+                    />
+                </React.Fragment>}
+            <div>be cool to be able to add custom background or image</div>
+            {/* this is just a sample query */}
             <Query query={INFO_QUERY}>
                 { ( {loading, error, data} ) => {
                         if (loading) return <div>Loading Curr</div>
@@ -85,89 +66,17 @@ function Curriculum({schoolId, defaultArt, ...props}) {
                     }
                 }
             </Query>
-            <ArtDropdown {...props} />
-            <CategoryInput show={show} handleCancel={handleCancel} handleOK={handleOK} />
-            {curricData.curriculum &&<DisplayTopCategories 
-                {...props} 
-                defaultArt={defaultArt} 
-                topCategories={getTopCategory()} 
-                parentId={curricData.curriculum._id}
-                currInputVars={curricInput}
-            />}
-            <div>be cool to be able to add custom background or image</div>
-            <div>Remove Item</div>
-            <div>Remove Category</div>
         </div>
     )
 }
 
-function DisplayTopCategories({topCategories, parentId, ...props}) {
-    function moveIndexDown(index) {
-        const length = topCategories.length
-        let newIndex = 0
-        if (index > length) newIndex = length -1;
-        else if (index > 0) newIndex = index - 1;
-        return newIndex
-    }
-
-    function moveIndexUp(index) {
-        const length = topCategories.length
-        let newIndex = 0
-        if (index > (length - 1)) newIndex = length - 1;
-        else if (index >= 0) newIndex = index + 1;
-        return newIndex
-    }
-
-    return (
-        <div>
-            <div>Click the Gray Links</div>
-            {topCategories.map( (cat, index) => {
-                let link = null;
-                if (cat) {
-                    link =  (
-                        <li key={cat._id}>
-                            {cat.title} 
-                            <MoveButton {...props} index={moveIndexDown(index)} childId={cat._id} parentId={parentId} moveQuery={MOVE_TOP_CAT}>
-                                {"↑"}
-                            </MoveButton>   
-                            <MoveButton {...props} index={moveIndexUp(index)} childId={cat._id} parentId={parentId} moveQuery={MOVE_TOP_CAT}>
-                                {"↓"}
-                            </MoveButton>  
-                        </li> 
-                        // <Link key={c._id} color='White' to={`${this.props.match.url}/${c.title}`}>
-                        //     <div key={c._id} style={{color:'Gray'}}>{c.title}</div>
-                        // </Link>
-                )}
-                return link;
-            })}
-            <div>Top Category Only</div>
-            <div>-dives into the category's sub cats/items</div>
-        </div>
-    )
-}
-
-function MoveButton({index, parentId, childId, moveQuery, ...props}) {
-    const [moveTopCategory, { data: moveCatData }] = useMutation(moveQuery)
-
-    return (
-      <button onClick={
-        () => {
-            moveTopCategory({
-                variables: {
-                    "input": {
-                        "parentId": parentId,
-                        "childId": childId,
-                        "index": index
-                    }
-                },
-            }) 
-            console.log(`${parentId} ${childId} ${index} Props: ${Object.keys(props)}`)
+function getCurriculumQueryInput(schoolId, art) {
+    return {
+        "input": {
+            schoolId, 
+            art,
         }
-      }>
-        {props.children}
-      </button>
-    
-    );
+    }
 }
 
 export default withApollo(Curriculum)

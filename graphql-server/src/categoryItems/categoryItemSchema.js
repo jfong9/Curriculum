@@ -5,9 +5,9 @@ const { gql } = require('apollo-server');
 
 const typeDefs = gql`
     extend type Mutation {
-        editCategoryItem(input: CategoryItemInput!): CategoryItem
+        editCategoryItem(input: EditInput!): CategoryItem
     }
-    
+
     input CategoryItemInput {
         parentId: MongoObjectId!
         title: String!

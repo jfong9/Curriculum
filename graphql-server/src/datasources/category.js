@@ -190,10 +190,10 @@ class CategoryAPI extends MongoDataSource {
         })
     }
 
-    async editCurrCategory(parentId, title) {
+    async editCategory(id, title) {
         return editTitle({
             collection: this.collection,
-            id: parentId,
+            id,
             title
         })
     }

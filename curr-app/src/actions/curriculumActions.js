@@ -1,6 +1,5 @@
 
 import gql from 'graphql-tag'
-import { useQuery, useMutation } from '@apollo/react-hooks'
 
 const CURRIC_OUTPUT = gql`
     fragment curric_output on Curriculum {
@@ -35,6 +34,14 @@ export const CREATE_TOP_CAT = gql`
 export const MOVE_TOP_CAT = gql`
     mutation moveTopCategoryTo($input: MoveInput!) {
         moveTopCategoryTo(input: $input) {
+            ...curric_output
+        }
+    }
+    ${CURRIC_OUTPUT}
+`
+export const DELETE_TOP_CAT = gql`
+    mutation delCurrTopCategory($input: DeleteInput!) {
+        delCurrTopCategory(input: $input) {
             ...curric_output
         }
     }

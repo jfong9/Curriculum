@@ -28,7 +28,7 @@ const typeDefs = gql`
         delCurrChildCategory(input: DeleteInput!) : Category!
         delArchChildCategory(input: DeleteInput!) : Category!
 
-        editCurrCategory(input: CategoryInput!) : Category!
+        editCategory(input: EditInput!) : Category!
     }
 
     type Category {
@@ -42,7 +42,7 @@ const typeDefs = gql`
         archivedItems: [CategoryItem]
         studentSpecificItems: [CategoryItem]
     }
-    
+
     input CategoryInput {
         parentId: MongoObjectId!
         title: String!

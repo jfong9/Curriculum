@@ -20,6 +20,7 @@ const typeDefs = gql`
         
         #DANGEROUS will delete category, subcategories, and items. 
         #will also have to consider purging students' references
+        #maybe I can make a list of "truly deleted" references and do a purge later? or some kind of scheduled purge.
         delCurrTopCategory(input: DeleteInput!): Curriculum! 
         delArchTopCategory(input: DeleteInput!): Curriculum! 
     } 

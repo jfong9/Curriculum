@@ -15,6 +15,11 @@ const typeDefs = gql`
         parentId: MongoObjectId!
         deleteId: MongoObjectId!
     }
+
+    input EditInput {
+        id: MongoObjectId!
+        title: String!
+    }
 `
 
 module.exports = typeDefs;
