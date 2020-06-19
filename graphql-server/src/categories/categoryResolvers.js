@@ -68,68 +68,83 @@ const resolvers = {
 
         archiveChildCategory: async (_, { input }, { dataSources }) => {
             const { parentId, childId } = input
-            const ret = await dataSources.categoryAPI.archiveChildCategory(parentId, childId)
-            console.log("archive: ", ret)
-            return ret.value;
+            const res = await dataSources.categoryAPI.archiveChildCategory(parentId, childId)
+            console.log("archive: ", res)
+            return res.value;
         },
 
         unarchiveChildCategory: async (_, { input }, { dataSources }) => {
             const { parentId, childId } = input
-            const ret = await dataSources.categoryAPI.unarchiveChildCategory(parentId, childId)
-            console.log("unarchive: ", ret)
-            return ret.value
+            const res = await dataSources.categoryAPI.unarchiveChildCategory(parentId, childId)
+            console.log("unarchive: ", res)
+            return res.value
         },
 
         moveCurrChildCategoryTo: async (_, { input }, { dataSources }) => {
             const { parentId, childId, index } = input
             const { modifiedCount } = await dataSources.categoryAPI.removeCurrChildCategory(parentId, childId);
-            let ret = undefined;
+            let res = undefined;
             if (modifiedCount) {
-                ret =  (await dataSources.categoryAPI.addCurrChildCategoryAt(parentId, childId, index)).value
+                res =  (await dataSources.categoryAPI.addCurrChildCategoryAt(parentId, childId, index)).value
             }
             else {
-                ret = await dataSources.categoryAPI.getCategoryById(parentId);
+                res = await dataSources.categoryAPI.getCategoryById(parentId);
             }
-            return ret
+            return res
         },
 
         moveCurrCategoryItemTo: async (_, { input }, { dataSources }) => {
             const { parentId, childId, index } = input
             const { modifiedCount } = await dataSources.categoryAPI.removeCurrCategoryItem(parentId, childId);
-            let ret = undefined;
+            let res = undefined;
             if (modifiedCount) {
-                ret =  (await dataSources.categoryAPI.addCurrCategoryItemAt(parentId, childId, index)).value
+                res =  (await dataSources.categoryAPI.addCurrCategoryItemAt(parentId, childId, index)).value
             }
             else {
-                ret = await dataSources.categoryAPI.getCategoryItemById(parentId);
+                res = await dataSources.categoryAPI.getCategoryItemById(parentId);
             }
-            return ret
+            return res
         },
 
         moveArchChildCategoryTo: async (_, { input }, { dataSources }) => {
             const { parentId, childId, index } = input
             const { modifiedCount } = await dataSources.categoryAPI.removeArchChildCategory(parentId, childId);
-            let ret = undefined;
+            let res = undefined;
             if (modifiedCount) {
-                ret =  (await dataSources.categoryAPI.addArchChildCategoryAt(parentId, childId, index)).value
+                res =  (await dataSources.categoryAPI.addArchChildCategoryAt(parentId, childId, index)).value
             }
             else {
-                ret = await dataSources.categoryAPI.getCategoryById(parentId);
+                res = await dataSources.categoryAPI.getCategoryById(parentId);
             }
-            return ret
+            return res
         },
 
         moveArchCategoryItemTo: async (_, { input }, { dataSources }) => {
             const { parentId, childId, index } = input
             const { modifiedCount } = await dataSources.categoryAPI.removeArchCategoryItem(parentId, childId);
-            let ret = undefined;
+            let res = undefined;
             if (modifiedCount) {
-                ret =  (await dataSources.categoryAPI.addArchCategoryItemAt(parentId, childId, index)).value
+                res =  (await dataSources.categoryAPI.addArchCategoryItemAt(parentId, childId, index)).value
             }
             else {
-                ret = await dataSources.categoryAPI.getCategoryItemById(parentId);
+                res = await dataSources.categoryAPI.getCategoryItemById(parentId);
             }
-            return ret
+            return res
+        },
+
+        delCurrChildCategory: async (_, { input }, { dataSources }) => {
+            const { parentId, deleteId }  = input
+            const { modifiedCount } = await dataSources.categoryAPI.removeCurrChildCategory(parentId, deleteId);
+            let res = await dataSources.categoryAPI.getCategoryById(parentId);
+            if ( modifiedCount ) {
+                deleteTree(dataSources, deleteId)
+            }
+            return res;
+        },
+
+        editCategory: async (_, { input }, { dataSources }) => {
+           const { id, title } = input
+           return (await dataSources.categoryAPI.editCategory(id, title)).value;
         }
     },
 
@@ -138,16 +153,16 @@ const resolvers = {
         currentChildren: async (obj, { input }, { dataSources }) => { 
             if (!obj.currentChildren) return [];
             // console.log("obj", obj)
-            let ret =  await dataSources.categoryAPI.getManyCategoriesById(obj.currentChildren)
-            // console.log("curChildren", ret)
-            return ret
+            let res =  await dataSources.categoryAPI.getManyCategoriesById(obj.currentChildren)
+            // console.log("curChildren", res)
+            return res
         },
         archivedChildren: async (obj, { input }, { dataSources }) => { 
             if (!obj.archivedChildren) return [];
             // console.log("obj", obj)
-            let ret =  await dataSources.categoryAPI.getManyCategoriesById(obj.archivedChildren)
-            // console.log("curChildren", ret)
-            return ret
+            let res =  await dataSources.categoryAPI.getManyCategoriesById(obj.archivedChildren)
+            // console.log("curChildren", res)
+            return res
         },
         currentItems: async (obj, { input }, { dataSources }) => {
             if (!obj.currentItems) return [];

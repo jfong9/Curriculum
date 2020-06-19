@@ -1,21 +1,7 @@
 'use strict'
 
-const { ObjectId } = require('bson');
 const { getNewCategory } = require('../shared/resolverUtils')
-
-var testCurrObj = {
-    id: "5e8bc4de6f71941f01666089", 
-    schoolid: "abcd",
-    art: "KF"
-}
-
-var testCategory = {
-    _id: ObjectId("5e8bc4de6f71941f01666089"),
-    title: "title 1",
-    currentItems: [],
-    archivedItems: [],
-    studentSpecificItems: [],
-}
+const { deleteTree } = require('../dataSources/sharedOperations')
 
 const resolvers = {
     Query: {
@@ -24,6 +10,10 @@ const resolvers = {
             console.log("1", input)
             return dataSources.curriculumAPI.getCurriculum(schoolId, art)
         },
+
+        curriculumById: async (_, { input }, { dataSources }) => {
+            return await dataSources.curriculumAPI.getCurriculumById(input);
+        }
     },
     
     Mutation: {
@@ -48,7 +38,58 @@ const resolvers = {
             let catAdded = await dataSources.categoryAPI.createCategory(getNewCategory(title))
             await dataSources.curriculumAPI.createTopCategory( parentId, catAdded._id )
             return catAdded
+        },
+        
+        archiveTopCategory: async (_, { input }, { dataSources }) => {
+            const { parentId, childId } = input
+            const res = await dataSources.curriculumAPI.archiveTopCategory(parentId, childId)
+            console.log("archive: ", res)
+            return res.value;
+        },
+
+        unarchiveTopCategory: async (_, { input }, { dataSources }) => {
+            const { parentId, childId } = input
+            const res = await dataSources.curriculumAPI.unarchiveTopCategory(parentId, childId)
+            console.log("unarchive: ", res)
+            return res.value
+        },
+        
+        moveTopCategoryTo: async (_, { input }, { dataSources }) => {
+            const { parentId, childId, index } = input
+            const { modifiedCount } = await dataSources.curriculumAPI.removeTopCategory(parentId, childId);
+            let res = undefined;
+            if (modifiedCount) {
+                res =  (await dataSources.curriculumAPI.addTopCategoryAt(parentId, childId, index)).value
+            }
+            else {
+                res = await dataSources.curriculumAPI.getCurriculumById(parentId);
+            }
+            return res
+        },
+
+        moveArchTopCategoryTo: async (_, { input }, { dataSources }) => {
+            const { parentId, childId, index } = input
+            const { modifiedCount } = await dataSources.curriculumAPI.removeArchTopCategory(parentId, childId);
+            let res = undefined;
+            if (modifiedCount) {
+                res =  (await dataSources.curriculumAPI.addArchTopCategoryAt(parentId, childId, index)).value
+            }
+            else {
+                res = await dataSources.curriculumAPI.getCurriculumById(parentId);
+            }
+            return res
+        },
+
+        delCurrTopCategory: async (_, { input }, { dataSources }) => {
+            const { parentId: curriculumId, deleteId: topCategoryId }  = input
+            const { modifiedCount } = await dataSources.curriculumAPI.removeTopCategory(curriculumId, topCategoryId);
+            let res = await dataSources.curriculumAPI.getCurriculumById(curriculumId);
+            if ( modifiedCount ) {
+                deleteTree(dataSources, topCategoryId)
+            }
+            return res;
         }
+
     },
 
     Curriculum: {

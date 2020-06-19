@@ -17,17 +17,15 @@ function MainPortal(props) {
     const [selectedSchool, setSelected] = useState({});
     const [defaultArt, setDefaultArt] = useState('');
     const handleSchoolChange = (school) => {
+        console.log("mainportal schoolchange")
         setSelected(school)
         if (school.arts.length > 0) setDefaultArt(school.arts[0]);
         else setDefaultArt('')
     }
     
-    const handleArtChange = (art) => {
-        setDefaultArt(art);
-    }
-
     const commonProps = {
-        schoolid: selectedSchool.username,
+        schoolId: selectedSchool._id,
+        schoolun: selectedSchool.username,
         arts: selectedSchool.arts, 
         defaultArt: defaultArt,
         setDefaultArt: setDefaultArt

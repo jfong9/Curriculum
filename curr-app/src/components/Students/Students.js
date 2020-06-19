@@ -14,22 +14,22 @@ class Students extends React.Component {
     }
 
     componentDidMount() {
-        const {schoolid} = this.props;
-        // console.log("students: schoolid:", schoolid);
-        this.SetStudentsFromHTTPRequest(schoolid);
+        const {schoolun} = this.props;
+        // console.log("students: schoolun:", schoolun, schoolid);
+        this.SetStudentsFromHTTPRequest(schoolun);
     }
     componentDidUpdate(prevProps) {
-        const {schoolid} = this.props;
-        // console.log("got here too", schoolid, prevProps.schoolid)
-        if (prevProps.schoolid !== schoolid && schoolid !== '' ) {
-            this.SetStudentsFromHTTPRequest(schoolid)
+        const {schoolun} = this.props;
+        // console.log("got here too", schoolun, prevProps.schoolun)
+        if (prevProps.schoolun !== schoolun && schoolun !== '' ) {
+            this.SetStudentsFromHTTPRequest(schoolun)
         }
     }
-    async SetStudentsFromHTTPRequest(schoolid){
+    async SetStudentsFromHTTPRequest(schoolun){
         // console.log(students);
-        // if (schoolid === '') return []
-        let students = await studentActions.getStudentsBySchool(schoolid);
-        // [schoolStudents] = students.filter(s => s.schoolun === schoolid).map(s => s.students)
+        // if (schoolun === '') return []
+        let students = await studentActions.getStudentsBySchool(schoolun);
+        // [schoolStudents] = students.filter(s => s.schoolun === schoolun).map(s => s.students)
         if (!students) return []
         // console.log("schoolstudents", schoolStudents)
         this.setState( {students} );

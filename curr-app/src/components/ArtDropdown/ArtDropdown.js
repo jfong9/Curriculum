@@ -8,6 +8,7 @@ const ArtDropdown = (props) => {
     
     const handleChange = (e) => {
         const {value} = e.target
+        console.log("artDropDown", value)
         setArt(value)
         props.setDefaultArt(value)
     }

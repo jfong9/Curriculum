@@ -1,7 +1,7 @@
 'use strict'
 
 const { MongoDataSource } = require('apollo-datasource-mongodb')
-const { moveId } = require('../datasources/sharedOperations')
+const { moveIdBtArrays, removeIdFromArray, addIdToArrayAt } = require('../datasources/sharedOperations')
 
 class CurriculumAPI extends MongoDataSource {
     constructor(args) {
@@ -13,13 +13,17 @@ class CurriculumAPI extends MongoDataSource {
     }
 
     async getCurriculum(schoolId, art) {
-        console.log("getCurr", schoolId, art)
+        console.log("getCurr", schoolId, typeof schoolId)
         return await this.collection.findOne(
             {
                 schoolId: schoolId,
                 art: art
             }
         )
+    }
+
+    async getCurriculumById(id) {
+        return await this.findOneById(id);
     }
 
     async createCurriculum(curriculum) {
@@ -38,7 +42,7 @@ class CurriculumAPI extends MongoDataSource {
     }
     
     async archiveTopCategory(parentId, childId) {
-       return await moveId({
+       return await moveIdBtArrays({
             collection: this.collection,
             id: parentId,
             childId: childId,
@@ -48,7 +52,7 @@ class CurriculumAPI extends MongoDataSource {
     }
 
     async unarchiveTopCategory(parentId, childId) {
-       return await moveId({
+       return await moveIdBtArrays({
             collection: this.collection,
             id: parentId,
             childId: childId,
@@ -57,16 +61,43 @@ class CurriculumAPI extends MongoDataSource {
        })
     }
 
-    async removeTopCategory(currId, categoryId) {
-        return await this.collection.updateOne(
-            { _id: currId },
-            { $pull: {
-                topCategories: categoryId
-            }}
-        )
+    async removeTopCategory(parentId, childId) {
+        return removeIdFromArray( {
+            collection: this.collection,
+            arrayName: 'topCategories', 
+            parentId,
+            childId
+        })
     }
 
+    async removeArchTopCategory(parentId, childId) {
+        return removeIdFromArray( {
+            collection: this.collection,
+            arrayName: 'archivedTopCategories', 
+            parentId,
+            childId
+        })
+    }
 
+    async addTopCategoryAt(parentId, childId, pos) {
+        return addIdToArrayAt({
+            collection: this.collection,
+            arrayName: "topCategories",
+            parentId,
+            childId,
+            pos 
+        })
+    }
+
+    async addArchTopCategoryAt(parentId, childId, pos) {
+        return addIdToArrayAt({
+            collection: this.collection,
+            arrayName: "archivedTopCategories",
+            parentId,
+            childId,
+            pos 
+        })
+    }
 }
 
 module.exports = CurriculumAPI

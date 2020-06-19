@@ -1,8 +1,7 @@
 'use strict'
 
 const { MongoDataSource } = require('apollo-datasource-mongodb')
-
-const { ObjectId } = require('bson')
+const { editTitle } = require('../datasources/sharedOperations')
 
 class CategoryItemsAPI extends MongoDataSource {
     constructor(args) {
@@ -36,6 +35,14 @@ class CategoryItemsAPI extends MongoDataSource {
     
     async getItems(items) {
         return await this.findManyByIds(items)
+    }
+
+    async editCategoryItem(id, title){
+         return editTitle({
+            collection: this.collection,
+            id,
+            title
+        })
     }
 }
 

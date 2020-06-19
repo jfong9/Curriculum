@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
-import { Link, Redirect} from 'react-router-dom'
-import CategoryInput from 'components/CategoryInput';
-import { Query } from 'react-apollo'
+import React from 'react'
+import { Query, withApollo }from 'react-apollo'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import ArtDropdown from 'components/ArtDropdown'
+import { GET_CURRICULUM } from 'actions/curriculumActions'
+import DisplayTopCategories from './DisplayTopCategories'
+import CreateTopCatButton from './CreateTopCatButton'
 
 const INFO_QUERY = gql`
     query getSensitiveInfo {
@@ -13,101 +14,69 @@ const INFO_QUERY = gql`
     }
 `
 
-class Curriculum extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            topCategories: [],
-            fullCurriculum: [],
-            show: false, 
-            toCurricMain: false
-        }
+function Curriculum({schoolId, defaultArt, ...props}) {
+    const curriculumQueryInput = getCurriculumQueryInput(schoolId, defaultArt); 
+    const isInitialized = () => {
+        return schoolId && defaultArt 
     }
 
-    setShow(showModal) {
-        this.setState({show: showModal});
+    const { loading, error, data: curricData } = useQuery(GET_CURRICULUM, {
+        variables: curriculumQueryInput,
+        skip: !isInitialized() 
+    });
+
+    if (loading) return null;
+    if (error) return `Something went wrong: ${error}`;
+    if (!isInitialized()) return null;
+    
+    const hasCurriculumData = () => {
+        return (curricData && 
+               curricData.curriculum &&
+               curricData.curriculum._id
+        )
     }
 
-    showModal = () => {
-        //console.log("cat list", show)
-        this.setShow(true);
+    const getTopCategory = () => {
+        let {topCategories} = curricData.curriculum;
+        if (!topCategories) return [];
+        return topCategories;
     }
 
-    handleOK = (data) => {
-        // console.log("Curric handleOK:", data);
-        this.setShow(false);
-    }
-
-    handleCancel = (data) => {
-        // console.log("Curric handleCancel:", data);
-        this.setShow(false);
-    }
-
-    componentDidMount() {
-        const {schoolun} = this.props;
-        // console.log("curriculum",this.props);
-        let {topcats, fullcurric} = this.GetTopCatsFromHTTPRequest(schoolun);
-        this.setState( {topCategories: topcats, fullCurriculum: fullcurric} );
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        const {schoolun} = this.props;
-        const {toCurricMain} = this.state;
-        if (prevProps.schoolun !== schoolun && schoolun !== '' ) {
-            let {topcats, fullcurric} = this.GetTopCatsFromHTTPRequest(schoolun);
-            this.setState( {topCategories: topcats, fullCurriculum: fullcurric, toCurricMain: true} );
-        }
-    }
-
-    GetTopCatsFromHTTPRequest(schoolun) {
-        let curric = []
-        let topcats = []
-        return  { topcats, curric }
-    }
-
-    render() {
-        let display = <this.DisplayTopCategories/>;
-        const {show} = this.state;
-        return (
-            <div>
-                <button onClick={this.showModal}>add cat</button>
-                <Query query={INFO_QUERY}>
-                    { ( {loading, error, data} ) => {
-                            if (loading) return <div>Loading Curr</div>
-                            if (error) return <div>Error curr</div>
-                            if (data.info) return <div>{data.info}</div>
-                            return null
-                        }
+    return (
+        <div>
+            {hasCurriculumData() && 
+                <React.Fragment>
+                    <CreateTopCatButton {...props} curricData={curricData} queryInput={curriculumQueryInput}/>
+                    <ArtDropdown {...props} defaultArt={defaultArt} />
+                    <DisplayTopCategories 
+                        {...props} 
+                        topCategories={getTopCategory()} 
+                        parentId={curricData.curriculum._id}
+                        currInputVars={curriculumQueryInput}
+                    />
+                </React.Fragment>}
+            <div>be cool to be able to add custom background or image</div>
+            {/* this is just a sample query */}
+            <Query query={INFO_QUERY}>
+                { ( {loading, error, data} ) => {
+                        if (loading) return <div>Loading Curr</div>
+                        if (error) return <div>Error curr</div>
+                        if (data.info) return <div>{data.info}</div>
+                        return null
                     }
-                </Query>
-                <CategoryInput show={show} handleCancel={this.handleCancel} handleOK={this.handleOK}/>
-                {display}
-                <div>be cool to be able to add custom background or image</div>
-                <div>Remove Item</div>
-                <div>Remove Category</div>
-            </div>
-        )
-    }
-    DisplayTopCategories = () => {
-        const {topCategories} = this.state
-        // console.log(topCategories);
+                }
+            </Query>
+        </div>
+    )
+}
 
-        return (
-            <div>
-                <ArtDropdown {...this.props} />
-                <div>Click the Gray Links</div>
-                {topCategories.map(c => {
-                    return (
-                        <Link key={c} color='White' to={`${this.props.match.url}/${c}`}>
-                            <div key={c} style={{color:'Gray'}}>{c}</div>
-                        </Link>
-                    )
-                })}
-                <div>Top Category Only</div>
-                <div>-dives into the category's sub cats/items</div>
-            </div>
-        )
+function getCurriculumQueryInput(schoolId, art) {
+    return {
+        "input": {
+            schoolId, 
+            art,
+        }
     }
 }
 
-export default Curriculum
+export default withApollo(Curriculum)

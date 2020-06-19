@@ -63,9 +63,55 @@ async function addIdToArray(addItemInput) {
         )
 }
 
+async function deleteMany(deleteManyInput) {
+    const { collection, itemArray } = deleteManyInput;
+    return await collection.deleteMany(
+        { 
+            _id: {
+                $in: itemArray
+        }}
+    )
+}
+
+async function editTitle(editInput) {
+    const { collection, id, title} = editInput
+    return await collection.findOneAndUpdate(
+        {_id: id },
+        { $set: {
+            title: title
+        }},
+        { returnOriginal: false }
+    )
+}
+
+async function deleteTree(dataSources, childId) {
+    console.log("deleteTree")
+    const allCategories = await dataSources.categoryAPI.getAllCategoryElements(childId);
+    const allCategoryIds = allCategories.map(cat => cat._id)
+    const allCategoryItemIds = [];
+    for (const cat of allCategories) {
+        allCategoryItemIds.push(...cat.currentItems.map(id => id))
+        allCategoryItemIds.push(...cat.archivedItems.map(id => id))
+    }
+    console.log(typeof allCategoryIds[0]) ;
+    console.log(allCategoryItemIds);
+    deleteMany({
+        collection: dataSources.categoryAPI.collection, 
+        itemArray: allCategoryIds})  
+        .then(result => console.log(`Deleted  ${result.deletedCount} item(s).`))
+        .catch(err => console.error(`Delete failed with error: ${err}`));
+    deleteMany({
+        collection: dataSources.categoryItemsAPI.collection, 
+        itemArray: allCategoryItemIds}) 
+        .then(result => console.log(`Deleted ${result.deletedCount} item(s).`))
+        .catch(err => console.error(`Delete failed with error: ${err}`));
+}
+
 module.exports = {
     moveIdBtArrays,
     removeIdFromArray,
     addIdToArrayAt,
-    addIdToArray
+    addIdToArray,
+    deleteTree,
+    editTitle,
 }
