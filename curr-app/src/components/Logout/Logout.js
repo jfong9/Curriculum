@@ -6,7 +6,7 @@ function Logout() {
     const onLogout = async () => {
         await accountsClient.logout();
         apolloClient.resetStore();
-        history.push('/login');
+        history.push('/');
     }
 
     const history = useHistory();

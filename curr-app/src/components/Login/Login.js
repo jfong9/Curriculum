@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { accountsPassword, apolloClient } from 'utils/accounts'
 import FormError from 'components/FormError'
+import loginStyle from './Login.module.css'
 
 function Login() {
     const history = useHistory();
@@ -27,28 +28,26 @@ function Login() {
         }
     }
     return (
-    <form onSubmit={onSubmit}>
-        <label>
-            Userame:
-            <input 
-                type='text' 
-                name='username' 
-                value={username} 
-                onChange={e => setUsername(e.target.value)}
-            />
-        </label>
-        <label>
-            Password:
-            <input 
-                type='password' 
-                name='password' 
-                value={password} 
-                onChange={(e) => {setPassword(e.target.value)}
-                }
-            />
-        </label>
-        <input type='submit' value='Log In'/>
-        {error && <FormError error={error}/> }
+    <form className={loginStyle.loginBox} onSubmit={onSubmit}>
+        <input
+            className={loginStyle.input}
+            type='text' 
+            placeholder='Username'
+            name='username' 
+            value={username} 
+            onChange={e => setUsername(e.target.value)}
+        />
+        <input
+            className={loginStyle.input}
+            type='password' 
+            placeholder='Password' 
+            name='password' 
+            value={password} 
+            onChange={(e) => {setPassword(e.target.value)}
+            }
+        />
+        <input className={loginStyle.submitButton} type='submit' value='Sign In'/>
+        {error && <FormError className={loginStyle.error1} error={error}/>}
     </form>
     )
 }

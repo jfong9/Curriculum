@@ -14,7 +14,6 @@ function App() {
             <BrowserRouter>
                 <div>
                     <Switch>
-                        {/* Maybe have a header here, one will be splash page, other will be loggedIn */}
                         <Route exact path = '/' component={Home}/>
                         <Route path='/signup' component={Signup}/>
                         <Route path='/login' component={Login}/>
