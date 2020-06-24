@@ -46,7 +46,7 @@ function Login() {
             onChange={(e) => {setPassword(e.target.value)}
             }
         />
-        <input className={loginStyle.submitButton} type='submit' value='Sign In'/>
+        <input className={loginStyle.submitButton} type='submit' value='Log In'/>
         {error && <FormError className={loginStyle.error1} error={error}/>}
     </form>
     )

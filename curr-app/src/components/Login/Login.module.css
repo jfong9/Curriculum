@@ -1,0 +1,25 @@
+.loginBox {
+    min-width: 500px;
+    max-width: 500px;
+    display: grid;
+    gap: 4px;
+    /* border: 5px solid rgb(80, 18, 151);
+    border-radius: 5px;
+    background-color: indigo; */
+}
+
+.input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 5px 5px;
+    background-color: rgba(255, 255, 240, 0.788);
+}
+
+.submitButton {
+    padding: 5px 5px;
+    width: 100%;
+    font-weight: bold;
+    background-color: rgb(37, 80, 68);
+    color: rgba(255, 255, 255, 0.795);
+    cursor: pointer;
+}
