@@ -19,7 +19,9 @@ function MainPortal(props) {
     const handleSchoolChange = (school) => {
         console.log("mainportal schoolchange")
         setSelected(school)
-        if (school.arts.length > 0) setDefaultArt(school.arts[0]);
+        if (school && school.arts && school.arts.length > 0) {
+            setDefaultArt(school.arts[0]);
+        }
         else setDefaultArt('')
     }
     

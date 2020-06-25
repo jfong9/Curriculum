@@ -1,0 +1,69 @@
+.toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #282c34;
+    height: 49px;
+}
+
+.link {
+    color: white;
+    text-decoration: none;
+}
+
+.logo {
+    composes: link;
+    margin-left: 0.5rem;
+    font-size: 2rem;
+}
+
+.spacer {
+    flex: 1;
+}
+
+.navigation {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    padding: 0 1rem;
+}
+
+.ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.li {
+    padding: 0 0.5em;
+}
+
+.navA {
+    composes: link; 
+}
+
+.navA:hover {
+    color: orange;
+}
+
+.navA:active {
+    color: orange;
+}
+
+@media (max-width: 768px) {
+    .navA {
+        display: none
+    }
+}
+
+@media (min-width: 769px) {
+    .toolbarButton {
+        display: none;
+    }
+
+    .logo {
+        margin: 0;
+    }
+}

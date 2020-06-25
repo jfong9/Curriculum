@@ -12,7 +12,7 @@ function App() {
     return ( 
         <ApolloProvider client = {apolloClient}>
             <BrowserRouter>
-                <div>
+                <div style={{height:'100%'}}>
                     <Switch>
                         <Route exact path = '/' component={Home}/>
                         <Route path='/signup' component={Signup}/>

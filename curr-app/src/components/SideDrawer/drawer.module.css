@@ -1,0 +1,69 @@
+.toggleButton {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-top: 2px;
+    height: 30px;
+    width: 30px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.toggleButton:focus {
+    outline: none;
+}
+
+.buttonLine {
+    width: 100%;
+    height: 10%;
+    background: white;
+}
+
+
+.sideDrawer {
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgb(4, 3, 46);
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.5);
+    position: fixed;
+    width: 360px;
+    z-index: 200;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-out;
+}
+
+.open {
+   transform: translateX(0); 
+}
+
+.ul {
+    height: 100%;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.li {
+    margin: 0.5em 0;
+}
+
+.a {
+    text-decoration: none;
+    color: rgba(233, 222, 222, 0.5);
+}
+
+.a:hover {
+    color: orange;
+}
+
+
+@media (min-width: 769px) {
+    .sideDrawer {
+        display: none;
+    }
+}
