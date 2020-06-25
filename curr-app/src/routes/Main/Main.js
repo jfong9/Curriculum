@@ -26,12 +26,12 @@ const USER_QUERY = gql`
         }
     }
 `
-function Main() {
+function Main(props) {
     const { loading, error, data } = useQuery(USER_QUERY);
     const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error: {error.message}</p>
-
+    console.log("Main Props: ", props)
     if (!data.user) {
         return <Redirect to="/" />
     }
@@ -50,7 +50,7 @@ function Main() {
     }
     return (
         <React.Fragment>
-            <Header buttonClickHandler={drawerToggleClickHandler} />
+            <Header {...props} buttonClickHandler={drawerToggleClickHandler} />
             <SideDrawer show={sideDrawerOpen}/>
             {renderDrawer()}
             <main style={{marginTop:"60px"}}>
