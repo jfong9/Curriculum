@@ -35,7 +35,7 @@ function Home() {
                 {`Curriculum Manager`}
             </div>
             <div className={homeStyles.login}>
-                <Login/>
+                <Login className={homeStyles.login}/>
                 <div>
                     {`\nDon't have an account?`} <SignupButton />
                 </div>

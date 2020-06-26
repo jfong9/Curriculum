@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './drawer.module.css'
+import styles from './MenuToggleButton.module.css'
 
-const DrawerToggleButton = props => (
+const MenuToggleButton = props => (
     <button className={styles.toggleButton} onClick={props.click}>
         <div className={styles.buttonLine}/>
         <div className={styles.buttonLine}/>
@@ -9,4 +9,4 @@ const DrawerToggleButton = props => (
     </button>
 )
 
-export default DrawerToggleButton;
+export default MenuToggleButton;

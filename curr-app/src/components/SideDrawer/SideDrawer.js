@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './drawer.module.css'
+import styles from './SideDrawer.module.css'
 const sideDrawer = props => {
     let drawerClass = styles.sideDrawer
     if (props.show) {

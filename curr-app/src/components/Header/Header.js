@@ -2,15 +2,34 @@
 
 import React from 'react'
 import Logout from 'components/Logout'
-import headerStyle from './Header.module.css'
-import Toolbar from 'components/Toolbar'
-import { HashRouter } from 'react-router-dom'
-import SideDrawer from 'components/SideDrawer/SideDrawer';
+import styles from './Header.module.css'
+import { Toolbar, ToolbarItem } from 'components/Toolbar/Toolbar'
+import { Link } from 'react-router-dom'
+import MenuToggleButton  from './MenuToggleButton'
+import { DropdownMenu, DropdownItem } from 'components/DropdownMenu/DropdownMenu'
 
 function Header(props) {
     return ( 
-        <header className={headerStyle.header}>
-            <Toolbar buttonClickHandler={props.buttonClickHandler}/>
+        <header className={styles.header}>
+            <div>
+                <nav className={styles.navigation}>
+                    <div> 
+                        <Link className={styles.logo} to={`${props.match.url}`}>
+                            <label className={styles.logo}>CM</label>
+                        </Link>
+                    </div>
+                </nav>
+            </div>
+            <div className={styles.spacer}/>
+            <div className={styles.toolbar}>
+                <Toolbar {...props} >
+                    <ToolbarItem className={styles.toolbarItem} icon={<MenuToggleButton/>}>
+                        <DropdownMenu>
+                            <DropdownItem><Logout className={styles.logout}/></DropdownItem>
+                        </DropdownMenu>
+                    </ToolbarItem>
+                </Toolbar>
+            </div>
         </header>
     )
 }

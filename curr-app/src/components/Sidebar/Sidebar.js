@@ -54,7 +54,7 @@ class Sidebar extends React.Component{
     render() {
         const { selectedSchool} = this.state
         return (
-            <div>
+            <div style={{background:'green'}}>
                 <div> Sidebar Here </div>
                 <label>schoolid:</label>
                 <select onChange={this.handleSchoolChange}>

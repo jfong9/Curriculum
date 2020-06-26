@@ -8,7 +8,6 @@ import Header from 'components/Header';
 import SideDrawer from 'components/SideDrawer/SideDrawer';
 import { useQuery } from '@apollo/react-hooks'
 import Backdrop from '../../components/Backdrop/Backdrop'
-import backdrop from '../../components/Backdrop/Backdrop'
 
 const USER_QUERY = gql`
     query getUser {
@@ -51,9 +50,9 @@ function Main(props) {
     return (
         <React.Fragment>
             <Header {...props} buttonClickHandler={drawerToggleClickHandler} />
-            <SideDrawer show={sideDrawerOpen}/>
+            {/* <SideDrawer show={sideDrawerOpen}/> */}
             {renderDrawer()}
-            <main style={{marginTop:"60px"}}>
+            <main style={{marginTop:"49px"}}>
                 <Switch>
                     <Route path='/MainPortal' render = {props =>
                             (<MainPortal {...props} user={data.user}/>)}

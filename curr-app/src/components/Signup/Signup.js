@@ -14,7 +14,7 @@ function Signup( {history} ) {
             <div className={signupStyles.slogan}>
                 {`Get started managing your curriculum today!`}
             </div>
-            <div className={signupStyles.login}>
+            <div className={signupStyles.signup}>
                 <SignUpFields history={history}/>
                 <div>
                     {`\nAlready a curriculum manager? `}

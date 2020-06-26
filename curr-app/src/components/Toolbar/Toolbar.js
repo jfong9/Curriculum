@@ -1,23 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Toolbar.module.css'
-import DrawerToggleButton from '../SideDrawer/DrawerToggleButton';
 
-export default function Toolbar (props) {
+export function Toolbar (props) {
+    console.log({children: props.children});
     return (
-        <header className={styles.toolbar}>
-            <nav className={styles.navigation}>
-                <div className={styles.toolbarButton}>
-                    <DrawerToggleButton click={props.buttonClickHandler}/>
-                </div>
-                <div><a className={styles.logo}href="/MainPortal">CM</a></div>
-                <div className={styles.spacer}/>
-                <div className={styles.navItems}>
-                    <ul className={styles.ul}>
-                        <li className={styles.li}><a className={styles.navA} href="/Curriculum">Curriculum</a></li>
-                        <li className={styles.li}><a className={styles.navA} href="/">Logout</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
+        <nav className={styles.nav}>
+            <ul className={styles.itemList}>
+                {props.children}
+            </ul>
+        </nav>
+    )
+}
+
+export function ToolbarItem (props) {
+    const [open, setOpen] = useState(false);
+    console.log("Item Created",open);
+    return (
+        <li className={styles.item}>
+            <a className={styles.iconButton} href="#"  onClick={() => setOpen(!open)}>
+                {props.icon}
+           </a> 
+           {open && props.children}
+        </li>
     )
 }
