@@ -4,7 +4,7 @@
 import './MainPortal.css';
 import React, { useState} from 'react'
 import { Switch, Route} from 'react-router-dom'
-import SideBar from 'components/Sidebar'
+import NavBar from 'components/NavBar'
 import Students from 'components/Students'
 import Curriculum from 'components/Curriculum'
 import Categories from 'components/Categories'
@@ -34,9 +34,11 @@ function MainPortal(props) {
     }
 
     return (
-        <div>
-            <SideBar {...props} handleSchoolChange = {handleSchoolChange} />
-            <div className="App">
+        <div className="App">
+            <div>
+                <NavBar {...props} handleSchoolChange = {handleSchoolChange} />
+            </div>
+            <div >
                 <header className="App-header">
                     <Switch>
                         <Route exact path='/MainPortal' component={NavPanel}/>
@@ -61,6 +63,7 @@ function MainPortal(props) {
                         You are logged in as {props.user.username}
                     </div>
                 </header>
+                {/* <small>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></small> */}
             </div>
         </div>
     )

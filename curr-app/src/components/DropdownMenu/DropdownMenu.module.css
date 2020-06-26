@@ -1,13 +1,15 @@
 @value colors: "../colors.module.css";
-@value secondary, menu_border, menu_back, menu_high from colors;
+@value primary, secondary, menu_border, menu_back, menu_high from colors;
 
 .dropdown {
+    display: flex;
     box-sizing: border-box;
     position: absolute;
     top: 48px;
     width: 300px;
     transform: translateX(-45%);
-    background-color: menu_back;
+    /* background-color: menu_back; */
+    background-color: secondary;
     border-radius: 5px;
     padding: .3rem;
     overflow:hidden;
@@ -17,6 +19,7 @@
     color: rgba(255,255,255, .785);
     height: 30px;
     display: flex;
+    width: 100%;
     align-items: center;
     border-radius: 5px;
     transition: background 500ms; 
@@ -30,3 +33,10 @@
     color: orange;
 }
 
+.iconButton {
+    width: 5px;
+    height: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

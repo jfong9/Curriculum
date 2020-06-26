@@ -8,7 +8,7 @@ const sideDrawer = props => {
     return(
         <nav className={drawerClass}>
             <ul className={styles.ul}>
-                <li className={styles.li}><a className={styles.a} href="/">Test</a></li>
+                {props.children} 
             </ul>
         </nav>
 )};

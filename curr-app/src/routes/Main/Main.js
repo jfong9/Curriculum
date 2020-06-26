@@ -5,9 +5,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import gql from 'graphql-tag'
 import MainPortal from 'routes/MainPortal'
 import Header from 'components/Header';
-import SideDrawer from 'components/SideDrawer/SideDrawer';
 import { useQuery } from '@apollo/react-hooks'
-import Backdrop from '../../components/Backdrop/Backdrop'
 
 const USER_QUERY = gql`
     query getUser {
@@ -35,24 +33,11 @@ function Main(props) {
         return <Redirect to="/" />
     }
 
-    const drawerToggleClickHandler = () => {
-        setSideDrawerOpen(!sideDrawerOpen)
-    }
-    const backdropClickHandler = () => {
-        setSideDrawerOpen(false)
-    }
 
-    const renderDrawer = () => {
-        if (sideDrawerOpen) {
-            return <Backdrop click={backdropClickHandler} />
-        }
-    }
     return (
         <React.Fragment>
-            <Header {...props} buttonClickHandler={drawerToggleClickHandler} />
-            {/* <SideDrawer show={sideDrawerOpen}/> */}
-            {renderDrawer()}
-            <main style={{marginTop:"49px"}}>
+            <Header {...props}/>
+            <main style={{marginTop:"50px"}}>
                 <Switch>
                     <Route path='/MainPortal' render = {props =>
                             (<MainPortal {...props} user={data.user}/>)}

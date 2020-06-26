@@ -23,13 +23,16 @@
     /* background-color: yellow; */
 }
 
-.iconButton {
+/* .iconButton {
+    border-radius: 50%;
+    width :20px;
+    height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 2px;
     padding: 5px;
-}
+} */
 /* @media (max-width: 768px) {
     .navA {
         display: none

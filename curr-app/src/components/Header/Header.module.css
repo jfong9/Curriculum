@@ -5,7 +5,9 @@
     left: 0;
     width: 100%;
     background-color: #282c34;
+    border-bottom: 1px solid gray;
     height: 49px;
+    z-index: 2;
 }
 
 .toolbar {

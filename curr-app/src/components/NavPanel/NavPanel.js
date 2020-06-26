@@ -6,7 +6,7 @@ class NavPanel extends React.Component {
     render() {
         return (
             <div>
-                Various navigation buttons/squares will be here, will route to same places as sideBar
+                Various navigation buttons/squares will be here, will route to same places as NavBar
             </div>
         )
     }

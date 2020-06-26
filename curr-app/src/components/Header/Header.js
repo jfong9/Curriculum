@@ -7,6 +7,7 @@ import { Toolbar, ToolbarItem } from 'components/Toolbar/Toolbar'
 import { Link } from 'react-router-dom'
 import MenuToggleButton  from './MenuToggleButton'
 import { DropdownMenu, DropdownItem } from 'components/DropdownMenu/DropdownMenu'
+// import { ReactComponent as ExitIcon} from 'assets/icons/exit.svg';
 
 function Header(props) {
     return ( 
@@ -24,6 +25,11 @@ function Header(props) {
             <div className={styles.toolbar}>
                 <Toolbar {...props} >
                     <ToolbarItem className={styles.toolbarItem} icon={<MenuToggleButton/>}>
+                        <DropdownMenu>
+                            <DropdownItem><Logout className={styles.logout}/></DropdownItem>
+                        </DropdownMenu>
+                    </ToolbarItem>
+                    <ToolbarItem className={styles.toolbarItem}>
                         <DropdownMenu>
                             <DropdownItem><Logout className={styles.logout}/></DropdownItem>
                         </DropdownMenu>
