@@ -33,11 +33,12 @@ export class InputContainer extends Component {
     };
 
     render() {
-        const {triggerText, onSubmit } = this.props;
+        const {triggerText, onSubmit, className } = this.props;
         const {isShown} = this.state;
         return (
             <React.Fragment>
                 <ModalTrigger
+                    className={className}
                     showModal={this.showModal}
                     buttonRef={(n) => (this.ModalTrigger = n)}
                     triggerText={triggerText}

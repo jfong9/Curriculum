@@ -4,6 +4,7 @@ import { EDIT_CAT } from 'actions/commonActions'
 import DeleteButton from 'components/Buttons/Delete'
 import EditButton from 'components/Buttons/Edit'
 import MoveButton from 'components/Buttons/Move'
+import style from './Curriculum.module.css'
 
 export default function DisplayTopCategories({topCategories, parentId, ...props}) {
     function moveIndexDown(index) {
@@ -23,33 +24,34 @@ export default function DisplayTopCategories({topCategories, parentId, ...props}
     }
 
     return (
-        <div>
-            <div>Click the Gray Links</div>
+        <div className={style.topCategories}>
             {topCategories.map( (cat, index) => {
                 let link = null;
                 if (cat) {
                     link =  (
-                        <li key={cat._id}>
-                            {cat.title} 
-                            <MoveButton {...props} index={moveIndexDown(index)} childId={cat._id} parentId={parentId} moveQuery={MOVE_TOP_CAT}>
-                                {"↑"}
-                            </MoveButton>   
-                            <MoveButton {...props} index={moveIndexUp(index)} childId={cat._id} parentId={parentId} moveQuery={MOVE_TOP_CAT}>
-                                {"↓"}
-                            </MoveButton> 
-                            <EditButton {...props} id={cat._id} editQuery={EDIT_CAT}/>
-                            <DeleteButton {...props}
-                                confirmText={`Delete ${cat.title} and all sub-categories?\n`}
-                                deleteQuery={DELETE_TOP_CAT}
-                                parentId={parentId}
-                                categoryId={cat._id}
-                             />
+                        <li className={style.topCatListItem} key={cat._id}>
+                            <div className={style.catTitle}>
+                                {cat.title} 
+                            </div>
+                            <div className={style.buttons}>
+                                <MoveButton {...props} index={moveIndexDown(index)} childId={cat._id} parentId={parentId} moveQuery={MOVE_TOP_CAT}>
+                                    {"↑"}
+                                </MoveButton>   
+                                <MoveButton {...props} index={moveIndexUp(index)} childId={cat._id} parentId={parentId} moveQuery={MOVE_TOP_CAT}>
+                                    {"↓"}
+                                </MoveButton> 
+                                <EditButton {...props} id={cat._id} editQuery={EDIT_CAT}/>
+                                <DeleteButton {...props}
+                                    confirmText={`Delete ${cat.title} and all sub-categories?\n`}
+                                    deleteQuery={DELETE_TOP_CAT}
+                                    parentId={parentId}
+                                    categoryId={cat._id}
+                                />
+                            </div>
                         </li> 
                 )}
                 return link;
             })}
-            <div>Top Category Only</div>
-            <div>-dives into the category's sub cats/items</div>
         </div>
     )
 }

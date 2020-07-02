@@ -1,7 +1,7 @@
 "use strict"
 
 // import logo from 'assets/images/logo.svg';
-import './MainPortal.css';
+import styles from './MainPortal.module.css';
 import React, { useState} from 'react'
 import { Switch, Route} from 'react-router-dom'
 import NavBar from 'components/NavBar'
@@ -34,38 +34,37 @@ function MainPortal(props) {
     }
 
     return (
-        <div className="App">
+        <React.Fragment>
+            <NavBar {...props} handleSchoolChange = {handleSchoolChange} />
+            
+            <div className={styles.mainPortal} >
+                <Switch>
+                    <Route exact path='/MainPortal' render = {props => 
+                        (<NavPanel {...props} {...commonProps} />)}
+                    />
+                    <Route exact path='/MainPortal/Students' render = {props =>
+                        (<Students {...props} {...commonProps} />)}
+                    />
+                    <Route exact path='/MainPortal/Students/add' render={props =>
+                        (<StudentAdd {...props} {...commonProps}/>)}
+                    />
+                    <Route exact path='/MainPortal/Students/edit' render={props =>
+                        (<StudentEdit {...props} {...commonProps}/>)}
+                    />
+                    <Route exact path='/MainPortal/Curriculum/:category' render = {props =>
+                        (<Categories {...props} {...commonProps}/>)}
+                    />
+                    <Route exact path='/MainPortal/Curriculum' render={props => 
+                        (<Curriculum {...props} {...commonProps}/>)}
+                    />
+                    <Route render= {props => (<div>Snooping around? How'd you get here</div>)}/>
+                </Switch>
+            </div>
+{/* 
             <div>
-                <NavBar {...props} handleSchoolChange = {handleSchoolChange} />
-            </div>
-            <div >
-                <header className="App-header">
-                    <Switch>
-                        <Route exact path='/MainPortal' component={NavPanel}/>
-                        <Route exact path='/MainPortal/Students' render = {props =>
-                            (<Students {...props} {...commonProps} />)}
-                        />
-                        <Route exact path='/MainPortal/Students/add' render={props =>
-                            (<StudentAdd {...props} {...commonProps}/>)}
-                        />
-                        <Route exact path='/MainPortal/Students/edit' render={props =>
-                            (<StudentEdit {...props} {...commonProps}/>)}
-                        />
-                        <Route exact path='/MainPortal/Curriculum/:category' render = {props =>
-                            (<Categories {...props} {...commonProps}/>)}
-                        />
-                        <Route exact path='/MainPortal/Curriculum' render={props => 
-                            (<Curriculum {...props} {...commonProps}/>)}
-                        />
-                        <Route render= {props => (<div>Snooping around? How'd you get here</div>)}/>
-                    </Switch>
-                    <div>
-                        You are logged in as {props.user.username}
-                    </div>
-                </header>
-                {/* <small>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></small> */}
-            </div>
-        </div>
+                You are logged in as {props.user.username}
+            </div> */}
+        </React.Fragment>
     )
 }
 

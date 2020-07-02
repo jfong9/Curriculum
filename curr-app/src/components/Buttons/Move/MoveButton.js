@@ -1,11 +1,11 @@
 import React from 'react'
 import { useMutation } from '@apollo/react-hooks'
-import modalStyle from 'utils/Modal/Modal.module.css'
+import styles from '../buttons.module.css'
 
 export default function MoveButton({index, parentId, childId, moveQuery, ...props}) {
     const [moveFunction, { data: moveCatData }] = useMutation(moveQuery)
     return (
-      <button className={modalStyle.modalTrigger}
+      <button className={styles.modalTrigger}
         onClick= {
             () => {
                 moveFunction({

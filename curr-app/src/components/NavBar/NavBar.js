@@ -1,7 +1,7 @@
 "use strict"
 
 import React, { useReducer } from 'react'
-import { Link, Route } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import * as sidebarActions from 'actions/sidebarActions'
 import styles from './NavBar.module.css'
 import SideDrawer from 'components/SideDrawer/SideDrawer'

@@ -25,15 +25,15 @@ function Header(props) {
             <div className={styles.toolbar}>
                 <Toolbar {...props} >
                     <ToolbarItem className={styles.toolbarItem} icon={<MenuToggleButton/>}>
-                        <DropdownMenu>
+                        <DropdownMenu className={styles.dropDown}>
                             <DropdownItem><Logout className={styles.logout}/></DropdownItem>
                         </DropdownMenu>
                     </ToolbarItem>
-                    <ToolbarItem className={styles.toolbarItem}>
+                    {/* <ToolbarItem className={styles.toolbarItem}>
                         <DropdownMenu>
                             <DropdownItem><Logout className={styles.logout}/></DropdownItem>
                         </DropdownMenu>
-                    </ToolbarItem>
+                    </ToolbarItem> */}
                 </Toolbar>
             </div>
         </header>

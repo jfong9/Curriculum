@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './DropdownMenu.module.css'
 
 export function DropdownMenu(props) {
-    let dropdownClass = styles.dropdown;
+    let dropdownClass = `${styles.dropdown} ${props.className}`;
     return (
         <div className={dropdownClass}>
             {props.children}

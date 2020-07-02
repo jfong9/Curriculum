@@ -6,6 +6,7 @@ import gql from 'graphql-tag'
 import MainPortal from 'routes/MainPortal'
 import Header from 'components/Header';
 import { useQuery } from '@apollo/react-hooks'
+import style from './Main.module.css'
 
 const USER_QUERY = gql`
     query getUser {
@@ -25,7 +26,7 @@ const USER_QUERY = gql`
 `
 function Main(props) {
     const { loading, error, data } = useQuery(USER_QUERY);
-    const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
+
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error: {error.message}</p>
     console.log("Main Props: ", props)
@@ -33,18 +34,17 @@ function Main(props) {
         return <Redirect to="/" />
     }
 
-
     return (
         <React.Fragment>
             <Header {...props}/>
-            <main style={{marginTop:"50px"}}>
+            <main className={style.main}>
                 <Switch>
                     <Route path='/MainPortal' render = {props =>
                             (<MainPortal {...props} user={data.user}/>)}
                     />
                     <Route render= {props => (<div>Snooping around2? How'd you get here</div>)}/>
                 </Switch>
-            </main>   
+            </main>  
         </React.Fragment>
     )
     //will I need to provide the ID in the URL to keep track of who is editing? will also be needed for student notes/etc.

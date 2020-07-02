@@ -2,12 +2,12 @@
 import modalStyle from './Modal.module.css'
 import React, { useState } from 'react'
 
-const ModalTrigger = ({triggerText, buttonRef, showModal}) => {
+const ModalTrigger = ({triggerText, buttonRef, showModal, className}) => {
     return (
         <button 
             ref={buttonRef} 
             onClick={showModal} 
-            className={modalStyle.modalTrigger} 
+            className={className} 
         >
                 {triggerText}
         </button>

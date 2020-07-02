@@ -34,11 +34,12 @@ export class ConfirmContainer extends Component {
     };
 
     render() {
-        const {triggerText, onSubmit, confirmText } = this.props;
+        const {triggerText, onSubmit, confirmText, className } = this.props;
         const {isShown} = this.state;
         return (
             <React.Fragment>
                 <ModalTrigger
+                    className={className}
                     showModal={this.showModal}
                     buttonRef={(n) => (this.ModalTrigger = n)}
                     triggerText={triggerText}

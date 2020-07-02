@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { ConfirmContainer } from 'utils/Modal/Confirm/ConfirmContainer'
+import styles from '../buttons.module.css'
 
 export default function DeleteButton( {parentId, categoryId, deleteQuery, confirmText}) {
     const [deleteFunction, { data: deleteData }] = useMutation(deleteQuery)
@@ -26,6 +27,7 @@ export default function DeleteButton( {parentId, categoryId, deleteQuery, confir
 
     return (
         <ConfirmContainer 
+            className={styles.modalTrigger}
             confirmText={confirmText}
             triggerText="X" 
             onSubmit={onSubmit} 

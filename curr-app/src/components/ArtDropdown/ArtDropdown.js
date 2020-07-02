@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 const ArtDropdown = (props) => {
-    const { arts, defaultArt } = props;
+    const { arts, defaultArt, className } = props;
     const [art, setArt] = useState(defaultArt);
 
     if (!arts) return null;
@@ -13,11 +13,11 @@ const ArtDropdown = (props) => {
         props.setDefaultArt(value)
     }
     return (
-        <div>
-            <select value={art} onChange={handleChange}>
+        <React.Fragment>
+            <select className={className} value={art} onChange={handleChange}>
                 {arts.map( (art,index) => <option key={index} value={art}>{art}</option>)}
             </select>
-        </div>
+        </React.Fragment>
     )
 }
 
