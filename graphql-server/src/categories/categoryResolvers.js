@@ -1,6 +1,7 @@
 'use strict'
 
 const { getNewCategory, getNewItem } = require('../shared/resolverUtils')
+const { deleteTree } = require('../dataSources/sharedOperations')
 
 const resolvers = {
     Query: {
@@ -101,7 +102,7 @@ const resolvers = {
                 res =  (await dataSources.categoryAPI.addCurrCategoryItemAt(parentId, childId, index)).value
             }
             else {
-                res = await dataSources.categoryAPI.getCategoryItemById(parentId);
+                res = await dataSources.categoryItemsAPI.getCategoryItemById(parentId);
             }
             return res
         },
@@ -139,6 +140,16 @@ const resolvers = {
             if ( modifiedCount ) {
                 deleteTree(dataSources, deleteId)
             }
+            return res;
+        },
+
+        delCurrCategoryItem: async (_, { input }, { dataSources }) => {
+            const { parentId, deleteId } = input;
+            const { modifiedCount } = await dataSources.categoryAPI.removeCurrCategoryItem(parentId, deleteId);
+            if ( modifiedCount ) {
+                dataSources.categoryItemsAPI.collection.remove({ _id: deleteId })
+            }
+            let res = await dataSources.categoryAPI.getCategoryById(parentId);
             return res;
         },
 

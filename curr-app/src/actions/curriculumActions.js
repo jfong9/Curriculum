@@ -14,6 +14,26 @@ const CURRIC_OUTPUT = gql`
         }
     }
 `
+const ALL_CAT_OUTPUT = gql`
+    fragment category_output on Category {
+        _id
+        title
+        currentChildren {
+            _id
+        }
+        currentItems {
+            _id
+            title
+        }
+        archivedChildren {
+            _id
+        }
+        archivedItems{
+            _id
+            title
+        }
+    }
+`
 
 export const GET_CURRICULUM = gql`
     query curriculum($input: CurriculumInput!) {
@@ -46,4 +66,13 @@ export const DELETE_TOP_CAT = gql`
         }
     }
     ${CURRIC_OUTPUT}
+`
+
+export const GET_ALL_CATS = gql`
+    query allCatMutation($input: MongoObjectId!) {
+        getAllCategoryElements(input: $input) {
+            ...category_output
+        }
+    }
+    ${ALL_CAT_OUTPUT}
 `

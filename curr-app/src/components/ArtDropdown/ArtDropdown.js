@@ -12,6 +12,7 @@ const ArtDropdown = (props) => {
         setArt(value)
         props.setDefaultArt(value)
     }
+
     return (
         <React.Fragment>
             <select className={className} value={art} onChange={handleChange}>

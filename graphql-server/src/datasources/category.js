@@ -2,7 +2,7 @@
 'use strict'
 
 const { MongoDataSource } = require('apollo-datasource-mongodb')
-const { moveIdBtArrays, addIdToArrayAt, addIdToArray, editTitle} = require('../datasources/sharedOperations')
+const { moveIdBtArrays, addIdToArrayAt, addIdToArray, editTitle, removeIdFromArray} = require('../datasources/sharedOperations')
 const { ObjectId } = require('bson')
 
 const ARCHIVED = 'archivedChildren'

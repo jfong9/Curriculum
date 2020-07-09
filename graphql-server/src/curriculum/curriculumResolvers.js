@@ -7,7 +7,7 @@ const resolvers = {
     Query: {
         curriculum: (_, { input }, { dataSources } ) => {
             const { schoolId, art } = input
-            console.log("1", input)
+            // console.log("1", input)
             return dataSources.curriculumAPI.getCurriculum(schoolId, art)
         },
 
@@ -19,7 +19,7 @@ const resolvers = {
     Mutation: {
         createCurriculum:(_, { input }, { dataSources } ) => {
             const { schoolId, art } = input
-            console.log("createCurr Input:", input)
+            // console.log("createCurr Input:", input)
             let obj =  dataSources.curriculumAPI.createCurriculum( {
                 schoolId,
                 art,

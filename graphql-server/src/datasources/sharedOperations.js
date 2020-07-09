@@ -93,8 +93,8 @@ async function deleteTree(dataSources, childId) {
         allCategoryItemIds.push(...cat.currentItems.map(id => id))
         allCategoryItemIds.push(...cat.archivedItems.map(id => id))
     }
-    console.log(typeof allCategoryIds[0]) ;
-    console.log(allCategoryItemIds);
+    // console.log(typeof allCategoryIds[0]) ;
+    // console.log(allCategoryItemIds);
     deleteMany({
         collection: dataSources.categoryAPI.collection, 
         itemArray: allCategoryIds})  

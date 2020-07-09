@@ -3,7 +3,7 @@ import styles from './Toolbar.module.css'
 import {ReactComponent as ExitIcon} from 'assets/icons/exit.svg'
 
 export function Toolbar (props) {
-    console.log({children: props.children});
+    // console.log({children: props.children});
     return (
         <nav className={styles.nav}>
             <ExitIcon/>

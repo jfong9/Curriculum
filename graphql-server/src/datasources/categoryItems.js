@@ -15,7 +15,6 @@ class CategoryItemsAPI extends MongoDataSource {
     async getCategoryItemById(id) {
         try {
             return await this.findOneById(id)
-            
         }
         catch (err) {
             console.error(`Something went wrong with getCategoryItemById: ${err}`)

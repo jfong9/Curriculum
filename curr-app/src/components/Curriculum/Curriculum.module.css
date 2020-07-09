@@ -4,7 +4,6 @@
     height: 100%;
     display: grid;
     grid-template-columns: repeat(12, 1fr ) 5px;
-    overflow-y: auto;
 }
 
 .sideMenu {
@@ -55,6 +54,10 @@
     border: 1px solid lightseagreen ;
 }
 
+.topCatListItem:hover {
+    color: rgb(161, 106, 4);
+}
+
 .catTitle {
     grid-column-start: 1;
     grid-column-end: 3;
@@ -68,6 +71,7 @@
 .catTitle:hover {
     overflow: visible;
     white-space: pre-wrap;
+    cursor: pointer;
 }
 
 .buttons {
@@ -82,12 +86,16 @@
     white-space: pre-wrap;
 }
 
-/* .curriculumDisplay {
-    width: 500px;
+.curriculumDisplay {
+    display: flex;
+    height: 100%;
+    width: 100%;
     white-space: pre-line; 
     color: white;
-    margin-left: 30px;
-} */
+    grid-column-start: 2;
+    grid-column-end: -1;
+    overflow-y: auto;
+}
 
 
 /* .subCurricItem {

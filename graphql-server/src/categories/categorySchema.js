@@ -28,6 +28,8 @@ const typeDefs = gql`
         delCurrChildCategory(input: DeleteInput!) : Category!
         delArchChildCategory(input: DeleteInput!) : Category!
 
+        delCurrCategoryItem(input: DeleteInput!) : Category!
+
         editCategory(input: EditInput!) : Category!
     }
 
