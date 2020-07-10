@@ -13,6 +13,7 @@
     text-decoration: none;
     font-size: .75em;
     align-items: center;
+    margin-left: .25em;
     /* box-sizing: border-box;
     height: 100%;
     align-items: center;
@@ -22,6 +23,7 @@
 
 .topTitleButtons {
     composes: buttons;
+    margin-top: 1.5em;
 }
 .topCatTitle{
     font-size: 2em;
@@ -87,7 +89,7 @@
 }
 
 .unarchivedArchive {
-    color: lightblue;
+    color: lightcoral;
 }
 .bullet {
     width: 25px;

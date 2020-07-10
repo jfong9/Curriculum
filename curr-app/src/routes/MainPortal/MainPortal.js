@@ -7,7 +7,6 @@ import { Switch, Route} from 'react-router-dom'
 import NavBar from 'components/NavBar'
 import Students from 'components/Students'
 import Curriculum from 'components/Curriculum'
-import Categories from 'components/Categories'
 import NavPanel from 'components/NavPanel'
 import StudentAdd from 'components/Students/StudentAdd'
 import StudentEdit from 'components/Students/StudentEdit'
@@ -29,8 +28,8 @@ function MainPortal(props) {
         schoolId: selectedSchool._id,
         schoolun: selectedSchool.username,
         arts: selectedSchool.arts, 
-        defaultArt: defaultArt,
-        setDefaultArt: setDefaultArt
+        defaultArt,
+        setDefaultArt
     }
 
     return (
@@ -50,9 +49,6 @@ function MainPortal(props) {
                     />
                     <Route exact path='/MainPortal/Students/edit' render={props =>
                         (<StudentEdit {...props} {...commonProps}/>)}
-                    />
-                    <Route exact path='/MainPortal/Curriculum/:category' render = {props =>
-                        (<Categories {...props} {...commonProps}/>)}
                     />
                     <Route exact path='/MainPortal/Curriculum' render={props => 
                         (<Curriculum {...props} {...commonProps}/>)}

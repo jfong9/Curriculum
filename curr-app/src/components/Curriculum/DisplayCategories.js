@@ -2,16 +2,15 @@ import React, { useState, useEffect } from 'react'
 import { useLazyQuery } from '@apollo/react-hooks'
 import { GET_ALL_CATS } from 'actions/curriculumActions'
 import style from './DisplayCategories.module.css'
-import { CREATE_CAT, CREATE_ITEM, DELETE_CAT, DELETE_ITEM,
-        EDIT_CAT, EDIT_CAT_ITEM, MOVE_CAT, MOVE_ITEM, 
+import { CREATE_CAT, CREATE_ITEM, DELETE_CAT, 
+        EDIT_CAT, MOVE_CAT, MOVE_ITEM, 
         MOVE_CAT_ARCH, MOVE_ITEM_ARCH,
         ARCHIVE_CAT, ARCHIVE_ITEM, UNARCHIVE_CAT, UNARCHIVE_ITEM  } from 'actions/commonActions'
 import DeleteButton from 'components/Buttons/Delete'
-import EditButton from 'components/Buttons/Edit'
 import CreateButton from 'components/Buttons/Create'
 import ArchiveButton from 'components/Buttons/Archive'
-import MoveButton, {moveIndexDown, moveIndexUp} from 'components/Buttons/Move/MoveButton'
-import Bullet from './Bullet'
+import CategoryItems from './CategoryItems'
+import CategoryButtons from './CategoryButtons'
 
 export default function DisplayCategories({selectedCategory}) {
     const [catMap, setMap] = useState(new Map()) 
@@ -52,8 +51,8 @@ export default function DisplayCategories({selectedCategory}) {
         return "Top category mismatch. Contact host.";
     } 
 
-    const FormattedCategories = () => ( 
-        <React.Fragment>
+    return (
+        <div className={style.displayCategories}>
             <Category
                 key={topCategory._id}
                 titleClass={style.topCatTitle}
@@ -65,16 +64,9 @@ export default function DisplayCategories({selectedCategory}) {
                     <CreateButtons parentId={topCategory._id} refetchInput={{"input": selectedCategory}} refetchQuery={GET_ALL_CATS}/> 
                 </div>
             </Category>
-        </React.Fragment>
-    )
-
-    return (
-        <div className={style.displayCategories}>
-            <FormattedCategories/>
         </div>
     )
 }
-
 
 const Category = ({category, parentId, catMap, titleClass, itemClass, selectedCategory, archiveTree, ...props}) => (
     <ul key={category._id} className={style.subCatList}>
@@ -85,75 +77,26 @@ const Category = ({category, parentId, catMap, titleClass, itemClass, selectedCa
             title={category.title}
         />
         </div>
-        {category.currentItems.map( (item, index) => (
-            <li key={item._id} className={style.catItemContainer}>
-                <CategoryItem 
-                    {...props}
-                    className={archiveTree === true ? `${style.catItem} ${style.unarchivedArchive}` : `${style.catItem}`} 
-                    title={item.title}
-                >
-                <div className={style.buttons}>
-                    <CategoryButtons
-                        id={item._id}
-                        index={index}
-                        length={category.currentItems.length}
-                        parentId={category._id}
-                        moveQuery={MOVE_ITEM}
-                        editQuery={EDIT_CAT_ITEM}
-                    />
-                    <ArchiveButton 
-                        confirmText={`Archive ${item.title}?\n`}
-                        archiveQuery={ARCHIVE_ITEM}
-                        parentId={category._id}
-                        childId={item._id}
-                        triggerText={"A"}
-                    />
-                    <DeleteButton 
-                        confirmText={`Delete ${item.title}?\n`}
-                        deleteQuery={DELETE_ITEM}
-                        parentId={parentId}
-                        categoryId={item._id}
-                        triggerText={"X"}
-                    />
-                </div>
-                </CategoryItem> 
-            </li>
-        ))}
-       {category.archivedItems.map( (item, index) => (
-            <li key={item._id} className={style.catItemContainerArchive}>
-                <CategoryItem 
-                    {...props}
-                    className={style.catItemArchive}
-                    title={item.title}
-                    id={item._id}
-                >
-                <div className={style.buttons}>
-                    <CategoryButtons
-                        id={item._id}
-                        index={index}
-                        length={category.currentItems.length}
-                        parentId={category._id}
-                        moveQuery={MOVE_ITEM_ARCH}
-                        editQuery={EDIT_CAT_ITEM}
-                    />             
-                    <ArchiveButton 
-                        confirmText={`Unarchive ${item.title}?\n`}
-                        archiveQuery={UNARCHIVE_ITEM}
-                        parentId={category._id}
-                        childId={item._id}
-                        triggerText={"U"}
-                    />
-                    <DeleteButton 
-                        confirmText={`Delete ${item.title}?\n`}
-                        deleteQuery={DELETE_ITEM}
-                        parentId={parentId}
-                        categoryId={item._id}
-                        triggerText={"X"}
-                    />
-                </div>
-                </CategoryItem>
-            </li>
-     ))}
+       <CategoryItems 
+            itemList={category.currentItems} 
+            categoryId={category._id}
+            listStyle={style.catItemContainer}
+            itemStyle={archiveTree === true ? `${style.catItem} ${style.unarchivedArchive}` : `${style.catItem}`}
+            archiveAction={"Archive"}
+            archiveButtonText={"A"}
+            archiveQuery={ARCHIVE_ITEM}
+            moveQuery={MOVE_ITEM}
+        />
+        <CategoryItems
+            itemList={category.archivedItems}
+            categoryId={category._id}
+            listStyle={style.catItemContainerArchive}
+            itemStyle={style.catItemArchive}
+            archiveAction={"Unarchive"}
+            archiveButtonText={"U"}
+            archiveQuery={UNARCHIVE_ITEM}
+            moveQuery={MOVE_ITEM_ARCH}
+        />
         {category.currentChildren.map((cat, index) => (
             <Category
                 key={cat._id}
@@ -172,7 +115,9 @@ const Category = ({category, parentId, catMap, titleClass, itemClass, selectedCa
                     moveQuery={MOVE_CAT}
                     editQuery={EDIT_CAT}
                 />
-                <CreateButtons parentId={cat._id} refetchInput={{"input": selectedCategory}} refetchQuery={GET_ALL_CATS}/> 
+                { archiveTree !== true &&
+                  <CreateButtons parentId={cat._id} refetchInput={{"input": selectedCategory}} refetchQuery={GET_ALL_CATS}/> 
+                }
                 <ArchiveButton 
                     confirmText={`Archive ${cat.title}?\n`}
                     archiveQuery={ARCHIVE_CAT}
@@ -184,7 +129,7 @@ const Category = ({category, parentId, catMap, titleClass, itemClass, selectedCa
                     confirmText={`Delete ${cat.title} and all sub-categories?\n`}
                     deleteQuery={DELETE_CAT}
                     parentId={category._id}
-                    categoryId={cat._id}
+                    childId={cat._id}
                 />
                 </div>
             </Category>
@@ -219,24 +164,13 @@ const Category = ({category, parentId, catMap, titleClass, itemClass, selectedCa
                         confirmText={`Delete ${cat.title} and all sub-categories?\n`}
                         deleteQuery={DELETE_CAT}
                         parentId={category._id}
-                        categoryId={cat._id}
+                        childId={cat._id}
                     />
                 </div>
             </Category>
         ))}
     </ul>
 )
-
-const CategoryItem = ({title, className, ...props}) => (
-    <React.Fragment>
-        <div className={className}>
-            <Bullet/>
-            {title}
-            {props.children}
-        </div>
-    </React.Fragment>
-)
-
 
 const CategoryTitle = ({title, className, ...props}) => {
     // console.log("CatTitle:", parentId, length);
@@ -249,29 +183,17 @@ const CategoryTitle = ({title, className, ...props}) => {
         </React.Fragment>
 )}
 
-const CategoryButtons = ({id, index, length, parentId, moveQuery, editQuery, style}) => (
-    <React.Fragment>
-        <MoveButton indexFunc={() => moveIndexDown(index, length)} childId={id} parentId={parentId} moveQuery={moveQuery}>
-            {"↑"}
-        </MoveButton>   
-        <MoveButton indexFunc={() => moveIndexUp(index, length)} childId={id} parentId={parentId} moveQuery={moveQuery}>
-            {"↓"}
-        </MoveButton> 
-        <EditButton id={id} editQuery={editQuery} triggerText={"E"}/>
-    </React.Fragment>
-)
-
 const CreateButtons = (props) => (
     <React.Fragment>
         <CreateButton 
             {...props}
             query={CREATE_CAT}
-            triggerText={"+C"}
+            triggerText={"C"}
         />
         <CreateButton 
             {...props}
             query={CREATE_ITEM}
-            triggerText={"+i"}
+            triggerText={"i"}
         />   
     </React.Fragment>
 )

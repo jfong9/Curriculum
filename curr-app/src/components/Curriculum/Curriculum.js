@@ -25,8 +25,8 @@ function Curriculum({schoolId, defaultArt, ...props}) {
     }
 
     useEffect( () => {
-        setCategory("5e8e466a4dab5634e42a4c77");
-        // setCategory(null);
+        // setCategory("5e8e466a4dab5634e42a4c77");
+        setCategory(null);
     }, [defaultArt, schoolId]);
 
     
