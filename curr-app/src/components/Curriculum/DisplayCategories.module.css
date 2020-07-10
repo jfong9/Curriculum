@@ -9,11 +9,19 @@
 }
 
 .buttons {
-    box-sizing: border-box;
-    margin-left: 5px;
+    display: inline-flex;
+    text-decoration: none;
+    font-size: .75em;
+    align-items: center;
+    /* box-sizing: border-box;
     height: 100%;
     align-items: center;
     font-size: .75em;
+    text-decoration: none; */
+}
+
+.topTitleButtons {
+    composes: buttons;
 }
 .topCatTitle{
     font-size: 2em;
@@ -27,16 +35,15 @@
     padding: 0;
     margin-left:.75em; 
     border-left: 2px solid rgba(0, 0, 0, 0.15);
-    list-style-position: inside;
 }
 
 .subTitleContainer {
-    display: flex;
+    display: inline-flex;
+    flex-direction: row;
 }
 
-.subTitleContainerArchive {
-    composes: subTitleContainer;
-    color: red;
+.subTitleContainer:hover {
+    color: orange;
 }
 
 .subTitle {
@@ -44,7 +51,10 @@
     text-decoration: underline;
 }
 
-
+.subTitleContainerArchive {
+    composes: subTitle;
+    color: red;
+}
 
 .subTitle:hover {
     color: orange;
@@ -60,7 +70,7 @@
 
 .catItemContainerArchive {
     composes: catItemContainer;
-    color: red;
+    color: lightcoral;
 }
 
 .catItem {
@@ -71,6 +81,14 @@
     color: orange;
 }
 
+.catItemArchive {
+    composes: catItem;
+    color: red;
+}
+
+.unarchivedArchive {
+    color: lightblue;
+}
 .bullet {
     width: 25px;
     margin-left: -12px; 

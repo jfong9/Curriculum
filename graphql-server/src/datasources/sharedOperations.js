@@ -2,6 +2,7 @@
 
 async function moveIdBtArrays(moveInput) {
     const { collection, parentId, childId, to, from } = moveInput
+    console.log({parentId, childId, to, from})
     return await collection.findOneAndUpdate(
         {_id: parentId },
         { $addToSet: {

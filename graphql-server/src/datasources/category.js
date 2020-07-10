@@ -125,7 +125,15 @@ class CategoryAPI extends MongoDataSource {
             pos
         })
     }
-    
+    async addArchChildCategoryAt(parentId, childId, pos) {
+        return addIdToArrayAt({
+            collection: this.collection,
+            arrayName: 'archivedChildren',
+            parentId,
+            childId,
+            pos
+        })
+    }
     async addCurrCategoryItemAt(parentId, childId, pos) {
         return addIdToArrayAt({
             collection: this.collection,
@@ -155,6 +163,25 @@ class CategoryAPI extends MongoDataSource {
             to: "currentChildren"})
     }
 
+    archiveItem(parentId, childId) {
+        return moveIdBtArrays({
+            collection: this.collection,
+            parentId,
+            childId,
+            from: "currentItems",
+            to: "archivedItems"
+        })
+    }
+
+    unarchiveItem(parentId, childId) {
+        return moveIdBtArrays({
+            collection: this.collection,
+            parentId,
+            childId,
+            from: "archivedItems",
+            to: "currentItems"
+        })
+    }
     async addCurrCategoryItem(parentId, categoryItemId) {
         return addIdToArray({
             collection: this.collection,
@@ -185,6 +212,14 @@ class CategoryAPI extends MongoDataSource {
         return removeIdFromArray( {
             collection: this.collection,
             arrayName: 'currentChildren', 
+            parentId,
+            childId
+        })
+    }
+    async removeArchChildCategory(parentId, childId) {
+        return removeIdFromArray( {
+            collection: this.collection,
+            arrayName: 'archivedChildren', 
             parentId,
             childId
         })

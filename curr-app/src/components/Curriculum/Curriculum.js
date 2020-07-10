@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Query, withApollo }from 'react-apollo'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
@@ -8,7 +8,6 @@ import DisplayTopCategories from './DisplayTopCategories'
 import CreateTopCatButton from './CreateTopCatButton'
 import style from './Curriculum.module.css'
 import DisplayCategories from './DisplayCategories'
-import { useHistory } from 'react-router-dom'
 
 const INFO_QUERY = gql`
     query getSensitiveInfo {
@@ -16,24 +15,14 @@ const INFO_QUERY = gql`
         # info: regularInfo
     }
 `
-function usePrevious(value) {
-    const ref = useRef();
-    useEffect(() => {
-        ref.current=value;
-    });
-    return ref.current;
-}
 
 function Curriculum({schoolId, defaultArt, ...props}) {
-    const history = useHistory();
     const [selectedCategory, setCategory] = useState(null);
     const [count, setCount] = useState(0);
     const curriculumQueryInput = getCurriculumQueryInput(schoolId, defaultArt); 
     const isInitialized = () => {
         return schoolId && defaultArt 
     }
-    const prevCount = usePrevious(count);
-
 
     useEffect( () => {
         setCategory("5e8e466a4dab5634e42a4c77");
@@ -64,14 +53,9 @@ function Curriculum({schoolId, defaultArt, ...props}) {
         return topCategories;
     }
 
-    const getAllCats = (id) => { 
-        console.log(id);
-        setCount(count+1);
+    const getAllCats = (id) => {
         setCategory(id);
-        history.push('/MainPortal/Curriculum')
     }
-
-    console.log(`Current ${count} prev ${prevCount}`);
 
     return (
         <React.Fragment>

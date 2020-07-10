@@ -70,15 +70,25 @@ const resolvers = {
         archiveChildCategory: async (_, { input }, { dataSources }) => {
             const { parentId, childId } = input
             const res = await dataSources.categoryAPI.archiveChildCategory(parentId, childId)
-            console.log("archive: ", res)
             return res.value;
         },
 
         unarchiveChildCategory: async (_, { input }, { dataSources }) => {
             const { parentId, childId } = input
             const res = await dataSources.categoryAPI.unarchiveChildCategory(parentId, childId)
-            console.log("unarchive: ", res)
             return res.value
+        },
+
+        archiveItem: async (_, { input }, { dataSources }) => {
+            const { parentId, childId } = input
+            const res = await dataSources.categoryAPI.archiveItem(parentId, childId)
+            return res.value;
+        },
+
+        unarchiveItem: async (_, { input }, { dataSources }) => {
+            const { parentId, childId } = input
+            const res = await dataSources.categoryAPI.unarchiveItem(parentId, childId)
+            return res.value;
         },
 
         moveCurrChildCategoryTo: async (_, { input }, { dataSources }) => {
@@ -178,6 +188,11 @@ const resolvers = {
         currentItems: async (obj, { input }, { dataSources }) => {
             if (!obj.currentItems) return [];
             return dataSources.categoryItemsAPI.getItems(obj.currentItems)
+        },
+
+        archivedItems: async (obj, { input }, { dataSources }) => {
+            if (!obj.archivedItems) return [];
+            return dataSources.categoryItemsAPI.getItems(obj.archivedItems);
         }
     }
 }

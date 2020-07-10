@@ -15,7 +15,7 @@ export default function DisplayTopCategories({topCategories, parentId, categoryC
                 if (cat) {
                     link =  (
                         <li className={style.topCatListItem} key={cat._id}>
-                            <div className={style.catTitle} onClick={() => categoryClick(cat._id)}>
+                            <div className={style.catTitle} onClick={() => categoryClick(cat._id)} >
                                 {cat.title} 
                             </div>
                             <div className={style.buttons}>

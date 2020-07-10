@@ -9,10 +9,10 @@ export const ConfirmForm = ({ onSubmit, onCancel, buttonRef, confirmText }) => {
             <br/>
             <div className="form-group">
                 <button className="form-control btn btn-primary" type="submit">
-                    Delete 
+                    YES 
                 </button>
                 <button ref={buttonRef} className="form-control btn btn-primary" type="button" onClick={onCancel}>
-                    Cancel
+                    NO
                 </button>
             </div>
         </form>
