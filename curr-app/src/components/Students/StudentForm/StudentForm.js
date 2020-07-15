@@ -38,10 +38,12 @@ class StudentForm extends React.Component {
     }
 
     componentDidMount() {
+       console.log("StudentForm Mount:", this.props.student, this.state.student) 
     }
     componentDidUpdate(prevProps) {
         const { loadStudent, studentLoaded } = this.props;
         if (loadStudent) {
+            console.log("StudentForm", loadStudent)
             studentLoaded();
             this.setState( {student: this.props.student, formChanged: false })
         }
