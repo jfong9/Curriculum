@@ -1,6 +1,7 @@
 'use strict'
 
 const { getNewCategory, getNewItem } = require('../shared/resolverUtils')
+const { deleteTree } = require('../dataSources/sharedOperations')
 
 const resolvers = {
     Query: {
@@ -69,15 +70,25 @@ const resolvers = {
         archiveChildCategory: async (_, { input }, { dataSources }) => {
             const { parentId, childId } = input
             const res = await dataSources.categoryAPI.archiveChildCategory(parentId, childId)
-            console.log("archive: ", res)
             return res.value;
         },
 
         unarchiveChildCategory: async (_, { input }, { dataSources }) => {
             const { parentId, childId } = input
             const res = await dataSources.categoryAPI.unarchiveChildCategory(parentId, childId)
-            console.log("unarchive: ", res)
             return res.value
+        },
+
+        archiveItem: async (_, { input }, { dataSources }) => {
+            const { parentId, childId } = input
+            const res = await dataSources.categoryAPI.archiveItem(parentId, childId)
+            return res.value;
+        },
+
+        unarchiveItem: async (_, { input }, { dataSources }) => {
+            const { parentId, childId } = input
+            const res = await dataSources.categoryAPI.unarchiveItem(parentId, childId)
+            return res.value;
         },
 
         moveCurrChildCategoryTo: async (_, { input }, { dataSources }) => {
@@ -101,7 +112,7 @@ const resolvers = {
                 res =  (await dataSources.categoryAPI.addCurrCategoryItemAt(parentId, childId, index)).value
             }
             else {
-                res = await dataSources.categoryAPI.getCategoryItemById(parentId);
+                res = await dataSources.categoryItemsAPI.getCategoryItemById(parentId);
             }
             return res
         },
@@ -142,6 +153,16 @@ const resolvers = {
             return res;
         },
 
+        delCurrCategoryItem: async (_, { input }, { dataSources }) => {
+            const { parentId, deleteId } = input;
+            const { modifiedCount } = await dataSources.categoryAPI.removeCurrCategoryItem(parentId, deleteId);
+            if ( modifiedCount ) {
+                dataSources.categoryItemsAPI.collection.remove({ _id: deleteId })
+            }
+            let res = await dataSources.categoryAPI.getCategoryById(parentId);
+            return res;
+        },
+
         editCategory: async (_, { input }, { dataSources }) => {
            const { id, title } = input
            return (await dataSources.categoryAPI.editCategory(id, title)).value;
@@ -167,6 +188,11 @@ const resolvers = {
         currentItems: async (obj, { input }, { dataSources }) => {
             if (!obj.currentItems) return [];
             return dataSources.categoryItemsAPI.getItems(obj.currentItems)
+        },
+
+        archivedItems: async (obj, { input }, { dataSources }) => {
+            if (!obj.archivedItems) return [];
+            return dataSources.categoryItemsAPI.getItems(obj.archivedItems);
         }
     }
 }

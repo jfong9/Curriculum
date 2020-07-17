@@ -2,6 +2,7 @@
 
 async function moveIdBtArrays(moveInput) {
     const { collection, parentId, childId, to, from } = moveInput
+    console.log({parentId, childId, to, from})
     return await collection.findOneAndUpdate(
         {_id: parentId },
         { $addToSet: {
@@ -93,8 +94,8 @@ async function deleteTree(dataSources, childId) {
         allCategoryItemIds.push(...cat.currentItems.map(id => id))
         allCategoryItemIds.push(...cat.archivedItems.map(id => id))
     }
-    console.log(typeof allCategoryIds[0]) ;
-    console.log(allCategoryItemIds);
+    // console.log(typeof allCategoryIds[0]) ;
+    // console.log(allCategoryItemIds);
     deleteMany({
         collection: dataSources.categoryAPI.collection, 
         itemArray: allCategoryIds})  

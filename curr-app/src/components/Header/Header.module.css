@@ -1,0 +1,63 @@
+.header {
+    box-sizing: border-box;
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #282c34;
+    border-bottom: 1px solid gray;
+    height: 49px;
+    z-index: 2;
+}
+
+.toolbar {
+    margin-right: 3px;
+}
+
+.toolbarItem:hover {
+    color: orange;
+}
+
+.logo {
+    color: white;
+    text-decoration: none;
+    font-size: 2rem;
+}
+.logo:hover {
+    color: orange;
+    cursor: pointer;
+}
+
+.spacer {
+    flex: 1;
+}
+
+.navigation {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    padding: 0 1rem;
+}
+
+.logout:hover {
+    cursor: pointer;
+}
+
+.dropDown {
+    z-index: 2;
+}
+/* @media (max-width: 768px) {
+    .navA {
+        display: none
+    }
+}
+
+@media (min-width: 769px) {
+    .toolbarButton {
+        display: none;
+    }
+
+    .logo {
+        margin: 0;
+    }
+} */

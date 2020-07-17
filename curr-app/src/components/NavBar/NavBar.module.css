@@ -1,0 +1,63 @@
+.navbar {
+    z-index: 1;
+    margin: 0;
+    width: 100%;
+    height: 29px;
+    display: flex;
+    align-items: center;
+    background-color: rgb(60, 73, 90);
+    border-bottom: 1px solid gray;
+}
+
+.schoolDropdown {
+    margin-left: 10px;
+    margin-right: 2px;
+    margin-bottom: 1px;
+    min-width: 200px;
+    height: 100%;
+}
+
+.links {
+    display: flex;
+}
+.link {
+    color: white;
+    text-decoration: none;
+    margin: 3px;
+}
+
+.link:hover{
+    color: orange;
+}
+
+.spacer {
+    flex: 1;
+}
+.disabledLink {
+    color: white;
+    margin: 3px;
+    pointer-events: none;
+    text-decoration: line-through;
+}
+
+.moreButton {
+    margin-left: 10px;
+    width: 25px;
+    height: 25px;
+    background-image: radial-gradient(circle, white 2px, transparent 3px);
+    background-size: 100% 33.33%
+}
+
+
+
+@media (max-width: 413px) {
+    .links {
+        display: none;
+    }
+}
+
+@media (min-width: 412px) {
+    .moreButton {
+        display: none;
+    }
+}

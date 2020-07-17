@@ -1,0 +1,63 @@
+@value colors: "../colors.module.css";
+@value primary, secondary from colors;
+
+.body {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    gap: 5px;
+    text-align: center;
+    border: 5px solid secondary;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    color: rgba(255, 255, 255, 0.795)
+}
+
+.multiline {
+    box-sizing: border-box;
+    white-space: pre-line;
+    background-color: primary;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column-reverse;
+    max-width: 100%;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    text-transform: uppercase;
+    font-size: 50px;
+    color: rgba(255, 255, 255, 0.795);
+    /* background-color: hotpink; */
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+    min-width: 360px;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    padding: 50px;
+    /* background-color: greenyellow; */
+}
+
+@media (max-width:361) {
+    .login{
+        padding-left: 50px;
+        padding-right: 10px;
+    }
+}
+
+.link:link {
+    color: rgba(11, 172, 208, 0.705);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.link:visited {
+    color: rgba(11, 172, 208, 0.705);
+}
+

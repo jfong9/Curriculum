@@ -1,0 +1,10 @@
+@value primary: rgb(40, 44, 52);
+@value secondary: rgb(37, 56, 80);
+
+@value menu_back: rgb(37, 56, 80);
+@value menu_high: rgb(51, 79, 112);
+@value menu_border: rgb(35, 53, 77);
+
+.tester {
+    background: rgb(29, 45, 65);
+}

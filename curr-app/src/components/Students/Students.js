@@ -1,61 +1,88 @@
-
-import React from 'react'
-import {Link, Route, Switch} from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
 import * as studentActions from 'actions/studentActions'
-import ArtDropdown from 'components/ArtDropdown'
-// import students from 'database/students'
+import style from './Students.module.css'
+import StudentSidemenu from './StudentSidemenu'
+import StudentInfoDisplay from './StudentInfoDisplay'
 
-class Students extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            students: []
-        }
-    }
+function Students({schoolun, ...props}) {
+    const [students, setStudents] = useState([]);
+    const [selectedStudentId, setSelected] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [newStudent, setNew] = useState(true);
+   
+    useEffect(() => {
+        getStudents(schoolun);
+        return resetDisplay; 
+    }, [schoolun])
 
-    componentDidMount() {
-        const {schoolun} = this.props;
-        // console.log("students: schoolun:", schoolun, schoolid);
-        this.SetStudentsFromHTTPRequest(schoolun);
+    const resetDisplay = () => {
+        setNew(true);
+        setSelected(null)
+        setStudents([])
     }
-    componentDidUpdate(prevProps) {
-        const {schoolun} = this.props;
-        // console.log("got here too", schoolun, prevProps.schoolun)
-        if (prevProps.schoolun !== schoolun && schoolun !== '' ) {
-            this.SetStudentsFromHTTPRequest(schoolun)
-        }
-    }
-    async SetStudentsFromHTTPRequest(schoolun){
-        // console.log(students);
-        // if (schoolun === '') return []
+    const getStudents = async (schoolun) => {
+
+        console.log({schoolun})
         let students = await studentActions.getStudentsBySchool(schoolun);
-        // [schoolStudents] = students.filter(s => s.schoolun === schoolun).map(s => s.students)
-        if (!students) return []
-        // console.log("schoolstudents", schoolStudents)
-        this.setState( {students} );
+        setStudents(students);
+        setLoading(false);
     }
-    render() {
-        const {students} = this.state
-        const arts = this.props.arts ? this.props.arts : []
-        // console.log("test:", this.props)
-        return (
-            <div>
-                <ArtDropdown {...this.props} arts={['All', ...arts]} defaultArt={'All'} />
-                <Link to={{pathname:'Students/add'}}>
-                    <button>Add New Student</button>
-                </Link>
-                <ul>
-                    {students.map((s) => {
-                        return (<Link key={s._id} to={{pathname:'Students/edit', state: {id: s._id}}}>
-                                    <li key={s._id}>{s.last_name} {s.first_name}</li>
-                                </Link>)
-                        })
-                    } 
-                </ul>
-            </div>
-            
-        )
+    
+    const handleStudentClick = (student) => {
+        setSelected(student._id);
+        setNew(false);
     }
+
+    const handleNewClick = () => {
+        setNew(true);
+        setSelected(null);
+    }
+
+    const onStudentUpdate = async () => {
+        let students = await studentActions.getStudentsBySchool(schoolun);
+        setStudents(students);
+    }
+
+    const onNewStudent = async (newStudent) => {
+        let students = await studentActions.getStudentsBySchool(schoolun);
+        setStudents(students);
+        setNew(false);
+        setSelected(newStudent._id)
+    }
+
+    const clearStudentInfo = () => {
+        setNew(true);
+        setSelected(null);
+    }
+
+    const onDelete = (id) => {
+        if (id === selectedStudentId) clearStudentInfo();
+        getStudents(schoolun);
+    }
+    if (loading) return (<p> Loading...</p>)
+    return (
+        <div className={style.studentsDisplay}>
+            <StudentSidemenu 
+                {...props} 
+                students={students} 
+                studentClick={handleStudentClick} 
+                newClick={handleNewClick}
+                onDelete={onDelete}
+            />
+            <StudentInfoDisplay 
+                {...props} 
+                schoolun={schoolun} 
+                selectedStudentId={selectedStudentId} 
+                newStudent={newStudent} 
+                onStudentUpdate={onStudentUpdate} 
+                onNewStudent={onNewStudent}
+            />
+        </div>
+    )
 }
+
+
+
+
 
 export default Students

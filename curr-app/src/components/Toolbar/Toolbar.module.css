@@ -1,0 +1,50 @@
+.nav {
+    display: flex;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    /* background-color: yellowgreen; */
+}
+
+.itemList {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    /* background-color: orange; */
+}
+
+.item {
+    display: flex;
+    margin-left:5px;
+    height: 100%;
+    /* background-color: yellow; */
+}
+
+/* .iconButton {
+    border-radius: 50%;
+    width :20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2px;
+    padding: 5px;
+} */
+/* @media (max-width: 768px) {
+    .navA {
+        display: none
+    }
+}
+
+@media (min-width: 769px) {
+    .toolbarButton {
+        display: none;
+    }
+
+    .logo {
+        margin: 0;
+    }
+} */

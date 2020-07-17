@@ -25,8 +25,13 @@ const typeDefs = gql`
         archiveChildCategory(input: MoveInput!) : Category!
         unarchiveChildCategory(input: MoveInput!) : Category!
 
+        archiveItem(input: MoveInput!) : Category!
+        unarchiveItem(input: MoveInput!) : Category!
+
         delCurrChildCategory(input: DeleteInput!) : Category!
         delArchChildCategory(input: DeleteInput!) : Category!
+
+        delCurrCategoryItem(input: DeleteInput!) : Category!
 
         editCategory(input: EditInput!) : Category!
     }

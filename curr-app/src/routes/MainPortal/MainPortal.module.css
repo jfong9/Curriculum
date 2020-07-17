@@ -1,0 +1,13 @@
+@value colors: "../../components/colors.module.css";
+@value primary, secondary from colors;
+
+.mainPortal {
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    z-index: 0;
+    height: calc(100vh - 77px);
+    width: 100%;
+    background: primary;
+    overflow-y: auto;
+}

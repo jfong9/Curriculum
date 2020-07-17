@@ -1,26 +1,46 @@
 import React from 'react'
 import { useMutation } from '@apollo/react-hooks'
-import modalStyle from 'utils/Modal/Modal.module.css'
+import styles from '../buttons.module.css'
 
-export default function MoveButton({index, parentId, childId, moveQuery, ...props}) {
-    const [moveFunction, { data: moveCatData }] = useMutation(moveQuery)
+export default function MoveButton({indexFunc, parentId, childId, moveQuery, ...props}) {
+    const [moveFunction] = useMutation(moveQuery)
     return (
-      <button className={modalStyle.modalTrigger}
+      <button className={styles.modalTrigger}
         onClick= {
-            () => {
-                moveFunction({
-                    variables: {
-                        "input": {
-                            "parentId": parentId,
-                            "childId": childId,
-                            "index": index
-                        }
-                    },
-                }) 
+            async () => {
+                try {
+                    let index = indexFunc();
+                    if (index !== -1) {
+                        await moveFunction({
+                            variables: {
+                                "input": {
+                                    "parentId": parentId,
+                                    "childId": childId,
+                                    "index": index,
+                                }
+                            },
+                        }) 
+                    }
+                }
+                catch (error) {
+                    console.log(`${error}`);
+                }
             }
       }>
         {props.children}
       </button>
     
     );
+}
+
+export function moveIndexDown(index, length) {
+    let newIndex = -1 
+    if (index > 0 && index <= (length -1)) newIndex = index - 1;
+    return newIndex
+}
+
+export function moveIndexUp(index, length) {
+    let newIndex = -1 
+    if (index >= 0 && index < (length - 1)) newIndex = index + 1;
+    return newIndex
 }

@@ -1,0 +1,101 @@
+.displayCategories {
+    width: 100%;
+    height: 100%;
+    font-size: 1.5em;
+    color: lightgray;
+    padding-left: 1em;
+    /* color: blue;
+    background-color: red; */
+}
+
+.buttons {
+    display: inline-flex;
+    text-decoration: none;
+    font-size: .75em;
+    align-items: center;
+    margin-left: .25em;
+    /* box-sizing: border-box;
+    height: 100%;
+    align-items: center;
+    font-size: .75em;
+    text-decoration: none; */
+}
+
+.topTitleButtons {
+    composes: buttons;
+    margin-top: 1.5em;
+}
+.topCatTitle{
+    font-size: 2em;
+    text-decoration: underline;
+    font-weight: bold;
+    /* margin-left: .75em; */
+}
+
+.subCatList {
+    margin: 0;
+    padding: 0;
+    margin-left:.75em; 
+    border-left: 2px solid rgba(0, 0, 0, 0.15);
+}
+
+.subTitleContainer {
+    display: inline-flex;
+    flex-direction: row;
+}
+
+.subTitleContainer:hover {
+    color: orange;
+}
+
+.subTitle {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.subTitleContainerArchive {
+    composes: subTitle;
+    color: red;
+}
+
+.subTitle:hover {
+    color: orange;
+}
+
+.catItemContainer {
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    padding-left: .75em;
+    border-left: 2px solid rgba(0, 0, 0, 0.15);
+}
+
+.catItemContainerArchive {
+    composes: catItemContainer;
+    color: lightcoral;
+}
+
+.catItem {
+    display: flex
+}
+
+.catItem:hover {
+    color: orange;
+}
+
+.catItemArchive {
+    composes: catItem;
+    color: red;
+}
+
+.unarchivedArchive {
+    color: lightcoral;
+}
+.bullet {
+    width: 25px;
+    margin-left: -12px; 
+    height: 100%;
+    background-image: radial-gradient(circle, white 2px, transparent 3px);
+    background-size: 100%;
+    align-items: center;
+}

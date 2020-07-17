@@ -1,18 +1,18 @@
 "use strict"
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import style from './StudentForm.module.css'
 
 class StudentForm extends React.Component {
     constructor(props) {
         super(props);
         const { student = this.getBlankStudent()} = props;
-        // console.log("StudentForm ctor", props, "states:", this.props.location)
         this.state = { 
             student, 
+            arts: student.arts || [],
+            startDates: student.startDates || {},
             formChanged: false};
 
-        // this.handleChange = this.handleChange.bind(this);
-        // this.handleSubmit = this.handleSubmit.bind(this);
     }
     getBlankStudent() {
         return {            
@@ -25,7 +25,9 @@ class StudentForm extends React.Component {
                     street: '', 
                     city: '', 
                     zip: ''
-                } 
+                }, 
+                arts: [],
+                startDates: {},
             } 
     }
 
@@ -38,12 +40,19 @@ class StudentForm extends React.Component {
     }
 
     componentDidMount() {
+        console.log("StudentForm Mount:", this.props.student, this.state.student) 
     }
     componentDidUpdate(prevProps) {
-        const { loadStudent, studentLoaded } = this.props;
+        const { loadStudent, studentLoaded, student } = this.props;
         if (loadStudent) {
+            console.log("StudentForm LoadStudent", loadStudent, student)
             studentLoaded();
-            this.setState( {student: this.props.student, formChanged: false })
+            this.setState({
+                student, 
+                arts: student.arts || [], 
+                startDates: student.startDates || {}, 
+                formChanged: false 
+            })
         }
     }
 
@@ -64,7 +73,7 @@ class StudentForm extends React.Component {
         })
     }
     handleChange = (event) => {
-        const { student } = this.state
+        const { student, arts } = this.state
         const name = event.target.name
         const value = event.target.value;
         this.setState({ 
@@ -73,15 +82,30 @@ class StudentForm extends React.Component {
         })
     }
 
-    // buttonsFunc = () => {
-    //     const { editOption } = this.props
-    //     return  (
-    //         <div>
-    //             <button disabled={!editOption} onClick={this.handleEditClick}>Edit1</button>
-    //             <button onClick={this.handleDeleteClick}>Delete</button>
-    //         </div>
-    //     ) 
-    // }
+    handleArtChange = (checked, art) => {
+        const { arts } = this.state;
+        let newArts;
+        if (checked) {
+            newArts = arts.concat(art);
+        }
+        else {
+            newArts= arts.filter(a => a !== art)
+        }
+        this.setState({arts: newArts}, () => { this.updateStudentArray("arts", this.state.arts)});
+    }
+
+    handleDateChange = (value, art) => {
+        const { startDates } = this.state;
+        let newDates = {...startDates}
+        newDates[art] = value;
+        this.setState({startDates: newDates}, () => { this.updateStudentArray("startDates", this.state.startDates)})
+    }
+    
+    updateStudentArray = (key, value) => { 
+        const { student } = this.state;
+        this.setState({student: {...student, [key]: value}, formChanged: true}, () => console.log(this.state.student, this.state.startDates));
+    }
+
     render() {
         const { student: { 
                     first_name, 
@@ -96,8 +120,10 @@ class StudentForm extends React.Component {
                     }
                 }, 
                 formChanged,
+                arts,
+                startDates,
               } = this.state;
-        const { submitText="Add", Buttons= () => null, submitDisabled = false, editDisabled} = this.props;
+        const { submitText="Add", Buttons= () => null, submitDisabled = false, editDisabled, arts: schoolArts} = this.props;
         return (
             <form onSubmit={this.handleSubmit}>
                 <label>
@@ -140,12 +166,66 @@ class StudentForm extends React.Component {
                     <input type='text' name='zip' value={zip} disabled={editDisabled} onChange={this.handleAddressChange}/>
                 </label>
                 <br/>
+                <div className={style.arts}>
+                    {
+                        schoolArts.map(art => 
+                            <ArtCheckBox 
+                                key={art} 
+                                art={art}
+                                defaultChecked={arts.includes(art)}
+                                defaultDate={startDates[art]}
+                                disabled={editDisabled} 
+                                onArtChange={this.handleArtChange}
+                                onDateChange={this.handleDateChange}
+                            />)
+                    }
+                </div>
                 <input data-testid='submit-button' type='submit' disabled={(!formChanged || submitDisabled)} value={submitText}/>
                 {<Buttons/>}
                 <br/>
             </form>
         )
     }
+}
+
+const ArtCheckBox = ({checkboxStyle, art, disabled, onArtChange, onDateChange, defaultChecked, defaultDate=""}) => {
+    const [checked, setChecked] = useState(defaultChecked);
+    const [date, setDate] = useState(defaultDate);
+
+    //happens when user cancels out of the edit form
+    useEffect( ()=> {
+        setDate(defaultDate);
+        setChecked(defaultChecked);
+    }, [defaultChecked, defaultDate])
+
+    //handles the local change and pushes the state up to the editForm
+    const onCheckChange = (event) => {
+        let { checked } = event.target;
+        setChecked(checked);
+        if (date === "" && checked) {
+            let today = new Date().toISOString().slice(0,10)
+            setDate(today)
+            onDateChange(today, art)
+        }
+        onArtChange(checked, art);
+    }
+    
+    //handles the local change and pushes the state up to the editForm
+    const onValueChange = (event) => {
+        let { value } = event.target;
+        setDate(value);
+        onDateChange(value, art);
+    }
+
+    return (
+        <React.Fragment>
+            <div className={checkboxStyle} >
+                <input disabled={disabled} type="checkbox" checked={checked} onChange={onCheckChange}/>
+                <label disabled={disabled}>{art}</label>
+                <input disabled={disabled || !checked} type="date" value={date} onChange={onValueChange}/>
+            </div>
+        </React.Fragment>
+    )
 }
 
 export default StudentForm

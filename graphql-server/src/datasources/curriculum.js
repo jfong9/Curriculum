@@ -13,7 +13,7 @@ class CurriculumAPI extends MongoDataSource {
     }
 
     async getCurriculum(schoolId, art) {
-        console.log("getCurr", schoolId, typeof schoolId)
+        // console.log("getCurr", schoolId, typeof schoolId)
         return await this.collection.findOne(
             {
                 schoolId: schoolId,
@@ -32,7 +32,7 @@ class CurriculumAPI extends MongoDataSource {
     }
 
     async createTopCategory(currId, categoryId) {
-        console.log("addTop:", currId, categoryId)
+        // console.log("addTop:", currId, categoryId)
         return await this.collection.updateOne(
             { _id: currId},
             { $addToSet: {

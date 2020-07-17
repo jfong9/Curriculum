@@ -1,0 +1,132 @@
+.curriculum {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr ) 5px;
+}
+
+.sideMenu {
+    box-sizing: border-box;
+    background-color: lightgray;
+    width: 260px;
+    display: grid;
+    grid-template-rows: 20px 20px auto;
+    gap: 4px;
+    overflow-y: auto;
+}
+
+.artDropDown {
+    margin-top: 3px;
+    box-sizing: border-box;
+    margin-left: 10px;
+    height: 100%;
+    min-width: 200px;
+    max-width: 200px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+.createCat {
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 200px;
+}
+
+.topCategories {
+    box-sizing: border-box;
+    display: grid;
+    width: 100%;
+    height: 100%;
+    align-content: start ;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.topCatListItem {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    width: 100%;
+    min-height: 30px;
+    max-height: 30px;
+    list-style-type: none;
+    gap: 0px;
+    border: 1px solid lightseagreen ;
+}
+
+.topCatListItem:hover {
+    color: rgb(161, 106, 4);
+}
+
+.catTitle {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    overflow: hidden;
+    display: flex;
+    margin-left: 10px;
+    white-space: nowrap;
+    align-content: initial;
+}
+
+.catTitle:hover {
+    overflow: visible;
+    white-space: pre-wrap;
+    cursor: pointer;
+}
+
+.buttons {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    justify-self: end;
+    align-items: center;
+}
+
+.topCatList:hover {
+    overflow:visible;
+    white-space: pre-wrap;
+}
+
+.curriculumDisplay {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    white-space: pre-line; 
+    color: white;
+    grid-column-start: 2;
+    grid-column-end: -1;
+    overflow-y: auto;
+}
+
+
+/* .subCurricItem {
+    box-sizing: border-box;
+    list-style-type: none;
+    font-size: 3em;
+    margin-left: 10px;
+    text-decoration: underline;
+
+}
+
+.subCurricItem1 {
+    box-sizing: border-box;
+    list-style-type: none;
+    font-size: 3em;
+    margin-left: 50px;
+}
+
+
+.subCurricItem2 {
+    box-sizing: border-box;
+    list-style-type: none;
+    font-size: 1em;
+    margin-left: 50px;
+}
+
+@media (max-width: 413px) {
+    .sideMenu {
+        width: 360px; 
+        display: none;
+    }
+} */
