@@ -3,26 +3,17 @@ import { useMutation } from '@apollo/react-hooks'
 import { ConfirmContainer } from 'utils/Modal/Confirm/ConfirmContainer'
 import styles from '../buttons.module.css'
 
-export default function DeleteButton( {parentId, childId, deleteQuery, confirmText, triggerText="X"}) {
-    const [deleteFunction, { data: deleteData }] = useMutation(deleteQuery)
+export default function DeleteButton( {confirmText, deleteFunc, triggerText="X"}) {
     const modalInput = useRef(null)
 
     const onSubmit = async (event) => {
         event.preventDefault(event);
-        runDeleteMutation();
+        await runDeleteFunction();
         modalInput.current.closeModal();
     }
 
-    const runDeleteMutation = async () => {
-        const input = {
-            "input": { 
-                "parentId": parentId,
-                "deleteId": childId, 
-            }
-        }
-        deleteFunction({
-            variables: input
-        })
+    const runDeleteFunction = async () => {
+        deleteFunc();
     }
 
     return (

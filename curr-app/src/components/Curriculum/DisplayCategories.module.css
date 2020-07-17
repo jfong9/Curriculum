@@ -66,7 +66,7 @@
     display: flex;
     box-sizing: border-box;
     width: 100%;
-    margin-left: .75em;
+    padding-left: .75em;
     border-left: 2px solid rgba(0, 0, 0, 0.15);
 }
 

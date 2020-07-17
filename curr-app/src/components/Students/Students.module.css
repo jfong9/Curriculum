@@ -46,20 +46,20 @@
 }
 
 .studentList {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
     display: grid;
     width: 100%;
     height: 100%;
     align-content: start ;
     overflow-y: auto;
+    margin: 0;
+    padding: 0;
 }
 
 .studentListItem {
-    padding-left: 10px;
     box-sizing: border-box;
-    display: flex; 
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
     width: 100%;
     min-height: 30px;
     max-height: 30px;
@@ -70,5 +70,28 @@
 
 .studentListItem:hover {
     color: rgb(161, 106, 4);
+}
+
+.studentTitle {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    overflow: hidden;
+    display: flex;
+    margin-left: 10px;
+    white-space: nowrap;
+    align-content: initial;
+}
+
+.studentTitle:hover {
+    overflow: visible;
+    white-space: pre-wrap;
     cursor: pointer;
 }
+
+.studentListButtons {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    justify-self: end;
+    align-items: center;
+}
+

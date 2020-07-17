@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Query, withApollo }from 'react-apollo'
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery, useLazyQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import ArtDropdown from 'components/ArtDropdown'
 import { GET_CURRICULUM } from 'actions/curriculumActions'
@@ -17,7 +17,7 @@ const INFO_QUERY = gql`
 `
 
 function Curriculum({schoolId, defaultArt, ...props}) {
-    const [selectedCategory, setCategory] = useState(null);
+    const [selectedCategoryId, setCategoryId] = useState(null);
     const [count, setCount] = useState(0);
     const curriculumQueryInput = getCurriculumQueryInput(schoolId, defaultArt); 
     const isInitialized = () => {
@@ -26,14 +26,30 @@ function Curriculum({schoolId, defaultArt, ...props}) {
 
     useEffect( () => {
         // setCategory("5e8e466a4dab5634e42a4c77");
-        setCategory(null);
+        setCategoryId(null);
     }, [defaultArt, schoolId]);
 
-    
-    const { loading, error, data: curricData } = useQuery(GET_CURRICULUM, {
+     
+    // const { loading, error, data: curricData } = useQuery(GET_CURRICULUM, {
+    //     variables: curriculumQueryInput,
+    //     skip: !isInitialized() 
+    // });
+
+    //using lazyquery + useeffect to avoid apollo unmounting warning
+    const [getCurriculum, { loading, error, data: curricData }] = useLazyQuery(GET_CURRICULUM, {
         variables: curriculumQueryInput,
         skip: !isInitialized() 
     });
+
+    let isMounted = true;
+    useEffect( () => {
+        if (isMounted && isInitialized()) {
+            getCurriculum();
+        }
+        return () => {
+            isMounted = false;
+        };
+    }, [defaultArt, schoolId]);
 
 
     if (loading) return null;
@@ -54,7 +70,11 @@ function Curriculum({schoolId, defaultArt, ...props}) {
     }
 
     const getAllCats = (id) => {
-        setCategory(id);
+        setCategoryId(id);
+    }
+
+    const onTopCategoryDelete = (deletedId) => {
+        if (selectedCategoryId === deletedId) setCategoryId(null);
     }
 
     return (
@@ -70,6 +90,7 @@ function Curriculum({schoolId, defaultArt, ...props}) {
                         parentId={curricData.curriculum._id}
                         currInputVars={curriculumQueryInput}
                         categoryClick={getAllCats}
+                        onDelete={onTopCategoryDelete}
                     />
                     {/* this is just a sample query */}
                     {/* <Query query={INFO_QUERY}>
@@ -83,7 +104,7 @@ function Curriculum({schoolId, defaultArt, ...props}) {
                     </Query> */}
                 </div>
                 <div className={style.curriculumDisplay}>
-                    { selectedCategory && <DisplayCategories {...props} selectedCategory={selectedCategory}/>}
+                    { selectedCategoryId && <DisplayCategories {...props} selectedCategory={selectedCategoryId}/>}
                 </div>
             </div>}
         </React.Fragment>

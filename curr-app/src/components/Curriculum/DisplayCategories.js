@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useLazyQuery } from '@apollo/react-hooks'
+import { useLazyQuery, useMutation } from '@apollo/react-hooks'
 import { GET_ALL_CATS } from 'actions/curriculumActions'
 import style from './DisplayCategories.module.css'
 import { CREATE_CAT, CREATE_ITEM, DELETE_CAT, 
@@ -11,6 +11,7 @@ import CreateButton from 'components/Buttons/Create'
 import ArchiveButton from 'components/Buttons/Archive'
 import CategoryItems from './CategoryItems'
 import CategoryButtons from './CategoryButtons'
+import { runDeleteMutation } from './graphQLHelper'
 
 export default function DisplayCategories({selectedCategory}) {
     const [catMap, setMap] = useState(new Map()) 
@@ -68,109 +69,108 @@ export default function DisplayCategories({selectedCategory}) {
     )
 }
 
-const Category = ({category, parentId, catMap, titleClass, itemClass, selectedCategory, archiveTree, ...props}) => (
-    <ul key={category._id} className={style.subCatList}>
-        <div key={category._id} className={style.subTitleContainer}>
-        <CategoryTitle
-            {...props}
-            className={titleClass} 
-            title={category.title}
-        />
-        </div>
-       <CategoryItems 
-            itemList={category.currentItems} 
-            categoryId={category._id}
-            listStyle={style.catItemContainer}
-            itemStyle={archiveTree === true ? `${style.catItem} ${style.unarchivedArchive}` : `${style.catItem}`}
-            archiveAction={"Archive"}
-            archiveButtonText={"A"}
-            archiveQuery={ARCHIVE_ITEM}
-            moveQuery={MOVE_ITEM}
-        />
-        <CategoryItems
-            itemList={category.archivedItems}
-            categoryId={category._id}
-            listStyle={style.catItemContainerArchive}
-            itemStyle={style.catItemArchive}
-            archiveAction={"Unarchive"}
-            archiveButtonText={"U"}
-            archiveQuery={UNARCHIVE_ITEM}
-            moveQuery={MOVE_ITEM_ARCH}
-        />
-        {category.currentChildren.map((cat, index) => (
-            <Category
-                key={cat._id}
-                titleClass={archiveTree === true ? `${style.subTitle} ${style.unarchivedArchive}` : `${style.subTitle}`} 
-                category={catMap.get(cat._id)} 
-                catMap={catMap}
-                selectedCategory={selectedCategory}
-                archiveTree={archiveTree}
-            >
-                <div className={style.buttons}>
-                <CategoryButtons 
-                    id={cat._id}
-                    index={index}
-                    length={category.currentChildren.length}
-                    parentId={category._id}
-                    moveQuery={MOVE_CAT}
-                    editQuery={EDIT_CAT}
-                />
-                { archiveTree !== true &&
-                  <CreateButtons parentId={cat._id} refetchInput={{"input": selectedCategory}} refetchQuery={GET_ALL_CATS}/> 
-                }
-                <ArchiveButton 
-                    confirmText={`Archive ${cat.title}?\n`}
-                    archiveQuery={ARCHIVE_CAT}
-                    parentId={category._id}
-                    childId={cat._id}
-                    triggerText={"A"}
-                />
-                <DeleteButton 
-                    confirmText={`Delete ${cat.title} and all sub-categories?\n`}
-                    deleteQuery={DELETE_CAT}
-                    parentId={category._id}
-                    childId={cat._id}
-                />
-                </div>
-            </Category>
-        ))}
-       {category.archivedChildren.map((cat, index) => (
-            <Category 
-                key={cat._id}
-                category={catMap.get(cat._id)} 
-                parentId={category._id} 
-                catMap={catMap}
-                titleClass={style.subTitleContainerArchive} 
-                selectedCategory={selectedCategory}
-                archiveTree={true}
-            >
-                <div className={style.buttons}>
+const Category = ({category, parentId, catMap, titleClass, itemClass, selectedCategory, archiveTree, ...props}) => { 
+    const [deleteCat] = useMutation(DELETE_CAT)
+    return (
+        <ul key={category._id} className={style.subCatList}>
+            <div key={category._id} className={style.subTitleContainer}>
+            <CategoryTitle
+                {...props}
+                className={titleClass} 
+                title={category.title}
+            />
+            </div>
+        <CategoryItems 
+                itemList={category.currentItems} 
+                categoryId={category._id}
+                listStyle={style.catItemContainer}
+                itemStyle={archiveTree === true ? `${style.catItem} ${style.unarchivedArchive}` : `${style.catItem}`}
+                archiveAction={"Archive"}
+                archiveButtonText={"A"}
+                archiveQuery={ARCHIVE_ITEM}
+                moveQuery={MOVE_ITEM}
+            />
+            <CategoryItems
+                itemList={category.archivedItems}
+                categoryId={category._id}
+                listStyle={style.catItemContainerArchive}
+                itemStyle={style.catItemArchive}
+                archiveAction={"Unarchive"}
+                archiveButtonText={"U"}
+                archiveQuery={UNARCHIVE_ITEM}
+                moveQuery={MOVE_ITEM_ARCH}
+            />
+            {category.currentChildren.map((cat, index) => (
+                <Category
+                    key={cat._id}
+                    titleClass={archiveTree === true ? `${style.subTitle} ${style.unarchivedArchive}` : `${style.subTitle}`} 
+                    category={catMap.get(cat._id)} 
+                    catMap={catMap}
+                    selectedCategory={selectedCategory}
+                    archiveTree={archiveTree}
+                >
+                    <div className={style.buttons}>
                     <CategoryButtons 
                         id={cat._id}
                         index={index}
-                        length={category.archivedChildren.length}
+                        length={category.currentChildren.length}
                         parentId={category._id}
-                        moveQuery={MOVE_CAT_ARCH}
+                        moveQuery={MOVE_CAT}
                         editQuery={EDIT_CAT}
                     />
+                    { archiveTree !== true &&
+                    <CreateButtons parentId={cat._id} refetchInput={{"input": selectedCategory}} refetchQuery={GET_ALL_CATS}/> 
+                    }
                     <ArchiveButton 
-                        confirmText={`Unarchive ${cat.title}?\n`}
-                        archiveQuery={UNARCHIVE_CAT}
+                        confirmText={`Archive ${cat.title}?\n`}
+                        archiveQuery={ARCHIVE_CAT}
                         parentId={category._id}
                         childId={cat._id}
-                        triggerText={"U"}
+                        triggerText={"A"}
                     />
                     <DeleteButton 
                         confirmText={`Delete ${cat.title} and all sub-categories?\n`}
-                        deleteQuery={DELETE_CAT}
-                        parentId={category._id}
-                        childId={cat._id}
+                        deleteFunc={()=> {runDeleteMutation(deleteCat, category._id, cat._id)}}
                     />
-                </div>
-            </Category>
-        ))}
-    </ul>
-)
+                    </div>
+                </Category>
+            ))}
+        {category.archivedChildren.map((cat, index) => (
+                <Category 
+                    key={cat._id}
+                    category={catMap.get(cat._id)} 
+                    parentId={category._id} 
+                    catMap={catMap}
+                    titleClass={style.subTitleContainerArchive} 
+                    selectedCategory={selectedCategory}
+                    archiveTree={true}
+                >
+                    <div className={style.buttons}>
+                        <CategoryButtons 
+                            id={cat._id}
+                            index={index}
+                            length={category.archivedChildren.length}
+                            parentId={category._id}
+                            moveQuery={MOVE_CAT_ARCH}
+                            editQuery={EDIT_CAT}
+                        />
+                        <ArchiveButton 
+                            confirmText={`Unarchive ${cat.title}?\n`}
+                            archiveQuery={UNARCHIVE_CAT}
+                            parentId={category._id}
+                            childId={cat._id}
+                            triggerText={"U"}
+                        />
+                        <DeleteButton 
+                            confirmText={`Delete ${cat.title} and all sub-categories?\n`}
+                            deleteFunc={()=> {runDeleteMutation(deleteCat, category._id, cat._id)}}
+                        />
+                    </div>
+                </Category>
+            ))}
+        </ul>
+    )
+}
 
 const CategoryTitle = ({title, className, ...props}) => {
     // console.log("CatTitle:", parentId, length);
