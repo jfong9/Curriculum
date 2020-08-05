@@ -73,7 +73,7 @@ function Students({schoolun, ...props}) {
                 {...props} 
                 schoolun={schoolun} 
                 selectedStudentId={selectedStudentId} 
-                newStudent={newStudent} 
+                newStudentFlag={newStudent} 
                 onStudentUpdate={onStudentUpdate} 
                 onNewStudent={onNewStudent}
             />

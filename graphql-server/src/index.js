@@ -10,6 +10,7 @@ const { AccountsModule } = require('@accounts/graphql-api');
 const  CurriculumAPI  = require('./datasources/curriculum');
 const  CategoryAPI  = require('./datasources/category');
 const  CategoryItemsAPI  = require('./datasources/categoryItems');
+const  StudentCurrCurricAPI  = require('./datasources/studentCurrentCurriculum');
 
 const typeDefs = require('./schema');
 const resolvers = require('./resolvers');
@@ -56,7 +57,8 @@ MongoClient.connect(
             accountsAPI: accountsServer,
             curriculumAPI: new CurriculumAPI(db.collection('curriculum')),
             categoryAPI: new CategoryAPI(db.collection('categories')),
-            categoryItemsAPI: new CategoryItemsAPI(db.collection('categoryItems'))
+            categoryItemsAPI: new CategoryItemsAPI(db.collection('categoryItems')),
+            studentCurrCurricAPI: new StudentCurrCurricAPI(db.collection('studentCurrentCurriculum'))
         }),
         cors: { 
             origin: '*',

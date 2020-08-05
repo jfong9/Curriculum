@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useLazyQuery, useMutation } from '@apollo/react-hooks'
 import { GET_ALL_CATS } from 'actions/curriculumActions'
 import style from './DisplayCategories.module.css'
+import buttonStyle from 'components/Buttons/buttons.module.css'
 import { CREATE_CAT, CREATE_ITEM, DELETE_CAT, 
         EDIT_CAT, MOVE_CAT, MOVE_ITEM, 
         MOVE_CAT_ARCH, MOVE_ITEM_ARCH,
@@ -11,6 +12,7 @@ import CreateButton from 'components/Buttons/Create'
 import ArchiveButton from 'components/Buttons/Archive'
 import CategoryItems from './CategoryItems'
 import CategoryButtons from './CategoryButtons'
+import CategoryTitle from 'components/CategoryTitle/CategoryTitle'
 import { runDeleteMutation } from './graphQLHelper'
 
 export default function DisplayCategories({selectedCategory}) {
@@ -38,6 +40,7 @@ export default function DisplayCategories({selectedCategory}) {
     if (error) return `Something went wrong: ${error}`;
     if (!data) return null;
     
+    console.log({data})
     const categories = data.getAllCategoryElements;
     if (!catMap.has(selectedCategory)) {
         catMap.clear();
@@ -47,10 +50,15 @@ export default function DisplayCategories({selectedCategory}) {
         catMap.set(cat._id, cat);
     }
 
-    let topCategory = categories[0];
-    if (topCategory._id !== selectedCategory) {
-        return "Top category mismatch. Contact host.";
-    } 
+    let topCategory;
+    if (categories.length > 0) {
+        topCategory = categories[0];
+        if (topCategory._id !== selectedCategory) {
+            return "Top category mismatch. Contact host.";
+        } 
+    } else {
+        return "Top category not defined";
+    }
 
     return (
         <div className={style.displayCategories}>
@@ -80,7 +88,7 @@ const Category = ({category, parentId, catMap, titleClass, itemClass, selectedCa
                 title={category.title}
             />
             </div>
-        <CategoryItems 
+            <CategoryItems 
                 itemList={category.currentItems} 
                 categoryId={category._id}
                 listStyle={style.catItemContainer}
@@ -100,7 +108,7 @@ const Category = ({category, parentId, catMap, titleClass, itemClass, selectedCa
                 archiveQuery={UNARCHIVE_ITEM}
                 moveQuery={MOVE_ITEM_ARCH}
             />
-            {category.currentChildren.map((cat, index) => (
+            {category.currentChildren && category.currentChildren.map((cat, index) => (
                 <Category
                     key={cat._id}
                     titleClass={archiveTree === true ? `${style.subTitle} ${style.unarchivedArchive}` : `${style.subTitle}`} 
@@ -111,6 +119,7 @@ const Category = ({category, parentId, catMap, titleClass, itemClass, selectedCa
                 >
                     <div className={style.buttons}>
                     <CategoryButtons 
+                        className={buttonStyle.modalTrigger}
                         id={cat._id}
                         index={index}
                         length={category.currentChildren.length}
@@ -122,20 +131,20 @@ const Category = ({category, parentId, catMap, titleClass, itemClass, selectedCa
                     <CreateButtons parentId={cat._id} refetchInput={{"input": selectedCategory}} refetchQuery={GET_ALL_CATS}/> 
                     }
                     <ArchiveButton 
-                        confirmText={`Archive ${cat.title}?\n`}
+                        confirmText={`Archive ${catMap.get(cat._id).title}?\n`}
                         archiveQuery={ARCHIVE_CAT}
                         parentId={category._id}
                         childId={cat._id}
                         triggerText={"A"}
                     />
                     <DeleteButton 
-                        confirmText={`Delete ${cat.title} and all sub-categories?\n`}
+                        confirmText={`Delete ${catMap.get(cat._id).title} and all sub-categories?\n`}
                         deleteFunc={()=> {runDeleteMutation(deleteCat, category._id, cat._id)}}
                     />
                     </div>
                 </Category>
             ))}
-        {category.archivedChildren.map((cat, index) => (
+        {category.archivedChildren && category.archivedChildren.map((cat, index) => (
                 <Category 
                     key={cat._id}
                     category={catMap.get(cat._id)} 
@@ -147,6 +156,7 @@ const Category = ({category, parentId, catMap, titleClass, itemClass, selectedCa
                 >
                     <div className={style.buttons}>
                         <CategoryButtons 
+                            className={buttonStyle.modalTrigger}
                             id={cat._id}
                             index={index}
                             length={category.archivedChildren.length}
@@ -155,14 +165,14 @@ const Category = ({category, parentId, catMap, titleClass, itemClass, selectedCa
                             editQuery={EDIT_CAT}
                         />
                         <ArchiveButton 
-                            confirmText={`Unarchive ${cat.title}?\n`}
+                            confirmText={`Unarchive ${catMap.get(cat._id).title}?\n`}
                             archiveQuery={UNARCHIVE_CAT}
                             parentId={category._id}
                             childId={cat._id}
                             triggerText={"U"}
                         />
                         <DeleteButton 
-                            confirmText={`Delete ${cat.title} and all sub-categories?\n`}
+                            confirmText={`Delete ${catMap.get(cat._id).title} and all sub-categories?\n`}
                             deleteFunc={()=> {runDeleteMutation(deleteCat, category._id, cat._id)}}
                         />
                     </div>
@@ -171,17 +181,6 @@ const Category = ({category, parentId, catMap, titleClass, itemClass, selectedCa
         </ul>
     )
 }
-
-const CategoryTitle = ({title, className, ...props}) => {
-    // console.log("CatTitle:", parentId, length);
-    return (
-        <React.Fragment>
-            <label className={className}>
-                {title}
-            </label>
-            {props.children}
-        </React.Fragment>
-)}
 
 const CreateButtons = (props) => (
     <React.Fragment>

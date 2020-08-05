@@ -24,15 +24,15 @@ describe('StudentEdit form testing', () => {
                 },
                 "schoolid": "YMA",
                 "arts": [
-                            { name: "Kung Fu",
-                              start_date: "12/09/1993"
-                            },
-                            { name: "Judo",
-                              start_date: "12/09/1995"
-                            }
+                            "Kung Fu",
+                            "Judo"
                         ],
-                "studentCurrentCurriculum": [],
-                "studentArchivedCurriculum": []
+                "startDates": {
+                    "Kung Fu": "2020-07-14",
+                    "Judo": "2020-07-13"
+                }
+                    
+                
         }
     test('form calls updateStudent on submit', () => {
         studentsActions.getStudentById.mockResolvedValue(student)
@@ -53,7 +53,7 @@ describe('StudentEdit form testing', () => {
         expect(updateSpy).toHaveBeenCalledTimes(1)
     })
 
-    test('Three required buttons exist, expect update, edit, delete', () => {
+    test('Two required buttons exist, expect update, edit, delete', () => {
         studentsActions.getStudentById.mockResolvedValue(student)
         const { getByText } = renderWithRouterMatch(StudentEdit, {
             route: '/jfong/MainPortal/Students/edit',
@@ -68,6 +68,5 @@ describe('StudentEdit form testing', () => {
 
         expect(getByText(/edit/i)).toBeInTheDocument();
         expect(getByText(/update/i)).toBeInTheDocument();
-        expect(getByText(/delete/i)).toBeInTheDocument();
     })
 })

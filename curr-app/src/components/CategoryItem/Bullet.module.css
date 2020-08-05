@@ -1,0 +1,8 @@
+.bullet {
+    width: 25px;
+    margin-left: -12px; 
+    height: 100%;
+    background-image: radial-gradient(circle, white 2px, transparent 3px);
+    background-size: 100%;
+    align-items: center;
+}

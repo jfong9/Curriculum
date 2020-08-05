@@ -16,7 +16,8 @@ const StudentSidemenu = ({arts=[], students, studentClick, newClick, onDelete, .
             <ArtDropdown {...props} className={style.artDropDown} arts={['All', ...arts]} defaultArt={'All'} />
             <button className={style.addStudent} onClick={() => newClick()}>Add New Student</button>
             <ul className={style.studentList}>
-                {students.map((s) => {
+                {   students &&
+                    students.map((s) => {
                     return (
                         <li key={s._id} className={style.studentListItem}>
                             <label className={style.studentTitle} onClick={()=>studentClick(s)}>{s.last_name} {s.first_name}</label>

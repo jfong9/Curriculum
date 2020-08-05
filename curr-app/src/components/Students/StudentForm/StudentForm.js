@@ -2,6 +2,7 @@
 
 import React, {useState, useEffect} from 'react';
 import style from './StudentForm.module.css'
+import { ReactComponent as FaceIcon } from 'assets/icons/face.svg'
 
 class StudentForm extends React.Component {
     constructor(props) {
@@ -40,12 +41,10 @@ class StudentForm extends React.Component {
     }
 
     componentDidMount() {
-        console.log("StudentForm Mount:", this.props.student, this.state.student) 
     }
     componentDidUpdate(prevProps) {
         const { loadStudent, studentLoaded, student } = this.props;
         if (loadStudent) {
-            console.log("StudentForm LoadStudent", loadStudent, student)
             studentLoaded();
             this.setState({
                 student, 
@@ -123,51 +122,48 @@ class StudentForm extends React.Component {
                 arts,
                 startDates,
               } = this.state;
-        const { submitText="Add", Buttons= () => null, submitDisabled = false, editDisabled, arts: schoolArts} = this.props;
+        const { submitText="Add", Buttons= () => null, submitDisabled = false, editDisabled, arts: schoolArts, artStyle, Icon = () => null} = this.props;
         return (
-            <form onSubmit={this.handleSubmit}>
-                <label>
-                    First name: 
-                    <input type='text' name='first_name' value={first_name} disabled={editDisabled} onChange={this.handleChange}/>
-                </label>
-                <br/>
-                <label>
-                    Last name: 
-                    <input type='text' name='last_name' value={last_name} disabled={editDisabled} onChange={this.handleChange}/>
-                </label>
-                <br/>
-                <label>
-                    Birthdate: 
-                    <input type='text' name='birthday' value={birthday} disabled={editDisabled} onChange={this.handleChange}/>
-                </label>
-                <br/>
-                <label>
-                    Email: 
-                    <input type='text' name='email' value={email} disabled={editDisabled} onChange={this.handleChange}/>
-                </label>
-                <br/>
-                <label>
-                    Phone: 
-                    <input type='text' name='phone' value={phone} disabled={editDisabled} onChange={this.handleChange}/>
-                </label>
-                <br/>
-                <label>
-                    Street: 
-                    <input type='text' name='street' value={street} disabled={editDisabled} onChange={this.handleAddressChange}/>
-                </label>
-                <br/>
-                <label>
-                    City: 
-                    <input type='text' name='city' value={city} disabled={editDisabled} onChange={this.handleAddressChange}/>
-                </label>
-                <br/>
-                <label>
-                    Zip: 
-                    <input type='text' name='zip' value={zip} disabled={editDisabled} onChange={this.handleAddressChange}/>
-                </label>
-                <br/>
-                <div className={style.arts}>
+            <form className={style.studentForm} onSubmit={this.handleSubmit}>
+                <Icon className={style.profilePicture}/> 
+                <div className={style.studentInfo}> 
+                    <label className={style.studentInput}>
+                        First name: 
+                        <input type='text' name='first_name' value={first_name} disabled={editDisabled} onChange={this.handleChange}/>
+                    </label>
+                    <label className={style.studentInput}>
+                        Last name: 
+                        <input type='text' name='last_name' value={last_name} disabled={editDisabled} onChange={this.handleChange}/>
+                    </label>
+                    <label className={style.studentInput}>
+                        Birthdate: 
+                        <input type='text' name='birthday' value={birthday} disabled={editDisabled} onChange={this.handleChange}/>
+                    </label>
+                    <label className={style.studentInput}>
+                        Email: 
+                        <input type='text' name='email' value={email} disabled={editDisabled} onChange={this.handleChange}/>
+                    </label>
+                    <label className={style.studentInput}>
+                        Phone: 
+                        <input type='text' name='phone' value={phone} disabled={editDisabled} onChange={this.handleChange}/>
+                    </label>
+                    <label className={style.studentInput}>
+                        Street: 
+                        <input type='text' name='street' value={street} disabled={editDisabled} onChange={this.handleAddressChange}/>
+                    </label>
+                    <label className={style.studentInput}>
+                        City: 
+                        <input type='text' name='city' value={city} disabled={editDisabled} onChange={this.handleAddressChange}/>
+                    </label>
+                    <label className={style.studentInput}>
+                        Zip: 
+                        <input type='text' name='zip' value={zip} disabled={editDisabled} onChange={this.handleAddressChange}/>
+                    </label>
+                </div>
+                
+                <div className={`${style.arts} ${artStyle}`}>
                     {
+                        schoolArts &&
                         schoolArts.map(art => 
                             <ArtCheckBox 
                                 key={art} 
@@ -180,8 +176,10 @@ class StudentForm extends React.Component {
                             />)
                     }
                 </div>
-                <input data-testid='submit-button' type='submit' disabled={(!formChanged || submitDisabled)} value={submitText}/>
-                {<Buttons/>}
+                <div className={style.buttons}>
+                    {<Buttons className={style.buttons}/>}
+                    <input className={style.submit} data-testid='submit-button' type='submit' disabled={(!formChanged || submitDisabled)} value={submitText}/>
+                </div>
                 <br/>
             </form>
         )

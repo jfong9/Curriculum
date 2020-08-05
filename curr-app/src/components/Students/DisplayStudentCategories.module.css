@@ -94,3 +94,14 @@
 .unarchivedArchive {
     color: lightcoral;
 }
+
+.status {
+    display: inline-flex;
+    margin: auto;
+    margin-left: .75em;
+}
+
+.statusClear {
+    composes: status;
+    margin-left: 0;
+}

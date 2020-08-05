@@ -51,6 +51,7 @@ export const CREATE_TOP_CAT = gql`
         }
     }
 `
+
 export const MOVE_TOP_CAT = gql`
     mutation moveTopCategoryTo($input: MoveInput!) {
         moveTopCategoryTo(input: $input) {
