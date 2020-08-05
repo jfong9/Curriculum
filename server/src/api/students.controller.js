@@ -1,5 +1,6 @@
 'use strict'
 import StudentsDAO from "../dao/studentsDAO";
+import StudentCurrDAO from "../dao/studentCurrDAO";
 import { sendErrorResponse } from "./apiHelper";
 
 export default class StudentsController {
@@ -55,12 +56,13 @@ export default class StudentsController {
             const body = req.body;
             console.log("add", body)
             validateAddStudentBody(body);
-            //JMF should validate school being added to here.
             let student = getStudentFromBody(body); 
             let addedStudent = await StudentsDAO.addStudent(student);
             let response = {
                 student: addedStudent
             }
+            const {_id, arts } = addedStudent;
+            StudentCurrDAO.createStudentCurrCurriculum(_id, arts);
             res.status(200).json(response);
         } catch (err) {
             const msg = Object.values(err).join('\n');
@@ -82,6 +84,8 @@ export default class StudentsController {
                         res.status(500).json( {error: "update unsuccessful"})
                         return;
                     }
+                    const { arts } = updateParams;
+                    StudentCurrDAO.createStudentCurrCurriculum(body.id, arts)
                     let response = {
                         success: true
                     }

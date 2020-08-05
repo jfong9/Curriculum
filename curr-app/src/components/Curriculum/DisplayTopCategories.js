@@ -8,6 +8,10 @@ import MoveButton, {moveIndexDown, moveIndexUp} from 'components/Buttons/Move/Mo
 import style from './Curriculum.module.css'
 import { runDeleteMutation } from './graphQLHelper'
 
+import {ReactComponent as UpArrow } from 'assets/icons/categories/up-arrow.svg'
+import {ReactComponent as DownArrow } from 'assets/icons/categories/down-arrow.svg'
+import {ReactComponent as Trash } from 'assets/icons/categories/trash.svg'
+import {ReactComponent as Edit } from 'assets/icons/categories/edit.svg'
 
 export default function DisplayTopCategories({topCategories, parentId, categoryClick, onDelete, ...props}) {
     const [deleteFunction] = useMutation(DELETE_TOP_CAT)
@@ -28,16 +32,35 @@ export default function DisplayTopCategories({topCategories, parentId, categoryC
                                 {cat.title} 
                             </div>
                             <div className={style.buttons}>
-                                <MoveButton {...props} indexFunc={() => moveIndexDown(index, length)} childId={cat._id} parentId={parentId} moveQuery={MOVE_TOP_CAT}>
-                                    {"↑"}
+                                <MoveButton {...props} 
+                                    className={style.buttonContainer}
+                                    indexFunc={() => moveIndexDown(index, length)} 
+                                    childId={cat._id} 
+                                    parentId={parentId} 
+                                    moveQuery={MOVE_TOP_CAT}>
+                                    <UpArrow className={style.icon}/>
+                                    {/* {"↑"} */}
                                 </MoveButton>   
-                                <MoveButton {...props} indexFunc={() => moveIndexUp(index, length)} childId={cat._id} parentId={parentId} moveQuery={MOVE_TOP_CAT}>
-                                    {"↓"}
-                                </MoveButton> 
-                                <EditButton {...props} id={cat._id} editQuery={EDIT_CAT}/>
+                                <MoveButton {...props} 
+                                    className={style.buttonContainer}
+                                    indexFunc={() => moveIndexUp(index, length)} 
+                                    childId={cat._id} 
+                                    parentId={parentId} 
+                                    moveQuery={MOVE_TOP_CAT}>
+                                    <DownArrow className={style.icon}/>
+                                </MoveButton>
+                                <EditButton {...props} 
+                                    className={style.buttonContainer}
+                                    id={cat._id} 
+                                    editQuery={EDIT_CAT}
+                                    triggerText={<Edit className={style.icon}/>}
+                                />
                                 <DeleteButton {...props}
+                                    title={'Delete THIS'}
+                                    className={style.buttonContainer}
                                     confirmText={`Delete ${cat.title} and all sub-categories?\n`}
                                     deleteFunc={() => {deleteTopCat(parentId, cat._id)}}
+                                    triggerText={<Trash className={style.icon}/>}
                                 />
                             </div>
                         </li> 

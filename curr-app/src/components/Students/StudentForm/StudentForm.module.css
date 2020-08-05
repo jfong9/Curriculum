@@ -1,3 +1,43 @@
+.studentForm {
+
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
 .arts {
     display: flex;
+    grid-column-start: 1;
+    grid-column-end: -1;
+    grid-row-start: 4;
+    grid-row-end: 5;
+}
+
+.profilePicture {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    grid-row-start: 1;
+    grid-row-end: 4;
+}
+.buttons {
+    margin-right: 10px;
+    min-width: 60px;
+    grid-column-start: 1;
+    grid-column-end: -1;
+}
+.submit {
+    composes: buttons;
+}
+.studentInfo {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    grid-column-start: 2;
+    grid-column-end: 5;
+    padding-left: 10px;
+}
+.studentInput {
+    display: flex;
+    flex-direction: column;
 }

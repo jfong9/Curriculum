@@ -6,7 +6,13 @@
     grid-template-columns: repeat(12, 1fr ) 5px;
 }
 
+.attribution {
+    color: black;
+    grid-row-start: 4;
+    grid-row-end: -1;
+}
 .sideMenu {
+    height: 100%;
     box-sizing: border-box;
     background-color: lightgray;
     width: 260px;
@@ -37,12 +43,14 @@
     box-sizing: border-box;
     height: 100%;
     width: 100%;
-    display: flex;
+    display: grid;
     grid-column-start: 2;
     grid-column-end: -1;
     overflow-y: auto;
     color: lightgray;
     padding-left: 10px;
+    padding-right: 10px;
+    grid-template-rows: 1fr 1fr 8fr .25fr;
 }
 
 .studentList {
@@ -95,3 +103,49 @@
     align-items: center;
 }
 
+/*  sidebar done*/
+
+.studentForm {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+}
+
+.studentAdd {
+    height: 100%;
+    width: 100%;
+    grid-column-start: 1;
+    grid-column-end: -1;
+    /* padding-bottom: 10px; */
+}
+
+.studentEdit {
+    composes: studentAdd;
+}
+
+.studentCurriculumDisplay {
+    height: 100%;
+    width: 100%;
+    grid-row-start: 2;
+    grid-row-end: 4;
+    display: grid;
+    overflow-y: auto;
+}
+
+.studentCurricContent {
+    height: 100%;
+    width: 100%;
+    display: inline-flex;
+    flex-direction: column;
+}
+.studentCurrToolbar {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    padding-bottom: 10px;
+}
+
+.studentCurrCurric{
+    height: 100%;
+}

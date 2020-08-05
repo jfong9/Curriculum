@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import StudentForm from 'components/Students/StudentForm'
 import * as studentActions from 'actions/studentActions'
+import style from '../Students.module.css'
+import { ReactComponent as FaceIcon } from 'assets/icons/face.svg'
 
-function StudentEdit({studentId, onStudentUpdate, ...props}) {
+function StudentEdit({onStudentUpdate, loadedStudent, ...props}) {
     const [editDisabled, setDisabled] = useState(true);
     const [loadStudentFlag, setLoad] = useState(false); 
     const [editStudent, setStudent] = useState(null);
@@ -13,14 +15,12 @@ function StudentEdit({studentId, onStudentUpdate, ...props}) {
         return () => {
             setStudent(null);
         }
-    }, [studentId])
+    }, [loadedStudent])
 
     const loadStudent = async () => {
-        let newStudent = await studentActions.getStudentById(studentId) 
-        console.log({newStudent, studentId})
         setDisabled(true);
         setLoad(true);
-        setStudent(newStudent);
+        await setStudent(loadedStudent);
     }
 
     const handleEditClick = (event) => {
@@ -31,15 +31,15 @@ function StudentEdit({studentId, onStudentUpdate, ...props}) {
         setDisabled(!editDisabled)
     }
     
-    const buttonsFunc = () => {
+    const buttonsFunc = ({className}) => {
         let editButtonVal = 'Edit'
         if (!editDisabled) {
             editButtonVal = 'Cancel'
         }
         return  (
-            <div>
-                <button type="button" onClick={handleEditClick}>{editButtonVal}</button>
-            </div>
+            <React.Fragment>
+                <button  className={className} type="button" onClick={handleEditClick}>{editButtonVal}</button>
+            </React.Fragment> 
         ) 
     }
     
@@ -49,7 +49,7 @@ function StudentEdit({studentId, onStudentUpdate, ...props}) {
         if (success) {
             console.log("update success:", success) 
             setStudent(student)
-            onStudentUpdate();
+            onStudentUpdate(student);
         }
         else {
             setLoad(true)
@@ -59,9 +59,15 @@ function StudentEdit({studentId, onStudentUpdate, ...props}) {
         setLoad(false);
     }
 
+    const renderIcon = ({className}) => {
+        return (
+        <FaceIcon className={className}/>
+        );
+    }
+
     if (!editStudent) return null;
     return (
-        <div>
+        <div className={style.studentEdit}>
             <StudentForm 
                 {...props}
                 Buttons={buttonsFunc}
@@ -70,7 +76,8 @@ function StudentEdit({studentId, onStudentUpdate, ...props}) {
                 studentLoaded={studentLoaded} 
                 handleSubmit={handleSubmit} 
                 editDisabled={editDisabled} 
-                submitText='Update'/>
+                submitText='Update'
+                Icon={renderIcon}/>
         </div>
     )
 }

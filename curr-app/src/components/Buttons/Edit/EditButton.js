@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/react-hooks'
 import { InputContainer } from 'utils/Modal/Input/InputContainer'
 import styles from '../buttons.module.css'
 
-export default function EditButton({id, editQuery, triggerText="E"}) {
+export default function EditButton({id, editQuery, triggerText="E", className=styles.modalTrigger}) {
     const [editFunction, { data: editData }] = useMutation(editQuery)
     const modalInput = useRef(null)
     const onSubmit = async (event) => {
@@ -26,6 +26,6 @@ export default function EditButton({id, editQuery, triggerText="E"}) {
         })
     }
     return (
-        <InputContainer className={styles.modalTrigger} triggerText={triggerText} onSubmit={onSubmit} ref={modalInput} />
+        <InputContainer className={className} triggerText={triggerText} onSubmit={onSubmit} ref={modalInput} />
     )
 }

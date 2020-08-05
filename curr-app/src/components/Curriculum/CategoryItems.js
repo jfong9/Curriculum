@@ -4,15 +4,16 @@ import { DELETE_ITEM, EDIT_CAT_ITEM } from 'actions/commonActions'
 import DeleteButton from 'components/Buttons/Delete'
 import ArchiveButton from 'components/Buttons/Archive'
 import CategoryButtons from './CategoryButtons'
+import CategoryItem from 'components/CategoryItem/CategoryItem'
 import style from './DisplayCategories.module.css'
-import Bullet from './Bullet'
+import buttonStyle from 'components/Buttons/buttons.module.css'
 import { runDeleteMutation } from './graphQLHelper'
 
-const CategoryItems = ({categoryId, listStyle, itemList, itemStyle, archiveButtonText='A', archiveAction, moveQuery, archiveQuery}) => {
+const CategoryItems = ({categoryId, listStyle, itemList, itemStyle, archiveButtonText='A', archiveAction, moveQuery, archiveQuery}) =>{
     const [deleteItem] = useMutation(DELETE_ITEM)
     return (
         <React.Fragment>
-            {itemList.map( (item, index) => (
+            {itemList && itemList.map( (item, index) => (
                 <li key={item._id} className={listStyle}>
                     <CategoryItem 
                         className={itemStyle}
@@ -20,6 +21,7 @@ const CategoryItems = ({categoryId, listStyle, itemList, itemStyle, archiveButto
                     >
                         <div className={style.buttons}>
                             <CategoryButtons
+                                className={buttonStyle.modalTrigger}
                                 id={item._id}
                                 index={index}
                                 length={itemList.length}
@@ -45,15 +47,5 @@ const CategoryItems = ({categoryId, listStyle, itemList, itemStyle, archiveButto
         </React.Fragment>
     )
 }
-
-const CategoryItem = ({title, className, ...props}) => (
-    <React.Fragment>
-        <div className={className}>
-            <Bullet/>
-            {title}
-            {props.children}
-        </div>
-    </React.Fragment>
-)
 
 export default CategoryItems;

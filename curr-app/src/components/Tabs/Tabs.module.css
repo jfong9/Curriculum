@@ -1,0 +1,12 @@
+.tabs {
+    display: flex;
+    flex-direction: column;
+}
+.tabList {
+    border-bottom: 1px solid white;
+    padding-left: 0;
+}
+
+.currentTabContent {
+    height: 100%;
+}

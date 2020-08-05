@@ -2,10 +2,10 @@ import React from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import styles from '../buttons.module.css'
 
-export default function MoveButton({indexFunc, parentId, childId, moveQuery, ...props}) {
+export default function MoveButton({indexFunc, parentId, childId, moveQuery, className=styles.buttonContainer, ...props}) {
     const [moveFunction] = useMutation(moveQuery)
     return (
-      <button className={styles.modalTrigger}
+      <button className={className} 
         onClick= {
             async () => {
                 try {

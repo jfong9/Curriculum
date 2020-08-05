@@ -6,8 +6,8 @@ import ArtDropdown from 'components/ArtDropdown'
 import { GET_CURRICULUM } from 'actions/curriculumActions'
 import DisplayTopCategories from './DisplayTopCategories'
 import CreateTopCatButton from './CreateTopCatButton'
-import style from './Curriculum.module.css'
 import DisplayCategories from './DisplayCategories'
+import style from './Curriculum.module.css'
 
 const INFO_QUERY = gql`
     query getSensitiveInfo {
@@ -25,7 +25,7 @@ function Curriculum({schoolId, defaultArt, ...props}) {
     }
 
     useEffect( () => {
-        // setCategory("5e8e466a4dab5634e42a4c77");
+        // setCategoryId("5e8e466a4dab5634e42a4c77");
         setCategoryId(null);
     }, [defaultArt, schoolId]);
 
@@ -104,7 +104,10 @@ function Curriculum({schoolId, defaultArt, ...props}) {
                     </Query> */}
                 </div>
                 <div className={style.curriculumDisplay}>
-                    { selectedCategoryId && <DisplayCategories {...props} selectedCategory={selectedCategoryId}/>}
+                    { selectedCategoryId && 
+                        <DisplayCategories 
+                            selectedCategory={selectedCategoryId}
+                        />}
                 </div>
             </div>}
         </React.Fragment>
@@ -112,6 +115,7 @@ function Curriculum({schoolId, defaultArt, ...props}) {
 }
 
 function getCurriculumQueryInput(schoolId, art) {
+    console.log({schoolId})
     return {
         "input": {
             schoolId, 
