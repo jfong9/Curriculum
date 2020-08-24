@@ -5,7 +5,6 @@ import { GET_STUDENT_CURR_CURRIC, ADD_TOP_CAT, CLEAR_STUDENT_CURR } from 'action
 import DisplayStudentCategories from './DisplayStudentCategories'
 import TopCatDropDown from './StudentTopCatDropDown'
 import style from './Students.module.css'
-import { noSubselectionAllowedMessage } from 'graphql/validation/rules/ScalarLeafs'
 
 export const StudentCurrCurric = ({studentId, schoolId, art}) => {
     const getStudentCurrInput = () => {
@@ -18,11 +17,13 @@ export const StudentCurrCurric = ({studentId, schoolId, art}) => {
     const [addTopCategory] = useMutation(ADD_TOP_CAT);
     const [clearCurrCurric] = useMutation(CLEAR_STUDENT_CURR);
     const [getStudentCurrCurric, { loading, error, data}] = useLazyQuery(GET_STUDENT_CURR_CURRIC, {
+        fetchPolicy: 'cache-and-network', 
         variables: {"input": getStudentCurrInput()},
     })
     let isMounted = true;
     useEffect( () => {
         if (isMounted) {
+            console.log("Getting Curriculum")
             getStudentCurrCurric();
         }
         return () => {
@@ -63,21 +64,24 @@ export const StudentCurrCurric = ({studentId, schoolId, art}) => {
     }
 
     const {_id: studentCurricId, topCategories, currentCategories, currentItems, hiddenCategories, hiddenItems } = data.getStudentCurrCurric;
+    // console.log({topCategories})
     const topCatIds = new Set([...topCategories.map(obj => obj.id)]);
     const hiddenIds = new Set([...hiddenCategories.map(obj => obj.id), ...hiddenItems.map(obj => obj.id)]);
     const currentIds = new Set([...currentCategories.map(obj=> obj.id), ...currentItems.map(obj => obj.id)]);
 
     const getStatusMap = (...arrays) => {
-        return new Map([].concat(...arrays).map( obj => [obj.id, obj.status]))
+        let map = new Map([].concat(...arrays).map( obj => [obj.id, obj.status]))
+        // console.log("StatusMapcreated", {map})
+        return map;
     }
     const statusMap = getStatusMap(topCategories, currentCategories, currentItems, hiddenCategories, hiddenItems);
-    console.log({studentCurricId});
+    // console.log({studentCurricId});
     return (
         <div className={style.studentCurricContent} >
             <div className={style.studentCurrToolbar}> 
                 <TopCatDropDown schoolId={schoolId} art={art} onSelect={onSelect}/>
-                <button onClick={onAddTopCat}>add</button>
-                <button onClick={onClearCurric}>clear</button>
+                <button className={style.topCatButton} onClick={onAddTopCat}>add</button>
+                <button className={style.topCatButton} onClick={onClearCurric}>clear</button>
             </div>
             <div className={style.studentCurrCurric}>
                 {
@@ -97,5 +101,4 @@ export const StudentCurrCurric = ({studentId, schoolId, art}) => {
     )
 }
    
-
 export default StudentCurrCurric;

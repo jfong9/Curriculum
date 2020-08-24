@@ -93,7 +93,7 @@ const DisplayStudentCategories = ({studentCurricId, selectedCategoryId, currentI
                         defaultStatus={getStatus(topCategory._id)} 
                         statusOptions={topCategoryStatus} 
                         handleChange={handleStatusChange(topCategory._id, "topCategories")}/>
-                    <button className={style.status}>Archive</button>
+                    {/* <button className={style.status}>Archive</button> */}
                 </Category>
             </div>
         </React.Fragment>
@@ -112,13 +112,13 @@ const StudentStatusDropDown = ({defaultStatus="", statusOptions=[], handleChange
     }
 
     return (
-        <React.Fragment>
-            <select className={style.status} value={value} onChange={onChange}>
-                <option key='Default' value='DEFAULT' hidden disabled>{defaultStatus === "" ? 'Select a status...' : defaultStatus}</option>
-                {statusOptions.map( (status, index) => <option key={index} value={status}>{status}</option>)}
+        <div className={style.studentStatus}>
+            <select className={style.statusSelect} value={value} onChange={onChange}>
+                <option className={style.statusOption} key='Default' value='DEFAULT' hidden disabled>{defaultStatus === "" ? 'Select a status...' : defaultStatus}</option>
+                {statusOptions.map( (status, index) => <option className={style.statusOption} key={index} value={status}>{status}</option>)}
             </select>
-            <button className={style.statusClear} onClick={onClear}>x</button>
-        </React.Fragment>
+            <button className={style.statusClear} onClick={onClear}>clear</button>
+        </div>
     )
 }
 

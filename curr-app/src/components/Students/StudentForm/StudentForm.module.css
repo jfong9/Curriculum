@@ -2,7 +2,7 @@
 
     display: grid;
     width: 100%;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(12, 1fr);
     gap: 10px;
 }
 .arts {
@@ -19,6 +19,8 @@
     height: 100%;
     grid-row-start: 1;
     grid-row-end: 4;
+    grid-column-start: 1;
+    grid-column-end: 3;
 }
 .buttons {
     margin-right: 10px;
@@ -33,8 +35,8 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
-    grid-column-start: 2;
-    grid-column-end: 5;
+    grid-column-start: 3;
+    grid-column-end: 7;
     padding-left: 10px;
 }
 .studentInput {

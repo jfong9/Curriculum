@@ -6,7 +6,6 @@ import ArchiveButton from 'components/Buttons/Archive'
 import CategoryButtons from './CategoryButtons'
 import CategoryItem from 'components/CategoryItem/CategoryItem'
 import style from './DisplayCategories.module.css'
-import buttonStyle from 'components/Buttons/buttons.module.css'
 import { runDeleteMutation } from './graphQLHelper'
 
 const CategoryItems = ({categoryId, listStyle, itemList, itemStyle, archiveButtonText='A', archiveAction, moveQuery, archiveQuery}) =>{
@@ -21,7 +20,7 @@ const CategoryItems = ({categoryId, listStyle, itemList, itemStyle, archiveButto
                     >
                         <div className={style.buttons}>
                             <CategoryButtons
-                                className={buttonStyle.modalTrigger}
+                                className={style.buttonContainer}
                                 id={item._id}
                                 index={index}
                                 length={itemList.length}
@@ -30,6 +29,7 @@ const CategoryItems = ({categoryId, listStyle, itemList, itemStyle, archiveButto
                                 editQuery={EDIT_CAT_ITEM}
                             />
                             <ArchiveButton 
+                                className={style.buttonContainer}
                                 confirmText={`${archiveAction} ${item.title}?\n`}
                                 archiveQuery={archiveQuery}
                                 parentId={categoryId}
@@ -37,6 +37,7 @@ const CategoryItems = ({categoryId, listStyle, itemList, itemStyle, archiveButto
                                 triggerText={archiveButtonText}
                             />
                             <DeleteButton 
+                                className={style.buttonContainer}
                                 confirmText={`Delete ${item.title} and all sub-categories?\n`}
                                 deleteFunc={()=> {runDeleteMutation(deleteItem, categoryId, item._id)}}
                             />

@@ -3,6 +3,7 @@ import * as studentActions from 'actions/studentActions'
 import ArtDropdown from 'components/ArtDropdown'
 import DeleteButton from 'components/Buttons/Delete'
 import style from './Students.module.css'
+import {ReactComponent as Trash } from 'assets/icons/categories/trash.svg'
 
 const StudentSidemenu = ({arts=[], students, studentClick, newClick, onDelete, ...props}) => {
     const deleteStudent = async (id) => {
@@ -23,8 +24,11 @@ const StudentSidemenu = ({arts=[], students, studentClick, newClick, onDelete, .
                             <label className={style.studentTitle} onClick={()=>studentClick(s)}>{s.last_name} {s.first_name}</label>
                             <div className={style.studentListButtons}>
                                 <DeleteButton 
+                                    className={style.buttonContainer}
                                     confirmText={`Delete ${s.first_name} ${s.last_name} from records?`}
-                                    deleteFunc={() => deleteStudent(s._id)} />
+                                    deleteFunc={() => deleteStudent(s._id)}
+                                    triggerText={<Trash className={style.icon}/>}    
+                                />
                             </div>
                         </li>
                     )})

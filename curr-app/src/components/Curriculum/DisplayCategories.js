@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { useLazyQuery, useMutation } from '@apollo/react-hooks'
 import { GET_ALL_CATS } from 'actions/curriculumActions'
 import style from './DisplayCategories.module.css'
-import buttonStyle from 'components/Buttons/buttons.module.css'
 import { CREATE_CAT, CREATE_ITEM, DELETE_CAT, 
         EDIT_CAT, MOVE_CAT, MOVE_ITEM, 
         MOVE_CAT_ARCH, MOVE_ITEM_ARCH,
@@ -14,6 +13,10 @@ import CategoryItems from './CategoryItems'
 import CategoryButtons from './CategoryButtons'
 import CategoryTitle from 'components/CategoryTitle/CategoryTitle'
 import { runDeleteMutation } from './graphQLHelper'
+import { ReactComponent as CreateCatIcon} from 'assets/icons/categories/create_cat.svg'
+import { ReactComponent as CreateItemIcon} from 'assets/icons/categories/create_item.svg'
+import { ReactComponent as ArchiveIcon} from 'assets/icons/categories/archive.svg'
+import { ReactComponent as UnarchiveIcon} from 'assets/icons/categories/unarchive.svg'
 
 export default function DisplayCategories({selectedCategory}) {
     const [catMap, setMap] = useState(new Map()) 
@@ -40,7 +43,7 @@ export default function DisplayCategories({selectedCategory}) {
     if (error) return `Something went wrong: ${error}`;
     if (!data) return null;
     
-    console.log({data})
+    // console.log({data})
     const categories = data.getAllCategoryElements;
     if (!catMap.has(selectedCategory)) {
         catMap.clear();
@@ -70,7 +73,11 @@ export default function DisplayCategories({selectedCategory}) {
                 selectedCategory={selectedCategory}
             >
                 <div className={style.topTitleButtons}>
-                    <CreateButtons parentId={topCategory._id} refetchInput={{"input": selectedCategory}} refetchQuery={GET_ALL_CATS}/> 
+                    <CreateButtons 
+                        className={style.buttonContainer}
+                        parentId={topCategory._id} 
+                        refetchInput={{"input": selectedCategory}} 
+                        refetchQuery={GET_ALL_CATS}/> 
                 </div>
             </Category>
         </div>
@@ -94,7 +101,7 @@ const Category = ({category, parentId, catMap, titleClass, itemClass, selectedCa
                 listStyle={style.catItemContainer}
                 itemStyle={archiveTree === true ? `${style.catItem} ${style.unarchivedArchive}` : `${style.catItem}`}
                 archiveAction={"Archive"}
-                archiveButtonText={"A"}
+                archiveButtonText={<ArchiveIcon className={style.icon}/>}
                 archiveQuery={ARCHIVE_ITEM}
                 moveQuery={MOVE_ITEM}
             />
@@ -104,7 +111,7 @@ const Category = ({category, parentId, catMap, titleClass, itemClass, selectedCa
                 listStyle={style.catItemContainerArchive}
                 itemStyle={style.catItemArchive}
                 archiveAction={"Unarchive"}
-                archiveButtonText={"U"}
+                archiveButtonText={<UnarchiveIcon className={style.icon}/>}
                 archiveQuery={UNARCHIVE_ITEM}
                 moveQuery={MOVE_ITEM_ARCH}
             />
@@ -119,7 +126,7 @@ const Category = ({category, parentId, catMap, titleClass, itemClass, selectedCa
                 >
                     <div className={style.buttons}>
                     <CategoryButtons 
-                        className={buttonStyle.modalTrigger}
+                        className={style.buttonContainer}
                         id={cat._id}
                         index={index}
                         length={category.currentChildren.length}
@@ -128,16 +135,22 @@ const Category = ({category, parentId, catMap, titleClass, itemClass, selectedCa
                         editQuery={EDIT_CAT}
                     />
                     { archiveTree !== true &&
-                    <CreateButtons parentId={cat._id} refetchInput={{"input": selectedCategory}} refetchQuery={GET_ALL_CATS}/> 
+                    <CreateButtons 
+                        className={style.buttonContainer}
+                        parentId={cat._id} 
+                        refetchInput={{"input": selectedCategory}} 
+                        refetchQuery={GET_ALL_CATS}/> 
                     }
                     <ArchiveButton 
+                        className={style.buttonContainer}
                         confirmText={`Archive ${catMap.get(cat._id).title}?\n`}
                         archiveQuery={ARCHIVE_CAT}
                         parentId={category._id}
                         childId={cat._id}
-                        triggerText={"A"}
+                        triggerText={<ArchiveIcon className={style.icon}/>}
                     />
                     <DeleteButton 
+                        className={style.buttonContainer}
                         confirmText={`Delete ${catMap.get(cat._id).title} and all sub-categories?\n`}
                         deleteFunc={()=> {runDeleteMutation(deleteCat, category._id, cat._id)}}
                     />
@@ -156,7 +169,7 @@ const Category = ({category, parentId, catMap, titleClass, itemClass, selectedCa
                 >
                     <div className={style.buttons}>
                         <CategoryButtons 
-                            className={buttonStyle.modalTrigger}
+                            className={style.buttonContainer}
                             id={cat._id}
                             index={index}
                             length={category.archivedChildren.length}
@@ -165,13 +178,15 @@ const Category = ({category, parentId, catMap, titleClass, itemClass, selectedCa
                             editQuery={EDIT_CAT}
                         />
                         <ArchiveButton 
+                            className={style.buttonContainer}
                             confirmText={`Unarchive ${catMap.get(cat._id).title}?\n`}
                             archiveQuery={UNARCHIVE_CAT}
                             parentId={category._id}
                             childId={cat._id}
-                            triggerText={"U"}
+                            triggerText={<UnarchiveIcon className={style.icon}/>}
                         />
                         <DeleteButton 
+                            className={style.buttonContainer}
                             confirmText={`Delete ${catMap.get(cat._id).title} and all sub-categories?\n`}
                             deleteFunc={()=> {runDeleteMutation(deleteCat, category._id, cat._id)}}
                         />
@@ -187,12 +202,12 @@ const CreateButtons = (props) => (
         <CreateButton 
             {...props}
             query={CREATE_CAT}
-            triggerText={"C"}
+            triggerText={<CreateCatIcon className={style.icon}/>}
         />
         <CreateButton 
             {...props}
             query={CREATE_ITEM}
-            triggerText={"i"}
+            triggerText={<CreateItemIcon className={style.icon}/>}
         />   
     </React.Fragment>
 )

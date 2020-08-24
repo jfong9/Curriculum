@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { GET_CURRICULUM } from 'actions/curriculumActions'
 import { useQuery } from '@apollo/react-hooks'
+import style from './Students.module.css'
 
 const  TopCatDropDown = ({schoolId, art, onSelect}) => {
     const [ selectedCat, setCat ] = useState("");
@@ -24,12 +25,10 @@ const  TopCatDropDown = ({schoolId, art, onSelect}) => {
 
     const { topCategories } = data.curriculum;
     return (
-        <div>
-            <select value={selectedCat} onChange={handleChange}>
-                <option key="None" value="None">None</option>
-                {topCategories.map( (cat, index) => <option key={index} value={cat._id}>{cat.title}</option>)}
-            </select>
-        </div>
+        <select className={style.topCatSelect} value={selectedCat} onChange={handleChange}>
+            <option className={style.topCatOption} key="None" value="None">None</option>
+            {topCategories.map( (cat, index) => <option className={style.topCatOption} key={index} value={cat._id}>{cat.title}</option>)}
+        </select>
     )
 }
 

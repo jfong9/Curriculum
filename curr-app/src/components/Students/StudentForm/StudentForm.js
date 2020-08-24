@@ -2,7 +2,6 @@
 
 import React, {useState, useEffect} from 'react';
 import style from './StudentForm.module.css'
-import { ReactComponent as FaceIcon } from 'assets/icons/face.svg'
 
 class StudentForm extends React.Component {
     constructor(props) {

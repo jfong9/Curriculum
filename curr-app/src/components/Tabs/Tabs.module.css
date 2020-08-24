@@ -1,6 +1,7 @@
 .tabs {
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 }
 .tabList {
     border-bottom: 1px solid white;
@@ -9,4 +10,5 @@
 
 .currentTabContent {
     height: 100%;
+    overflow-y: auto;
 }
