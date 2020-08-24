@@ -1,9 +1,9 @@
 import React, { useRef } from 'react'
-import { useMutation } from '@apollo/react-hooks'
 import { ConfirmContainer } from 'utils/Modal/Confirm/ConfirmContainer'
 import styles from '../buttons.module.css'
+import {ReactComponent as Trash } from 'assets/icons/categories/trash.svg'
 
-export default function DeleteButton( {confirmText, deleteFunc, triggerText="X", className=styles.modalTrigger}) {
+export default function DeleteButton( {confirmText, deleteFunc, triggerText=<Trash className={styles.icon}/>, className=styles.buttonContainer}) {
     const modalInput = useRef(null)
 
     const onSubmit = async (event) => {
@@ -19,7 +19,7 @@ export default function DeleteButton( {confirmText, deleteFunc, triggerText="X",
     return (
         <ConfirmContainer 
             className={className}
-            confirmText={confirmText}
+            confirmText={confirmText + '\nWARNING: this will remove the item/category from all students. \nContinue?'}
             triggerText={triggerText} 
             onSubmit={onSubmit} 
             ref={modalInput}

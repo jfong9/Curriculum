@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/react-hooks'
 import { ConfirmContainer } from 'utils/Modal/Confirm/ConfirmContainer'
 import styles from '../buttons.module.css'
 
-export default function ArchiveButton( {parentId, childId, archiveQuery, confirmText, triggerText="A"}) {
+export default function ArchiveButton( {parentId, childId, archiveQuery, confirmText, triggerText="A", className=styles.buttonContainer}) {
     const [archiveFunction] = useMutation(archiveQuery)
     const modalInput = useRef(null)
 
@@ -27,7 +27,7 @@ export default function ArchiveButton( {parentId, childId, archiveQuery, confirm
 
     return (
         <ConfirmContainer 
-            className={styles.modalTrigger}
+            className={className}
             confirmText={confirmText}
             triggerText={triggerText} 
             onSubmit={onSubmit} 

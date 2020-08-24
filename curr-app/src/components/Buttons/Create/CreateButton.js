@@ -3,7 +3,7 @@ import { InputContainer } from 'utils/Modal/Input/InputContainer'
 import { useMutation } from '@apollo/react-hooks'
 import styles from '../buttons.module.css'
 
-export default function CreateButton( {parentId, query, refetchInput, refetchQuery, className, triggerText="+", ...props}) {
+export default function CreateButton( {parentId, query, refetchInput, refetchQuery, className=styles.buttonContainer, triggerText="+", ...props}) {
     const [createCategory, { data: createCatData }] = useMutation(query)
     const modalInput = useRef(null)
 
@@ -30,6 +30,6 @@ export default function CreateButton( {parentId, query, refetchInput, refetchQue
         })
     }
     return (
-        <InputContainer className={styles.modalTrigger} triggerText={triggerText} onSubmit={onSubmit} ref={modalInput} />
+        <InputContainer className={className} triggerText={triggerText} onSubmit={onSubmit} ref={modalInput} />
     )
 }

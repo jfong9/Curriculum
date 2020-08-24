@@ -20,9 +20,19 @@
 }
 
 .buttonContainer {
-    height: 100%;
-    width: 20px;
+    height: 19px;
+    width: 14px; 
     margin-right: 5px;
     align-items: center;
     box-sizing: content-box;
+    visibility: visible;
+}
+
+.button:hover .buttonContainer {
+    cursor: pointer;
+}
+
+.icon {
+    height: 100%;
+    width: 100%;
 }
