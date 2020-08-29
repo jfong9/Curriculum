@@ -1,4 +1,4 @@
-# Curriculum Manage
+# Curriculum Manager
 The story. You're a martial arts instructor that helps teach for 3 different schools. Throughout the weeks, months, and years there are other instructors teaching the students as well. Sometimes, it's hard to know what a student is working on, individual areas for them to focus on, and what their requirements are to move onto the next level. You may also want to track the history of how well they did on a particular skill or item. 
 
 The application is designed to do this and more. 
