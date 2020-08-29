@@ -79,9 +79,10 @@ class StudentForm extends React.Component {
             formChanged: true
         })
     }
+   
+    handleArtCheckboxChange = ( checked, date, art) => {
+        const { arts, startDates, student } = this.state;
 
-    handleArtChange = (checked, art) => {
-        const { arts } = this.state;
         let newArts;
         if (checked) {
             newArts = arts.concat(art);
@@ -89,18 +90,17 @@ class StudentForm extends React.Component {
         else {
             newArts= arts.filter(a => a !== art)
         }
-        this.setState({arts: newArts}, () => { this.updateStudentArray("arts", this.state.arts)});
+        let newDates = {...startDates}
+        newDates[art] = date;
+
+        this.setState({student: {...student, startDates: newDates, arts: newArts}, 
+             arts: newArts, startDates: newDates, formChanged: true},
+             () => console.log(this.state.student, this.state.startDates));
     }
 
-    handleDateChange = (value, art) => {
-        const { startDates } = this.state;
-        let newDates = {...startDates}
-        newDates[art] = value;
-        this.setState({startDates: newDates}, () => { this.updateStudentArray("startDates", this.state.startDates)})
-    }
-    
     updateStudentArray = (key, value) => { 
         const { student } = this.state;
+        console.log("updateStudent:", {key, value, student})
         this.setState({student: {...student, [key]: value}, formChanged: true}, () => console.log(this.state.student, this.state.startDates));
     }
 
@@ -170,8 +170,7 @@ class StudentForm extends React.Component {
                                 defaultChecked={arts.includes(art)}
                                 defaultDate={startDates[art]}
                                 disabled={editDisabled} 
-                                onArtChange={this.handleArtChange}
-                                onDateChange={this.handleDateChange}
+                                onCheckboxChange={this.handleArtCheckboxChange}
                             />)
                     }
                 </div>
@@ -185,7 +184,7 @@ class StudentForm extends React.Component {
     }
 }
 
-const ArtCheckBox = ({checkboxStyle, art, disabled, onArtChange, onDateChange, defaultChecked, defaultDate=""}) => {
+const ArtCheckBox = ({checkboxStyle, art, disabled, onCheckboxChange, defaultChecked, defaultDate=""}) => {
     const [checked, setChecked] = useState(defaultChecked);
     const [date, setDate] = useState(defaultDate);
 
@@ -198,22 +197,25 @@ const ArtCheckBox = ({checkboxStyle, art, disabled, onArtChange, onDateChange, d
     //handles the local change and pushes the state up to the editForm
     const onCheckChange = (event) => {
         let { checked } = event.target;
+        let newDate = date;
         setChecked(checked);
         if (date === "" && checked) {
-            let today = new Date().toISOString().slice(0,10)
-            setDate(today)
-            onDateChange(today, art)
+            newDate = new Date();
+            newDate.setMinutes(newDate.getMinutes() - newDate.getTimezoneOffset());
+            newDate = newDate.toISOString().slice(0, 10)
+            setDate(newDate);
         }
-        onArtChange(checked, art);
+        onCheckboxChange(checked, newDate, art)
     }
     
     //handles the local change and pushes the state up to the editForm
     const onValueChange = (event) => {
         let { value } = event.target;
         setDate(value);
-        onDateChange(value, art);
+        onCheckboxChange(checked, value, art);
     }
 
+    
     return (
         <React.Fragment>
             <div className={checkboxStyle} >
