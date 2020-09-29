@@ -3,31 +3,31 @@ The story. You're a martial arts instructor that helps teach for 3 different sch
 
 The application is designed to do this and more. 
 
-#
+## Single User with Multiple Schools, Arts, and Students
 
 Each martial arts school has their own arts, curriculums, and sets of students. The application allows the user to easily switch between all of these. Users only have access to the schools they are associated with. 
 
 ![Student Creation](assets/SchoolSwitches.gif)
 
-#
+## Curriculum Creation
 An example of some curriculum creation. Here we create the requirements for a yellow-stripe belt in Judo. There is no limit to the amount of categories, sub categories, or items.  
 
 ![Curriculum Creation](assets/CurriculumCreateFast.gif)
 
-#
+## Student Creation and Curriculum Association
 Here we create Student1 and do a student-curriculum association with the yellow-stripe curriculum. Students can be associated to multiple arts and curriculums.
 
 ![Student Creation](assets/StudentCreate.gif)
 
-#
+## Proficiency Tracking
 For top categories, we can set their over all status. For individual category items, we can assign a proficiency level. 
 
 
 ![Student Proficiency](assets/StudentProficiency.gif)
 
 
-#
-The curriculum acts as the master list. For any category additions, deletions, edits, and (un)archiving may be performed. They can also be re-arranged using the arrow buttons. 
+## Curriculum Changes
+The curriculum acts as the master list. For any category or items - additions, deletions, edits, and (un)archiving may be performed. They can also be re-arranged using the arrow buttons. 
 
 Let's say we decide to add 500 pushups for the yellow-stripe curriculum. Student2 will see the changes when we associate them with it, Student1 who may have already moved onto black belt will not have the changes affect them. Student1 could also be resync'd to add the 500 pushups requirement as well. 
 
